@@ -13,6 +13,7 @@
     {% block corecss %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% endblock  %}
 
     {% block customcss %}
@@ -28,13 +29,79 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
     </script>
+    <script src="https://kit.fontawesome.com/1726ef3d36.js" crossorigin="anonymous"></script>
     {% endblock %}
 
     <title>Inkshop {% block extra_title %}{% endblock  %}</title>
 </head>
 
 <body>
-    <header class="container-fluid fixed-top"></header>
+    <header class="container-fluid fixed-top">
+        <div id="topnav" class="">
+            <div class="row nav-main">
+                <div class="col-2">
+                    <a href="{% url 'home' %}" class='inkshop-logo'>
+                        <img src="/media/logosmall.png" alt="inkshop logo" class="inkshop-logo">
+                    </a>
+                </div>
+                <div class="col-2"></div>
+                <div class="col-4 pt-5">
+                    <form method="GET" action="">
+                        <div class="input-group w-100">
+                            <input class="form-control border-0 rounded-1" type="text" name="q"
+                                placeholder="Search our site">
+                            <div class="input-group-append">
+                                <button class="form-control btn border-0 rounded-1 bg-white text-success" type="submit">
+                                    <span class="icon">
+                                        <i class="fas fa-search "></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-4">
+                    <div class="row pr-3 float-right text-white">
+                        <span class="icon">
+                            <i class="fas fa-envelope text-success"></i>
+                        </span>
+                        <span class="pr-4 text-muted">info@theinkshop.ie</span>
+                        <span class="icon">
+                            <i class="fas fa-phone-alt text-success"></i>
+                        </span>
+                        <span class="text-muted">021 4966850</span>
+                    </div>
+                    <div class="col-12 pt-3 mt-4 text-white">
+                        <ul class="list-inline list-unstyled m-0 text-right">
+                            <li class="list-inline-item dropdown pr-3">
+                                <a id="user-options" class="nav-link p-0" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    <div class="text-center">
+                                        <span class="icon">
+                                            <i class="fas fa-user fa-2x text-white"></i>
+                                        </span class="icon">
+                                        <p>My Account</p>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="list-inline-item dropdown pr-3">
+                                <a id="user-options" class="nav-link p-0" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    <div class="text-center">
+                                        <span class="icon">
+                                            <i class="fas fa-shopping-basket fa-2x text-white"></i>
+                                        </span class="icon">
+                                        <p>My Basket</p>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
 
     {% if messages %}
     <div class="message-container"></div>
@@ -45,6 +112,41 @@
 
     {% block content %}
     {% endblock %}
+
+    <footer>
+        <div class="row footer-container">
+            <div class="col-4 footer-links-container footer-links-left">
+                <h4 class="footer-heading">Products</h4>
+                <ul class="list-inline list-unstyled">
+                    <li><a href="" class="footer-link">Inks/Toners</a></li>
+                    <li><a href="" class="footer-link">Printers</a></li>
+                    <li><a href="" class="footer-link">Photo Paper</a></li>
+                    <li><a href="" class="footer-link">Blank Media &amp; Storage</a></li>
+                    <li><a href="" class="footer-link">Cleaning Products</a></li>
+                </ul>
+            </div>
+            <div class="col-4 footer-links-container footer-links-middle">
+                <h4 class="footer-heading">About</h4>
+                <ul class="list-inline list-unstyled">
+                    <li><a href="" class="footer-link">About the inkshop</a></li>
+                    <li><a href="" class="footer-link">Delivery Info</a></li>
+                    <li><a href="" class="footer-link">FAQs</a></li>
+                    <li><a href="" class="footer-link">Terms &amp; Conditions</a></li>
+                    <li><a href="" class="footer-link">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-4 footer-links-container footer-links-right">
+                <h4 class="footer-heading">Contact Us</h4>
+                <ul class="list-inline list-unstyled">
+                    <li><a href="" class="footer-link">Tel: 021 4966850</a></li>
+                    <li><a href="" class="footer-link">Email: info@theinkshop.ie</a></li>
+                    <li><a href="" class="footer-link">Social Media</a></li>
+                </ul>
+            </div>
+            <div class="col-12 footer-logos"></div>
+
+        </div>
+    </footer>
 
     {% block postloadjs%}
     {% endblock %}

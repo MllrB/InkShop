@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Condensed:wght@100;200;300;400&family=Mallanna');
+body {
+    font-family: 'Mallanna', sans-serif;
+}
+
+.nav-main {
+    background-color: #5fa644;
+    background: linear-gradient(180deg, #fff 15%, #5fa644 16%, #5fa644 84%, #fff 85%);
+}
+
+.header-bg {
+    background-color: #5fa644;
+}
+
+.inkshop-logo {
+    max-height: 130px;
+}
+
+
+/* FOOTER */
+
+.footer-container {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    min-height: 260px;
+    background-color: rgba(54, 75, 69, 0.9);
+}
+
+.footer-links-container {
+    margin-top: 30px;
+    padding-bottom: 2%;
+    color: rgb(218, 255, 245);
+}
+
+.footer-links-left {
+    padding-left: 20%;
+}
+
+.footer-links-middle {
+    padding-left: 10%;
+}
+
+.footer-links-right {
+    padding-right: 20%;
+}
+
+.footer-link {
+    color: rgba(202, 209, 207, 0.726)
+}
+
+.footer-link:hover {
+    text-decoration: none;
+    color: rgba(183, 243, 226, 0.726);
+}
+
+.footer-logos {
+    background-color: rgba(0, 14, 10, 0.7);
+    min-height: 100px;
+}
