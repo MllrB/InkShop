@@ -90,7 +90,6 @@ body {
 .footer-links-container {
     margin-top: 30px;
     padding-bottom: 2%;
-    color: rgb(218, 255, 245);
 }
 
 .footer-links-left {
@@ -117,6 +116,10 @@ body {
 .footer-logos {
     background-color: rgba(0, 14, 10, 0.7);
     min-height: 100px;
+}
+
+.footer-heading {
+    color: rgb(218, 255, 245);
 }
 
 
