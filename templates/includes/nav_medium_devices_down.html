@@ -1,0 +1,98 @@
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="row nav-main">
+        <div class="col-3">
+            <button class="btn" type="button" data-toggle="collapse" data-target="#browse" aria-controls="browse"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="text-center text-success"><i class="fas fa-bars fa-lg"></i></span>
+            </button>
+        </div>
+
+        <div class="col-3">
+            <button type="button" class="btn mobile-search-btn" data-toggle="collapse" data-target="#mobile-search"
+                aria-controls="mobile-search" aria-expanded="false" aria-label="Search">
+                <div class="text-center text-success">
+                    <i class="fas fa-search fa-lg"></i>
+                </div>
+            </button>
+        </div>
+        <div class="col-3">
+            <div class="text-center">
+                <div class="dropdown">
+                    <a class="btn dropdown-toggle" type="button" id="account-dropdown" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <span class="icon">
+                            <i class="fas fa-user fa-lg text-success"></i>
+                        </span class="icon">
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="account-dropdown">
+                        <a class="dropdown-item" type="button" href="#">Log In</a>
+                        <a class="dropdown-item" type="button" href="#">Register</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="text-center">
+                <a class="btn">
+                    <span class="icon">
+                        <i class="fas fa-shopping-basket fa-lg text-success"></i>
+                    </span class="icon">
+                </a>
+            </div>
+        </div>
+    </div>
+    {% comment %} Navbar menu dropdown {% endcomment %}
+    <div class="collapse navbar-collapse" id="browse">
+        <ul class="navbar-nav w-auto mx-auto">
+            <li class="nav-item d-block-d-md-none">
+                <a class="nav-link" href=" {% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="#" id="printers-link" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Printers
+                </a>
+                <div class="dropdown-menu border-0" aria-labelledby="printers-link">
+                    <a class="dropdown-item" href="#">Brand 1</a>
+                    <a class="dropdown-item" href="#">Brand 2</a>
+                    <a class="dropdown-item" href="#">Brand 3</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="#" id="supplies-link" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Supplies
+                </a>
+                <div class="dropdown-menu border-0" aria-labelledby="supplies-link">
+                    <a class="dropdown-item" href="">Categories</a>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="#" id="accessories-link" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Accessories
+                </a>
+                <div class="dropdown-menu border-0" aria-labelledby="accessories-link">
+                    <a class="dropdown-item" href="">Categories</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    {% comment %} Search Dropdown {% endcomment %}
+
+    <div class="collapse navbar-collapse w-auto mx-auto" id="mobile-search" aria-labelledby="mobile-search">
+        <form method="GET" action="">
+            <div class="input-group w-100">
+                <input class="form-control border-0 rounded-1" type="text" name="q" placeholder="Search our site">
+                <div class="input-group-append">
+                    <button class="form-control btn border-0 rounded-1 bg-white text-success" type="submit">
+                        <span class="icon search-field">
+                            <i class="fas fa-search fa-lg"></i>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</nav>

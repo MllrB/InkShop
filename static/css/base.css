@@ -20,6 +20,10 @@ body {
     margin-top: 190px;
 }
 
+.btn:focus {
+    box-shadow: none;
+}
+
 
 /********** HEADER/NAV **********/
 
@@ -36,6 +40,7 @@ body {
 .inkshop-logo {
     max-height: 150px;
     padding-bottom: 20px;
+    padding-left: 15px;
 }
 
 .search-container {
@@ -46,6 +51,10 @@ body {
 .search-field {
     background-color: rgba(255, 255, 255, .73);
     box-shadow: 10px 5px 50px -5px rgba(202, 209, 207, 1);
+}
+
+.form-control:focus {
+    box-shadow: 0px 1px 10px 1px #2fb14614
 }
 
 .site-header {
@@ -108,4 +117,21 @@ body {
 .footer-logos {
     background-color: rgba(0, 14, 10, 0.7);
     min-height: 100px;
+}
+
+
+/********** MEDIA QUERIES **********/
+
+@media (max-width: 992px) {
+    .nav-main {
+        width: 100vw;
+        padding-bottom: 20px;
+    }
+    .navbar-toggler {
+        border: none;
+    }
+    .navbar-nav {
+        background-color: #fff;
+        z-index: 9999;
+    }
 }
