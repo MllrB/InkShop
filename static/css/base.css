@@ -1,28 +1,78 @@
 @import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Condensed:wght@100;200;300;400&family=Mallanna');
+html,
+body {
+    height: 100%;
+}
+
 body {
     font-family: 'Mallanna', sans-serif;
+    display: flex;
+    flex-direction: column;
 }
+
+.container-fluid {
+    margin: 0;
+    padding: 0;
+}
+
+.content {
+    flex: 1 0 auto;
+    margin-top: 190px;
+}
+
+
+/********** HEADER/NAV **********/
 
 .nav-main {
-    background-color: #5fa644;
-    background: linear-gradient(180deg, #fff 15%, #5fa644 16%, #5fa644 84%, #fff 85%);
+    padding-top: 20px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(241, 242, 241, 1) 38%, rgba(241, 242, 241, 1) 66%, rgba(255, 255, 255, 1) 100%);
 }
 
-.header-bg {
-    background-color: #5fa644;
+.nav-icons {
+    height: 100%;
+    padding-top: 1.3rem;
 }
 
 .inkshop-logo {
-    max-height: 130px;
+    max-height: 150px;
+    padding-bottom: 20px;
+}
+
+.search-container {
+    height: 100%;
+    margin-top: 32px;
+}
+
+.search-field {
+    background-color: rgba(255, 255, 255, .73);
+    box-shadow: 10px 5px 50px -5px rgba(202, 209, 207, 1);
+}
+
+.site-header {
+    margin-top: 10px;
 }
 
 
-/* FOOTER */
+/* Browse Menu */
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+.drop-text {
+    height: 1px;
+}
+
+
+/********** FOOTER **********/
+
+.footer {
+    flex-shrink: 0;
+}
 
 .footer-container {
-    position: absolute;
-    left: 0;
-    bottom: 0;
+    padding: 0;
+    margin: 0;
     width: 100%;
     min-height: 260px;
     background-color: rgba(54, 75, 69, 0.9);

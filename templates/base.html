@@ -37,68 +37,82 @@
 
 <body>
     <header class="container-fluid fixed-top">
-        <div id="topnav" class="">
-            <div class="row nav-main">
-                <div class="col-2">
-                    <a href="{% url 'home' %}" class='inkshop-logo'>
-                        <img src="/media/logosmall.png" alt="inkshop logo" class="inkshop-logo">
-                    </a>
-                </div>
-                <div class="col-2"></div>
-                <div class="col-4 pt-5">
-                    <form method="GET" action="">
-                        <div class="input-group w-100">
-                            <input class="form-control border-0 rounded-1" type="text" name="q"
-                                placeholder="Search our site">
-                            <div class="input-group-append">
-                                <button class="form-control btn border-0 rounded-1 bg-white text-success" type="submit">
+        <div id="topnav" class="row nav-main">
+            <div class="col-3">
+                <div class="row">
+                    <div class="col-6">
+                        <a href="{% url 'home' %}" class='inkshop-logo'>
+                            <img src="/media/logosmall.png" alt="inkshop logo" class="inkshop-logo">
+                        </a>
+                    </div>
+                    <div class="col-6 dropdown">
+                        <div class="text-center nav-icons">
+                            <div class="dropdown">
+                                <a class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
                                     <span class="icon">
-                                        <i class="fas fa-search "></i>
-                                    </span>
-                                </button>
+                                        <i class="fas fa-book fa-2x text-success"></i>
+                                    </span class="icon">
+                                    <p class="drop-text">Browse</p>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <a class="dropdown-item" type="button" href="#">Printers</a>
+                                    <a class="dropdown-item" type="button" href="#"> Supplies</a>
+                                    <a class="dropdown-item" type="button" href="#">Accessories</a>
+                                </div>
                             </div>
                         </div>
-                    </form>
-                </div>
-                <div class="col-4">
-                    <div class="row pr-3 float-right text-white">
-                        <span class="icon">
-                            <i class="fas fa-envelope text-success"></i>
-                        </span>
-                        <span class="pr-4 text-muted">info@theinkshop.ie</span>
-                        <span class="icon">
-                            <i class="fas fa-phone-alt text-success"></i>
-                        </span>
-                        <span class="text-muted">021 4966850</span>
-                    </div>
-                    <div class="col-12 pt-3 mt-4 text-white">
-                        <ul class="list-inline list-unstyled m-0 text-right">
-                            <li class="list-inline-item dropdown pr-3">
-                                <a id="user-options" class="nav-link p-0" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    <div class="text-center">
-                                        <span class="icon">
-                                            <i class="fas fa-user fa-2x text-white"></i>
-                                        </span class="icon">
-                                        <p>My Account</p>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="list-inline-item dropdown pr-3">
-                                <a id="user-options" class="nav-link p-0" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    <div class="text-center">
-                                        <span class="icon">
-                                            <i class="fas fa-shopping-basket fa-2x text-white"></i>
-                                        </span class="icon">
-                                        <p>My Basket</p>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
                     </div>
                 </div>
             </div>
+            <div class="col-6 text-center">
+                <form method="GET" action="">
+                    <div class="input-group w-100 search-container">
+                        <input class="form-control border-0 rounded-1 search-field" type="text" name="q"
+                            placeholder="Search our site">
+                        <div class="input-group-append">
+                            <button class="form-control btn border-0 rounded-1 bg-white text-success" type="submit">
+                                <span class="icon search-field">
+                                    <i class="fas fa-search "></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-3">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="text-center nav-icons">
+                            <div class="dropdown">
+                                <a class="btn dropdown-toggle" type="button" id="account-dropdown"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="icon">
+                                        <i class="fas fa-user fa-2x text-success"></i>
+                                    </span class="icon">
+                                    <p class="drop-text">Account</p>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="account-dropdown">
+                                    <a class="dropdown-item" type="button" href="#">Log In</a>
+                                    <a class="dropdown-item" type="button" href="#">Register</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-center nav-icons">
+                            <a class="btn">
+                                <span class="icon">
+                                    <i class="fas fa-shopping-basket fa-2x text-success"></i>
+                                </span class="icon">
+                                <p>My Basket</p>
+                            </a>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         </div>
     </header>
@@ -110,10 +124,12 @@
     {% block pageheader %}
     {% endblock %}
 
-    {% block content %}
-    {% endblock %}
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
 
-    <footer>
+    <footer class="container-fluid footer">
         <div class="row footer-container">
             <div class="col-4 footer-links-container footer-links-left">
                 <h4 class="footer-heading">Products</h4>
