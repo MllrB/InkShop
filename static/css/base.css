@@ -123,6 +123,21 @@ body {
 }
 
 
+/********** PRODUCTS **********/
+
+.product-list {
+    max-height: 40vh;
+    width: 100%;
+    margin: 10px;
+}
+
+.card-img {
+    padding: 10px;
+    max-height: 40vh;
+    width: calc(100% - 40vh);
+}
+
+
 /********** MEDIA QUERIES **********/
 
 @media (max-width: 992px) {

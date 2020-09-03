@@ -3,5 +3,30 @@
 {% load static %}
 
 {% block content %}
-<h5>{{ products }}</h5>
+<div class="row container">
+    {% if search %}
+    <div class="col-12">
+        <h4>Your search for "{{ search }}" returned the following results</h4>
+        <hr>
+    </div>
+    {% endif %}
+    {% for product in products %}
+    <div class="col-12">
+        <div class="card product-list">
+            <div class="row no-gutters">
+                <div class="col-sm-5">
+                    <img class="card-img" src="{{ product.img }}" alt="{{ product.name }}">
+                </div>
+                <div class="col-sm-7">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.title }}</h5>
+                        <p class="card-text"> {{ product.description }}</p>
+                        <a href="#" class="btn btn-primary">Buy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}
