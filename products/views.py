@@ -12,6 +12,17 @@ def all_products(request):
     """
     products = Supplies.objects.all()
 
+    if request.method == 'GET':
+        query_terms = request.GET['q']
+        if not query_terms:
+            messages.error(request, 'What exactly are you looking for?')
+            return redirect(reverse('home'))
+
+        queries = Q(skus__icontains=query_terms) | Q(
+            name__icontains=query_terms) | Q(keywords__icontains=query_terms) | Q(title__contains=query_terms)
+
+        products = products.filter(queries)
+
     context = {
         'products': products,
     }
