@@ -1,0 +1,145 @@
+[
+    {
+        "pk": "978",
+        "model": "products.category",
+        "fields": {
+            "name": "Printer_Kits",
+            "friendly_name": "Printer Kits",
+            "img": "http://images.icecat.biz/img/low_pic/978-5619.jpg",
+            "description": "Components needed to build a printer.",
+            "relevant_model": "Supplies"
+        }
+    },
+    {
+        "pk": "375",
+        "model": "products.category",
+        "fields": {
+            "name": "Toner_Cartridges",
+            "friendly_name": "Toner Cartridges",
+            "img": "http://images.icecat.biz/img/low_pic/375-6992.jpg",
+            "description": "Toner cartridges for your laser printer or copier.",
+            "relevant_model": "Supplies"
+        }
+    },
+    {
+        "pk": "377",
+        "model": "products.category",
+        "fields": {
+            "name": "Ink_Cartridges",
+            "friendly_name": "Ink Cartridges",
+            "img": "http://images.icecat.biz/img/low_pic/377-5508.jpg",
+            "description": "Ink cartridges for inkjet printers.",
+            "relevant_model": "Supplies"
+        }
+    },
+    {
+        "pk": "372",
+        "model": "products.category",
+        "fields": {
+            "name": "Fusers",
+            "friendly_name": "Fusers",
+            "img": "http://images.icecat.biz/img/low_pic/372-3497.jpg",
+            "description": "Devices in laser printers or photocopiers which melts the toner onto the paper.",
+            "relevant_model": "Supplies"
+        }
+    },
+    {
+        "pk": "1024",
+        "model": "products.category",
+        "fields": {
+            "name": "Toner_Collectors",
+            "friendly_name": "Toner Collectors",
+            "img": "http://images.icecat.biz/img/low_pic/1024-7105.jpg",
+            "description": "Container which collects excess toner that is produced during printing.",
+            "relevant_model": "Supplies"
+        }
+    },
+    {
+        "pk": "981",
+        "model": "products.category",
+        "fields": {
+            "name": "Imaging_Units",
+            "friendly_name": "Imaging Units",
+            "img": "http://images.icecat.biz/img/low_pic/981-16.jpg",
+            "description": "Component of a printer or photocopier which is sometimes referred to as copier cartridge, toner cartridge, or drum unit. An imaging unit in which all or many of the consumable and maintenance items, such as toner, developer, photoconductor, corona wires, wiper blade, etc. are sometimes combined in one module which may be user-disposable/recyclable.",
+            "relevant_model": "Supplies"
+        }
+    },
+    {
+        "pk": "381",
+        "model": "products.category",
+        "fields": {
+            "name": "Printer_Drums",
+            "friendly_name": "Printer Drums",
+            "img": "http://images.icecat.biz/img/low_pic/381-2665.jpg",
+            "description": "Laser printers and copiers not only need toner (ink powder) for printing, but also a drum (comparable with the print head of an inkjet printer). The drum puts the toner in the right place, and afterwards the paper is heated so the toner melts and is attached permanently to the paper. Drums, like all components of a printer, wear and will have to be replaced at some time, although they are fairly durable.",
+            "relevant_model": "Supplies"
+        }
+    },
+    {
+        "pk": "2595",
+        "model": "products.category",
+        "fields": {
+            "name": "Printer/Scanner_Spare_Parts",
+            "friendly_name": "Printer/Scanner Spare Parts",
+            "img": "http://images.icecat.biz/img/low_pic/2595-1389.jpg",
+            "description": "Components of printing equipment such as drums and lasers used in laser printers.",
+            "relevant_model": "Supplies"
+        }
+    },
+    {
+        "pk": "374",
+        "model": "products.category",
+        "fields": {
+            "name": "Printer_Belts",
+            "friendly_name": "Printer Belts",
+            "img": "http://images.icecat.biz/img/low_pic/374-3211.jpg",
+            "description": "Component in printers used to transfer colour onto paper.",
+            "relevant_model": "Supplies"
+        }
+    },
+    {
+        "pk": "846",
+        "model": "products.category",
+        "fields": {
+            "name": "Print_Heads",
+            "friendly_name": "Print Heads",
+            "img": "http://images.icecat.biz/img/low_pic/846-7485.jpg",
+            "description": "These are part of inkjet printers, which prints ink onto paper. They are fixed heads, which are built into the printer, or disposable heads, which are built into the disposable ink carttridges.",
+            "relevant_model": "Supplies"
+        }
+    },
+    {
+        "pk": "905",
+        "model": "products.category",
+        "fields": {
+            "name": "Printer_Ribbons",
+            "friendly_name": "Printer Ribbons",
+            "img": "http://images.icecat.biz/img/low_pic/905-9158.jpg",
+            "description": "Ribbon for printers that need this for printing. Please make sure you purchase the right type for your printer.",
+            "relevant_model": "Supplies"
+        }
+    },
+    {
+        "pk": "7408",
+        "model": "products.category",
+        "fields": {
+            "name": "Printer_Ink_Refills",
+            "friendly_name": "Printer Ink Refills",
+            "img": "http://images.icecat.biz/img/low_pic/7408-4309.jpg",
+            "description": "Undescribed",
+            "relevant_model": "Supplies"
+        }
+    },
+    {
+        "pk": "376",
+        "model": "products.category",
+        "fields": {
+            "name": "Printer_Rollers",
+            "friendly_name": "Printer Rollers",
+            "img": "http://images.icecat.biz/img/low_pic/376-5839.jpg",
+            "description": "Component in laser printers which is coated in toner particles which stick to the drum.",
+            "relevant_model": "Supplies"
+        }
+    }
+]

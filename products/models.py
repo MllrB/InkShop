@@ -18,6 +18,9 @@ class Category(models.Model):
         2. relevant_model - the product model that the category contains
     """
 
+    class Meta:
+        verbose_name_plural = 'Categories'
+
     name = models.CharField(max_length=254)
     friendly_name = models.CharField(max_length=254, null=True, blank=True)
     img = models.CharField(max_length=254, null=True, blank=True)
@@ -32,6 +35,10 @@ class Supplies(models.Model):
     """
     Supplies: Describes inks, toners, parts etc...
     """
+
+    class Meta:
+        verbose_name_plural = 'Supplies'
+
     skus = JSONField(null=True)
     name = models.CharField(max_length=60, null=True, blank=True)
     title = models.CharField(max_length=254, null=True, blank=True)
