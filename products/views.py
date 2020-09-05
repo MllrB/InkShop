@@ -12,6 +12,8 @@ def all_products(request):
     """
     products = Supplies.objects.all()
     user_search = None
+    product_info = []
+    product_filters = []
 
     if request.method == 'GET':
         user_search = request.GET['q']
@@ -24,9 +26,26 @@ def all_products(request):
 
         products = products.filter(queries)
 
+        for product in products:
+            info = {}
+            info['id'] = product.id
+            for feature in product.features:
+                if 'yield' in feature['feature_name'].lower():
+                    if 'footnote' not in feature['feature_name'].lower():
+                        info['pages'] = feature['feature_value'].lower()
+                if 'colours' in feature['feature_name'].lower():
+                    info['colour'] = feature['feature_value'].lower()
+                    product_filters.append(feature['feature_value'].lower())
+                if 'volume' in feature['feature_name'].lower():
+                    info['volume'] = feature['feature_value'].lower()
+
+            product_info.append(info)
+        product_filters = list(dict.fromkeys(product_filters))
     context = {
         'products': products,
         'search': user_search,
+        'product_info': product_info,
+        'filters': product_filters,
     }
 
     return render(request, 'products/products.html', context)

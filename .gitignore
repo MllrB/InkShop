@@ -3,3 +3,4 @@
 __pycache__
 *.code-workspace
 env.py
+settings.json
