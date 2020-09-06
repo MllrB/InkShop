@@ -46,7 +46,11 @@
                 </div>
                 <div class="col-6">
                     <div class="card-body">
-                        <h5 class="card-title"><strong>{{ product.title }}</strong></h5>
+                        <h5 class="card-title">
+                            <strong>
+                                <a href="{% url 'product_detail' product.id %}"> {{ product.title }} </a>
+                            </strong>
+                        </h5>
                         <p class="card-text pt-4">{{ product.description }}
                             <hr>
                         </p>
@@ -118,7 +122,15 @@
     for (i = 0; i < filterValues.length; i++) {
         var message_filter = document.getElementById(`${filterValues[i]}`);
         message_filter.addEventListener('click', function () {
-            for (x = 0; x < productInfos.length; x++) {
+            if ($(this).hasClass("filter-btn-checked")) {
+                    $(this).removeClass("filter-btn-checked").addClass("filter-btn-unchecked");
+                    for (x = 0; x < productInfos.length; x++) {
+                        if(productInfos[x]['colour'] != this.id) {
+                            $(`#${productInfos[x]['id']}`).show();
+                        }
+                    }
+            } else {
+                for (x = 0; x < productInfos.length; x++) {
                 $(`#${productInfos[x]['id']}`).show();
             }
             $(".filter-btn-checked").removeClass("filter-btn-checked").addClass("filter-btn-unchecked");
@@ -138,6 +150,9 @@
                         }
                     }
             }
+
+            }
+            
         })
     } 
 </script>

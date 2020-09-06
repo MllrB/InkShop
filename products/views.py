@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.db.models import Q
 from .models import Supplies
@@ -10,7 +10,7 @@ def all_products(request):
     """ 
     A view to return all products and filter results for user searches
     """
-    products = Supplies.objects.all()
+    products = Supplies.objects.all().filter(published=True)
     user_search = None
     product_info = []
     product_filters = []
@@ -49,3 +49,15 @@ def all_products(request):
     }
 
     return render(request, 'products/products.html', context)
+
+
+def product_detail(request, product_id):
+    """ A view to display individual products and their related products"""
+    product = get_object_or_404(Supplies, pk=product_id)
+    print(product.related_printers)
+
+    context = {
+        'product': product,
+    }
+
+    return render(request, 'products/product_detail.html', context)
