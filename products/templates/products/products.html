@@ -80,10 +80,10 @@
                 </div>
                 <div class="col-3">
                     <div class="col-12 pricing">
-                        <strong>€0.00 <span class="text-muted">inc VAT<span></strong>
+                        <strong>€{{ product.calculate_inc_vat_price }} <span class="text-muted">inc VAT<span></strong>
                     </div>
                     <div class="col-12 pricing">
-                        <small class="text-muted">€0.00 ex VAT</small>
+                        <small class="text-muted">€{{ product.price }} ex VAT</small>
                     </div>
                     <div class="col-12 pricing">
                         quantity selector goes here
@@ -106,55 +106,61 @@
 {{ block.super }}
 
 <script type="text/javascript">
-    var filterValues = [];
-    {% for filter in filters %}
-        filterValues.push(`{{ filter }}`);
-    {% endfor %}
+    var filterValues = []; {
+        %
+        for filter in filters %
+    }
+    filterValues.push(`{{ filter }}`); {
+        % endfor %
+    }
 
-    var productInfos = [];
-    {% for info in product_info %}
-        var productObj = {};
-        productObj['id'] = "{{ info.id }}";
-        productObj['colour'] = "{{ info.colour }}";
-        productInfos.push(productObj);
-    {% endfor %}
+    var productInfos = []; {
+        %
+        for info in product_info %
+    }
+    var productObj = {};
+    productObj['id'] = "{{ info.id }}";
+    productObj['colour'] = "{{ info.colour }}";
+    productInfos.push(productObj); {
+        % endfor %
+    }
 
     for (i = 0; i < filterValues.length; i++) {
         var message_filter = document.getElementById(`${filterValues[i]}`);
         message_filter.addEventListener('click', function () {
             if ($(this).hasClass("filter-btn-checked")) {
-                    $(this).removeClass("filter-btn-checked").addClass("filter-btn-unchecked");
-                    for (x = 0; x < productInfos.length; x++) {
-                        if(productInfos[x]['colour'] != this.id) {
-                            $(`#${productInfos[x]['id']}`).show();
-                        }
+                $(this).removeClass("filter-btn-checked").addClass("filter-btn-unchecked");
+                for (x = 0; x < productInfos.length; x++) {
+                    if (productInfos[x]['colour'] != this.id) {
+                        $(`#${productInfos[x]['id']}`).show();
                     }
+                }
             } else {
                 for (x = 0; x < productInfos.length; x++) {
-                $(`#${productInfos[x]['id']}`).show();
-            }
-            $(".filter-btn-checked").removeClass("filter-btn-checked").addClass("filter-btn-unchecked");
+                    $(`#${productInfos[x]['id']}`).show();
+                }
+                $(".filter-btn-checked").removeClass("filter-btn-checked").addClass("filter-btn-unchecked");
 
-            if ($(this).hasClass("filter-btn-unchecked")) {
+                if ($(this).hasClass("filter-btn-unchecked")) {
                     $(this).removeClass("filter-btn-unchecked").addClass("filter-btn-checked");
                     for (x = 0; x < productInfos.length; x++) {
-                        if(productInfos[x]['colour'] != this.id) {
+                        if (productInfos[x]['colour'] != this.id) {
                             $(`#${productInfos[x]['id']}`).hide();
                         }
                     }
-            } else if ($(this).hasClass("filter-btn-checked")) {
+                } else if ($(this).hasClass("filter-btn-checked")) {
                     $(this).removeClass("filter-btn-checked").addClass("filter-btn-unchecked");
                     for (x = 0; x < productInfos.length; x++) {
-                        if(productInfos[x]['colour'] != this.id) {
+                        if (productInfos[x]['colour'] != this.id) {
                             $(`#${productInfos[x]['id']}`).show();
                         }
                     }
-            }
+                }
 
             }
-            
+
         })
-    } 
+    }
 </script>
 
 

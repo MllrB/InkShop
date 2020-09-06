@@ -55,12 +55,10 @@ def product_detail(request, product_id):
     """ A view to display individual products and their related products"""
     product = get_object_or_404(Supplies, pk=product_id)
 
+    # Finding all related products by shared printers
     shared_printers = []
     for printer in product.related_printers:
         shared_printers.append(printer['printer_id'])
-
-    print(shared_printers)
-    print(len(shared_printers))
 
     related_matches = []
     for printer_id in shared_printers:
@@ -68,6 +66,7 @@ def product_detail(request, product_id):
         related_matches.append(Supplies.objects.filter(
             query).exclude(pk=product_id))
 
+    # reducing the list to unique matches
     matched_ids = []
     for queryset in related_matches:
         for query_obj in queryset:
