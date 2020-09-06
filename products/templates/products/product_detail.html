@@ -34,4 +34,67 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-12">
+        {% for related in related_products %}
+        <div class="card product-list rounded-1 border-0" id="{{ related.id }}">
+            <div class="row no-gutters">
+                <div class="col-3">
+                    <img class="card-img" src="{{ related.img }}" alt="{{ related.name }}">
+                </div>
+                <div class="col-6">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <strong>
+                                <a href="{% url 'product_detail' related.id %}"> {{ related.title }} </a>
+                            </strong>
+                        </h5>
+                        <p class="card-text pt-4">{{ related.description }}
+                            <hr>
+                        </p>
+                        {% for info in product_info %}
+                        {% if related.id == info.id %}
+                        <p>
+                            {% if info.pages %}Prints up to {{ info.pages }}<br>{% endif %}
+                            {% if info.volume %}Contains {{ info.volume }}<br>{% endif %}
+                            {% if info.colour %}Colour:
+                            <span data-prod-id="{{ info.id }}">{{ info.colour }}</span><br>
+                            {% endif %}
+                        </p>
+                        {% endif %}
+                        {% endfor %}
+                        {% if related.blurb %}
+                        <a href="#blurb_{{related.id}}" data-toggle="collapse"><small>more
+                                info</small></a>&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                        <a href="#compat_{{related.id}}" data-toggle="collapse"><small>printer compatibility</small></a>
+                        <div class="collapse" data-item_id="{{ related.id }}" id="blurb_{{ related.id }}">
+                            <p><small>{{ related.blurb |safe }}</small></p>
+                        </div>
+                        <div class="collapse" data-item_id="{{ related.id }}" id="compat_{{ related.id }}">
+                            <p><small>{{ related.features |safe }}</small></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="col-12 pricing">
+                        <strong>€0.00 <span class="text-muted">inc VAT<span></strong>
+                    </div>
+                    <div class="col-12 pricing">
+                        <small class="text-muted">€0.00 ex VAT</small>
+                    </div>
+                    <div class="col-12 pricing">
+                        quantity selector goes here
+                    </div>
+
+                    <div class="col-12 pricing add-to-basket-btn">
+                        <a href="#" class="btn btn-success w-100 rounded-0 border-0">Add to Basket</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

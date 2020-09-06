@@ -54,10 +54,35 @@ def all_products(request):
 def product_detail(request, product_id):
     """ A view to display individual products and their related products"""
     product = get_object_or_404(Supplies, pk=product_id)
-    print(product.related_printers)
+
+    shared_printers = []
+    for printer in product.related_printers:
+        shared_printers.append(printer['printer_id'])
+
+    print(shared_printers)
+    print(len(shared_printers))
+
+    related_matches = []
+    for printer_id in shared_printers:
+        query = Q(related_printers__contains=printer_id)
+        related_matches.append(Supplies.objects.filter(
+            query).exclude(pk=product_id))
+
+    matched_ids = []
+    for queryset in related_matches:
+        for query_obj in queryset:
+            matched_ids.append(query_obj.id)
+    matched_ids = list(dict.fromkeys(matched_ids))
+    print(matched_ids)
+
+    related_products = []
+    for related_id in matched_ids:
+        related_product = get_object_or_404(Supplies, pk=related_id)
+        related_products.append(related_product)
 
     context = {
         'product': product,
+        'related_products': related_products,
     }
 
     return render(request, 'products/product_detail.html', context)
