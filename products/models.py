@@ -90,7 +90,8 @@ class Supplies(models.Model):
 
     def calculate_price(self):
         margin = (100 - Decimal(self.product_group.profit_margin))/100
-        return Decimal(self.cost_price) / Decimal(margin)
+        price = Decimal(self.cost_price) / Decimal(margin)
+        return round(price, 2)
 
     def calculate_inc_vat_price(self):
         inc_vat_price = Decimal(self.price) * \

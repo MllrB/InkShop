@@ -106,24 +106,18 @@
 {{ block.super }}
 
 <script type="text/javascript">
-    var filterValues = []; {
-        %
-        for filter in filters %
-    }
-    filterValues.push(`{{ filter }}`); {
-        % endfor %
-    }
+    var filterValues = []; 
+    {% for filter in filters %}
+        filterValues.push(`{{ filter }}`); 
+    {% endfor %}
 
-    var productInfos = []; {
-        %
-        for info in product_info %
-    }
-    var productObj = {};
-    productObj['id'] = "{{ info.id }}";
-    productObj['colour'] = "{{ info.colour }}";
-    productInfos.push(productObj); {
-        % endfor %
-    }
+    var productInfos = []; 
+    {% for info in product_info %}
+        var productObj = {};
+        productObj['id'] = "{{ info.id }}";
+        productObj['colour'] = "{{ info.colour }}";
+        productInfos.push(productObj); 
+    {% endfor %}
 
     for (i = 0; i < filterValues.length; i++) {
         var message_filter = document.getElementById(`${filterValues[i]}`);
