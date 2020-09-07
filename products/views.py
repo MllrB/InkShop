@@ -6,6 +6,30 @@ from .models import Supplies
 # Create your views here.
 
 
+def get_product_features_info(products):
+    products_info = []
+    product_filters = []
+    for product in products:
+        info = {}
+        info['id'] = product.id
+        for feature in product.features:
+            if 'yield' in feature['feature_name'].lower():
+                if 'footnote' not in feature['feature_name'].lower():
+                    info['pages'] = feature['feature_value'].lower()
+            if 'colours' in feature['feature_name'].lower():
+                info['colour'] = feature['feature_value'].lower()
+                product_filters.append(
+                    feature['feature_value'].lower())
+            if 'volume' in feature['feature_name'].lower():
+                info['volume'] = feature['feature_value'].lower()
+
+        products_info.append(info)
+
+    product_filters = list(dict.fromkeys(product_filters))
+
+    return {'products_info': products_info, 'product_filters': product_filters}
+
+
 def all_products(request):
     """ 
     A view to return all products and filter results for user searches
@@ -20,35 +44,20 @@ def all_products(request):
             user_search = request.GET['q']
             if not user_search:
                 messages.error(request, 'What exactly are you looking for?')
-                return redirect(reverse('home'))
+                return redirect(reverse('products'))
 
             queries = Q(skus__icontains=user_search) | Q(
                 name__icontains=user_search) | Q(keywords__icontains=user_search) | Q(title__contains=user_search)
 
             products = products.filter(queries)
 
-            for product in products:
-                info = {}
-                info['id'] = product.id
-                for feature in product.features:
-                    if 'yield' in feature['feature_name'].lower():
-                        if 'footnote' not in feature['feature_name'].lower():
-                            info['pages'] = feature['feature_value'].lower()
-                    if 'colours' in feature['feature_name'].lower():
-                        info['colour'] = feature['feature_value'].lower()
-                        product_filters.append(
-                            feature['feature_value'].lower())
-                    if 'volume' in feature['feature_name'].lower():
-                        info['volume'] = feature['feature_value'].lower()
-
-                product_info.append(info)
-            product_filters = list(dict.fromkeys(product_filters))
+            info_and_filters = get_product_features_info(products)
 
     context = {
         'products': products,
         'search': user_search,
-        'product_info': product_info,
-        'filters': product_filters,
+        'product_info': info_and_filters['products_info'],
+        'filters': info_and_filters['product_filters'],
     }
 
     return render(request, 'products/products.html', context)
@@ -82,9 +91,15 @@ def product_detail(request, product_id):
         related_product = get_object_or_404(Supplies, pk=related_id)
         related_products.append(related_product)
 
+    product_list = [product]
+    product_info = get_product_features_info(product_list)
+    related_products_info = get_product_features_info(related_products)
+
     context = {
         'product': product,
+        'product_info': product_info['products_info'],
         'related_products': related_products,
+        'related_products_info': related_products_info['products_info'],
     }
 
     return render(request, 'products/product_detail.html', context)

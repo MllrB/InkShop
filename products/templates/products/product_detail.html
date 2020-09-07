@@ -3,98 +3,182 @@
 {% load static %}
 
 {% block content %}
-<div class="row">
-    <div class="col-3">
-        <img src="{{ product.img }}" alt="{{ product.name }}">
-    </div>
-    <div class="col-6">
-        <h2>{{ product.title }}</h2>
-        <p class="text-muted">
-            <small>skus:
-                {% for sku in product.skus %}
-                <span>{{ sku }}, </span>
-                {% endfor %}
-            </small>
-        </p>
-        <p>{{ product.description }}</p>
-    </div>
-    <div class="col-3">
-        <div class="col-12 pricing">
-            <strong>€0.00 <span class="text-muted">inc VAT<span></strong>
+<div class="card product-detail-container">
+    <div class="row p-2">
+        <div class="col-5">
+            <img class="product-detail-image" src="{{ product.img }}" alt="{{ product.name }}">
         </div>
-        <div class="col-12 pricing">
-            <small class="text-muted">€0.00 ex VAT</small>
-        </div>
-        <div class="col-12 pricing">
-            quantity selector goes here
-        </div>
+        <div class="col-7">
+            <h2>{{ product.title }}</h2>
+            <p class="text-muted">
+                <small>skus:
+                    {% for sku in product.skus %}
+                    <span>{{ sku }}, </span>
+                    {% endfor %}
+                </small>
+            </p>
+            <p>{{ product.description }}</p>
+            <h5>Product Features:</h5>
+            {% for info in product_info %}
+            {% if product.id == info.id %}
+            <p>
+                {% if info.pages %}Prints up to {{ info.pages }}<br>{% endif %}
+                {% if info.volume %}Contains {{ info.volume }}<br>{% endif %}
+                {% if info.colour %}Colour:
+                <span data-prod-id="{{ info.id }}">{{ info.colour }}</span><br>
+                {% endif %}
+            </p>
+            {% endif %}
+            {% endfor %}
+            <div class="col-12 pricing">
+                <strong>€{{ product.calculate_inc_vat_price }} <span class="text-muted">inc VAT<span></strong>
+            </div>
+            <div class="col-12 pricing">
+                <small class="text-muted">{{ product.price }} ex VAT</small>
+            </div>
+            <div class="col-12 pricing">
+                quantity selector goes here
+            </div>
 
-        <div class="col-12 pricing add-to-basket-btn">
-            <a href="#" class="btn btn-success w-100 rounded-0 border-0">Add to Basket</a>
+            <div class="col-12 pricing add-to-basket-btn">
+                <a href="#" class="btn btn-success w-100 rounded-0 border-0">Add to Basket</a>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" id="product_blurb_tab">Extra Info</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="printer_compatibility_tab">Link</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <p id="product_blurb">{{ product.blurb |safe }}</p>
+            <div class="row hidden" id="printer_compatibility_list">
+                {% for printer in product.related_printers %}
+                <div class="col-4"><small>{{ printer.printer_name |safe }}</small></div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-12">
-        {% for related in related_products %}
-        <div class="card product-list rounded-1 border-0" id="{{ related.id }}">
-            <div class="row no-gutters">
-                <div class="col-3">
-                    <img class="card-img" src="{{ related.img }}" alt="{{ related.name }}">
-                </div>
-                <div class="col-6">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <strong>
-                                <a href="{% url 'product_detail' related.id %}"> {{ related.title }} </a>
-                            </strong>
-                        </h5>
-                        <p class="card-text pt-4">{{ related.description }}
-                            <hr>
-                        </p>
-                        {% for info in product_info %}
-                        {% if related.id == info.id %}
-                        <p>
-                            {% if info.pages %}Prints up to {{ info.pages }}<br>{% endif %}
-                            {% if info.volume %}Contains {{ info.volume }}<br>{% endif %}
-                            {% if info.colour %}Colour:
-                            <span data-prod-id="{{ info.id }}">{{ info.colour }}</span><br>
+<div class="optional-extras-wrapper">
+    <div class="row optional-extras-container">
+        <div class="col-12">
+            <h3 class="text-on-green pb-2">Products that might also interest you...</h3>
+        </div>
+        <div class="col-12">
+            {% for related in related_products %}
+            <div class="card product-list rounded-1 border-0" id="{{ related.id }}">
+                <div class="row no-gutters">
+                    <div class="col-3">
+                        <img class="card-img" src="{{ related.img }}" alt="{{ related.name }}">
+                    </div>
+                    <div class="col-6">
+                        <div class="card-body">
+                            <div class="card-title">
+                                <strong>
+                                    <a href="{% url 'product_detail' related.id %}"> {{ related.title }} </a>
+                                </strong>
+                            </div>
+                            <p class="card-text pt-4">{{ related.description }}
+                                <hr>
+                            </p>
+                            {% for info in related_products_info %}
+                            {% if related.id == info.id %}
+                            <p>
+                                {% if info.pages %}Prints up to {{ info.pages }}<br>{% endif %}
+                                {% if info.volume %}Contains {{ info.volume }}<br>{% endif %}
+                                {% if info.colour %}Colour:
+                                <span data-prod-id="{{ info.id }}">{{ info.colour }}</span><br>
+                                {% endif %}
+                            </p>
                             {% endif %}
-                        </p>
-                        {% endif %}
-                        {% endfor %}
-                        {% if related.blurb %}
-                        <a href="#blurb_{{related.id}}" data-toggle="collapse"><small>more
-                                info</small></a>&nbsp;&nbsp;&nbsp;
-                        {% endif %}
-                        <a href="#compat_{{related.id}}" data-toggle="collapse"><small>printer compatibility</small></a>
-                        <div class="collapse" data-item_id="{{ related.id }}" id="blurb_{{ related.id }}">
-                            <p><small>{{ related.blurb |safe }}</small></p>
+                            {% endfor %}
+                            {% if related.blurb %}
+                            <a href="#blurb_{{related.id}}" data-toggle="collapse"><small>more
+                                    info</small></a>&nbsp;&nbsp;&nbsp;
+                            {% endif %}
+                            <a href="#compat_{{related.id}}" data-toggle="collapse"><small>printer
+                                    compatibility</small></a>
+                            <div class="collapse" data-item_id="{{ related.id }}" id="blurb_{{ related.id }}">
+                                <p><small>{{ related.blurb |safe }}</small></p>
+                            </div>
+                            <div class="collapse" data-item_id="{{ related.id }}" id="compat_{{ related.id }}">
+                                <div class="row">
+                                    {% for printer in related.related_printers %}
+                                    <div class="col-6"><small>{{ printer.printer_name |safe }}</small></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
                         </div>
-                        <div class="collapse" data-item_id="{{ related.id }}" id="compat_{{ related.id }}">
-                            <p><small>{{ related.features |safe }}</small></p>
+                    </div>
+                    <div class="col-3">
+                        <div class="col-12 pricing">
+                            <strong>€{{ related.calculate_inc_vat_price }} <span class="text-muted">inc
+                                    VAT<span></strong>
                         </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="col-12 pricing">
-                        <strong>€0.00 <span class="text-muted">inc VAT<span></strong>
-                    </div>
-                    <div class="col-12 pricing">
-                        <small class="text-muted">€0.00 ex VAT</small>
-                    </div>
-                    <div class="col-12 pricing">
-                        quantity selector goes here
-                    </div>
+                        <div class="col-12 pricing">
+                            <small class="text-muted">€{{ related.price }} ex VAT</small>
+                        </div>
+                        <div class="col-12 pricing">
+                            <div class="form-group w-100">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <button class="decrement-qty btn btn-dark rounded-0"
+                                            data-item_id="{{ related.id }}" id="decrement-qty_{{ related.id }}">
+                                            <span class="icon">
+                                                <i class="fas fa-minus"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <input type="number" class="form-control qty-input" name="quantity" value="1"
+                                        min="1" max="99" data-item_id="{{ related.id }}" id="id_qty_{{ related.id }}">
+                                    <div class="input-group-prepend">
+                                        <button class="increment-qty btn btn-dark rounded-0"
+                                            data-item_id="{{ related.id }}" id="increment-qty_{{ related.id }}">
+                                            <span class="icon">
+                                                <i class="fas fa-plus"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="col-12 pricing add-to-basket-btn">
-                        <a href="#" class="btn btn-success w-100 rounded-0 border-0">Add to Basket</a>
+                        <div class="col-12 pricing add-to-basket-btn">
+                            <a href="#" class="btn btn-success w-100 rounded-0 border-0">Add to Basket</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 </div>
+{% endblock %}
+
+
+{% block postloadjs %}
+<script>
+    $('#printer_compatibility_tab').click('on', function () {
+        $(this).addClass('active');
+        $('#printer_compatibility_list').removeClass('hidden');
+        $('#product_blurb_tab').removeClass('active');
+        $('#product_blurb').addClass('hidden');
+
+    })
+
+    $('#product_blurb_tab').click('on', function () {
+        $(this).addClass('active');
+        $('#product_blurb').removeClass('hidden');
+        $('#printer_compatibility_list').addClass('hidden');
+        $('#printer_compatibility_tab').removeClass('active');
+    })
+</script>
 {% endblock %}

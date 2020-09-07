@@ -1,14 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Condensed:wght@100;200;300;400&family=Mallanna');
+@import url('https://fonts.googleapis.com/css2?family=Raleway&family=Advent+Pro&family=Harmattan&family=Marvel&family=Wire+One');
 html,
 body {
     height: 100%;
 }
 
 body {
-    font-family: 'Mallanna', sans-serif;
+    /* font-family: 'Advent Pro', sans-serif; */
+    /* font-family: 'Harmattan', sans-serif; */
+    /* font-family: 'Marvel', sans-serif; */
+    font-family: 'Raleway', sans-serif;
     display: flex;
     flex-direction: column;
     background-color: rgba(252, 252, 252, 0.42);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    /* font-family: 'Advent Pro', sans-serif; */
+    /* font-family: 'Harmattan', sans-serif; */
+    font-family: 'Marvel', sans-serif;
+    /* font-family: 'Wire One', sans-serif; */
+    /* font-family: 'Raleway', sans-serif; */
 }
 
 .container-fluid {
@@ -23,6 +39,15 @@ body {
 
 .btn:focus {
     box-shadow: none;
+}
+
+.text-on-green {
+    color: rgb(25 81 79);
+}
+
+.hidden {
+    visibility: hidden;
+    height: 0;
 }
 
 
@@ -126,18 +151,40 @@ body {
 
 /********** PRODUCTS **********/
 
+.card {
+    border: none;
+}
+
+.card a:hover {
+    text-decoration: none;
+}
+
+.card-title {
+    font-size: 1.8rem;
+    font-family: 'Marvel', sans-serif;
+}
+
+.card-title a {
+    color: rgb(6, 30, 56);
+}
+
+.card-title a:hover {
+    color: rgba(6, 30, 56, .89);
+    font-size: 1.807rem;
+}
+
 .products-container {
     margin: 0 10vw;
 }
 
 .product-list {
     width: 100%;
-    margin: 4px;
+    margin: 0.75rem;
     box-shadow: 0px 1px 5px 0px rgba(196, 196, 196, .69);
 }
 
 .card-img {
-    padding: 10px;
+    padding: 1rem;
 }
 
 .pricing {
@@ -171,6 +218,31 @@ body {
 .filter-btn-checked {
     color: #fff !important;
     background-color: rgb(48, 129, 48);
+}
+
+.product-detail-container {
+    margin: 0 8vw;
+    margin-bottom: 10vh;
+}
+
+.product-detail-image {
+    width: 100%;
+    padding: 2rem;
+}
+
+.optional-extras-wrapper {
+    background-color: rgba(23, 111, 86, .16);
+    padding-top: 5vh;
+    padding-bottom: 10vh;
+    margin-top: 10vh;
+}
+
+.optional-extras-container {
+    margin: 0 15vw;
+}
+
+.nav-link:hover {
+    cursor: pointer;
 }
 
 
