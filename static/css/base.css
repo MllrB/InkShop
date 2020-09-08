@@ -260,4 +260,63 @@ h6 {
         background-color: #fff;
         z-index: 9999;
     }
+    .content {
+        margin-top: 114px;
+    }
+    /* Products */
+    .product-list {
+        margin: 1.75rem 0;
+    }
+    .card-title {
+        padding-top: 1rem;
+    }
+    .card-img {
+        width: 50%;
+    }
+    .add-to-basket-btn {
+        margin: 0;
+        margin-bottom: 2rem;
+    }
+    .add-to-basket-btn>a {
+        padding: .75rem;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Products */
+    .card-img {
+        width: 80%;
+    }
+    .card-title {
+        font-size: 1.5rem;
+    }
+    .card-body {
+        padding: 0 1.25rem;
+    }
+    .card-body>p {
+        font-size: .75rem;
+    }
+    .pricing {
+        text-align: center !important;
+        padding: 0;
+    }
+    .qty-selector {
+        width: 80% !important;
+        margin-left: 10%;
+    }
+    .add-to-basket-btn>a {
+        width: 80% !important;
+    }
+}
+
+@media (max-width: 426px) {
+    .products-container {
+        margin: 0 2%;
+    }
+    .small-rule {
+        width: 50%;
+    }
+    .card-body>p {
+        margin-bottom: 0;
+    }
 }

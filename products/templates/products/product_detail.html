@@ -9,7 +9,7 @@
             <img class="product-detail-image" src="{{ product.img }}" alt="{{ product.name }}">
         </div>
         <div class="col-7">
-            <h2>{{ product.title }}</h2>
+            <div class="card-title"><strong>{{ product.title }}</strong></div>
             <p class="text-muted">
                 <small>skus:
                     {% for sku in product.skus %}
@@ -24,8 +24,7 @@
             <p>
                 {% if info.pages %}Prints up to {{ info.pages }}<br>{% endif %}
                 {% if info.volume %}Contains {{ info.volume }}<br>{% endif %}
-                {% if info.colour %}Colour:
-                <span data-prod-id="{{ info.id }}">{{ info.colour }}</span><br>
+                {% if info.colour %}Colour: {{ info.colour |capfirst}}<br>
                 {% endif %}
             </p>
             {% endif %}
@@ -37,7 +36,7 @@
                 <small class="text-muted">{{ product.price }} ex VAT</small>
             </div>
             <div class="col-12 pricing">
-                quantity selector goes here
+                {% include 'products/includes/quantity_selector.html' %}
             </div>
 
             <div class="col-12 pricing add-to-basket-btn">
@@ -52,7 +51,7 @@
                     <a class="nav-link active" id="product_blurb_tab">Extra Info</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="printer_compatibility_tab">Link</a>
+                    <a class="nav-link" id="printer_compatibility_tab">Printer Compatibility</a>
                 </li>
             </ul>
         </div>
@@ -94,7 +93,7 @@
                                 {% if info.pages %}Prints up to {{ info.pages }}<br>{% endif %}
                                 {% if info.volume %}Contains {{ info.volume }}<br>{% endif %}
                                 {% if info.colour %}Colour:
-                                <span data-prod-id="{{ info.id }}">{{ info.colour }}</span><br>
+                                <span data-prod-id="{{ info.id }}">{{ info.colour |capfirst }}</span><br>
                                 {% endif %}
                             </p>
                             {% endif %}
@@ -126,30 +125,8 @@
                             <small class="text-muted">€{{ related.price }} ex VAT</small>
                         </div>
                         <div class="col-12 pricing">
-                            <div class="form-group w-100">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <button class="decrement-qty btn btn-dark rounded-0"
-                                            data-item_id="{{ related.id }}" id="decrement-qty_{{ related.id }}">
-                                            <span class="icon">
-                                                <i class="fas fa-minus"></i>
-                                            </span>
-                                        </button>
-                                    </div>
-                                    <input type="number" class="form-control qty-input" name="quantity" value="1"
-                                        min="1" max="99" data-item_id="{{ related.id }}" id="id_qty_{{ related.id }}">
-                                    <div class="input-group-prepend">
-                                        <button class="increment-qty btn btn-dark rounded-0"
-                                            data-item_id="{{ related.id }}" id="increment-qty_{{ related.id }}">
-                                            <span class="icon">
-                                                <i class="fas fa-plus"></i>
-                                            </span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                            {% include 'products/includes/quantity_selector.html' with product=related%}
                         </div>
-
                         <div class="col-12 pricing add-to-basket-btn">
                             <a href="#" class="btn btn-success w-100 rounded-0 border-0">Add to Basket</a>
                         </div>
@@ -165,15 +142,20 @@
 
 
 {% block postloadjs %}
+{{ block.super }}
+{% include 'products/includes/quantity_input_script.html' %}
 <script>
+    /* Behaviour for switching between Extra info and compatibility tabs */
+
+    /* Show Printer Compatibility tab, hide Extra Info tab*/
     $('#printer_compatibility_tab').click('on', function () {
         $(this).addClass('active');
         $('#printer_compatibility_list').removeClass('hidden');
         $('#product_blurb_tab').removeClass('active');
         $('#product_blurb').addClass('hidden');
-
     })
 
+    /* Show Extra Info tab, hide Printer Compatibility tab*/
     $('#product_blurb_tab').click('on', function () {
         $(this).addClass('active');
         $('#product_blurb').removeClass('hidden');

@@ -10,7 +10,7 @@
         <hr>
     </div>
     {% endif %}
-    <div class="col-3 product-filters">
+    <div class="d-none d-lg-block col-lg-3 product-filters">
         <div class="card filters-card border-0">
             <div class="row no-gutters">
                 <div class="col-12">
@@ -36,8 +36,7 @@
             </div>
         </div>
     </div>
-
-    <div class="col-9">
+    <div class="d-none d-lg-block col-lg-9">
         {% for product in products %}
         <div class="card product-list rounded-1 border-0" id="{{ product.id }}">
             <div class="row no-gutters">
@@ -60,7 +59,7 @@
                             {% if info.pages %}Prints up to {{ info.pages }}<br>{% endif %}
                             {% if info.volume %}Contains {{ info.volume }}<br>{% endif %}
                             {% if info.colour %}Colour:
-                            <span data-prod-id="{{ info.id }}">{{ info.colour }}</span><br>
+                            <span data-prod-id="{{ info.id }}">{{ info.colour |capfirst }}</span><br>
                             {% endif %}
                         </p>
                         {% endif %}
@@ -86,7 +85,7 @@
                         <small class="text-muted">€{{ product.price }} ex VAT</small>
                     </div>
                     <div class="col-12 pricing">
-                        quantity selector goes here
+                        {% include 'products/includes/quantity_selector.html' %}
                     </div>
 
                     <div class="col-12 pricing add-to-basket-btn">
@@ -95,67 +94,17 @@
                 </div>
             </div>
         </div>
-
         {% endfor %}
     </div>
+    {% include 'products/includes/product_list_mobile.html' %}
 
 </div>
 {% endblock %}
 
 {% block postloadjs %}
+
 {{ block.super }}
-
-<script type="text/javascript">
-    var filterValues = []; 
-    {% for filter in filters %}
-        filterValues.push(`{{ filter }}`); 
-    {% endfor %}
-
-    var productInfos = []; 
-    {% for info in product_info %}
-        var productObj = {};
-        productObj['id'] = "{{ info.id }}";
-        productObj['colour'] = "{{ info.colour }}";
-        productInfos.push(productObj); 
-    {% endfor %}
-
-    for (i = 0; i < filterValues.length; i++) {
-        var message_filter = document.getElementById(`${filterValues[i]}`);
-        message_filter.addEventListener('click', function () {
-            if ($(this).hasClass("filter-btn-checked")) {
-                $(this).removeClass("filter-btn-checked").addClass("filter-btn-unchecked");
-                for (x = 0; x < productInfos.length; x++) {
-                    if (productInfos[x]['colour'] != this.id) {
-                        $(`#${productInfos[x]['id']}`).show();
-                    }
-                }
-            } else {
-                for (x = 0; x < productInfos.length; x++) {
-                    $(`#${productInfos[x]['id']}`).show();
-                }
-                $(".filter-btn-checked").removeClass("filter-btn-checked").addClass("filter-btn-unchecked");
-
-                if ($(this).hasClass("filter-btn-unchecked")) {
-                    $(this).removeClass("filter-btn-unchecked").addClass("filter-btn-checked");
-                    for (x = 0; x < productInfos.length; x++) {
-                        if (productInfos[x]['colour'] != this.id) {
-                            $(`#${productInfos[x]['id']}`).hide();
-                        }
-                    }
-                } else if ($(this).hasClass("filter-btn-checked")) {
-                    $(this).removeClass("filter-btn-checked").addClass("filter-btn-unchecked");
-                    for (x = 0; x < productInfos.length; x++) {
-                        if (productInfos[x]['colour'] != this.id) {
-                            $(`#${productInfos[x]['id']}`).show();
-                        }
-                    }
-                }
-
-            }
-
-        })
-    }
-</script>
-
+{% include 'products/includes/quantity_input_script.html' %}
+{% include 'products/includes/filter_behaviour_script.html' %}
 
 {% endblock %}

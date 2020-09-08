@@ -1,0 +1,48 @@
+<script type="text/javascript">
+    /* Get values for filters from template */
+    var filterValues = []; 
+    {% for filter in filters %}
+        filterValues.push(`{{ filter }}`); 
+    {% endfor %}
+
+    var productInfos = []; 
+    {% for info in product_info %}
+        var productObj = {};
+        productObj['id'] = "{{ info.id }}";
+        productObj['colour'] = "{{ info.colour }}";
+        productInfos.push(productObj); 
+    {% endfor %}
+
+
+    for (i = 0; i < filterValues.length; i++) {
+        var filterButton = document.getElementById(`${filterValues[i]}`);
+        filterButton.addEventListener('click', function () {
+            if ($(this).hasClass("filter-btn-checked")) {
+                $(this).removeClass("filter-btn-checked").addClass("filter-btn-unchecked");
+                for (x = 0; x < productInfos.length; x++) {
+                    if (productInfos[x]['colour'] != this.id) {
+                        $(`#${productInfos[x]['id']}`).show();
+                    }
+                }
+            } else {
+                /* reset all products and buttons */
+                for (x = 0; x < productInfos.length; x++) {
+                    $(`#${productInfos[x]['id']}`).show();
+                }
+                $(".filter-btn-checked").removeClass("filter-btn-checked").addClass("filter-btn-unchecked");
+
+                /* Toggle selected button and only show associated products */
+                if ($(this).hasClass("filter-btn-unchecked")) {
+                    $(this).removeClass("filter-btn-unchecked").addClass("filter-btn-checked");
+                    for (x = 0; x < productInfos.length; x++) {
+                        if (productInfos[x]['colour'] != this.id) {
+                            $(`#${productInfos[x]['id']}`).hide();
+                        }
+                    } 
+                }
+
+            }
+
+        })
+    }
+</script>
