@@ -96,8 +96,11 @@
         </div>
         {% endfor %}
     </div>
-    {% include 'products/includes/product_list_mobile.html' %}
-
+    <div class="d-block d-lg-none col-12">
+        {% for product in products %}
+        {% include 'products/includes/product_list_mobile.html' %}
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
 

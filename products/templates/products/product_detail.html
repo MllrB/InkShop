@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="card product-detail-container">
-    <div class="row p-2">
+    <div class="row p-2 d-none d-lg-block">
         <div class="col-5">
             <img class="product-detail-image" src="{{ product.img }}" alt="{{ product.name }}">
         </div>
@@ -44,6 +44,11 @@
             </div>
         </div>
     </div>
+    <div class="row p-2 d-block d-lg-none">
+        <div class="col-12">
+            {% include 'products/includes/product_list_mobile.html' %}
+        </div>
+    </div>
     <div class="card">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs">
@@ -59,7 +64,7 @@
             <p id="product_blurb">{{ product.blurb |safe }}</p>
             <div class="row hidden" id="printer_compatibility_list">
                 {% for printer in product.related_printers %}
-                <div class="col-4"><small>{{ printer.printer_name |safe }}</small></div>
+                <div class="col-6 col-sm-4"><small>{{ printer.printer_name |safe }}</small></div>
                 {% endfor %}
             </div>
         </div>
@@ -70,7 +75,7 @@
         <div class="col-12">
             <h3 class="text-on-green pb-2">Products that might also interest you...</h3>
         </div>
-        <div class="col-12">
+        <div class="d-none d-lg-block col-lg-12">
             {% for related in related_products %}
             <div class="card product-list rounded-1 border-0" id="{{ related.id }}">
                 <div class="row no-gutters">
@@ -87,7 +92,7 @@
                             <p class="card-text pt-4">{{ related.description }}
                                 <hr>
                             </p>
-                            {% for info in related_products_info %}
+                            {% for info in products_info %}
                             {% if related.id == info.id %}
                             <p>
                                 {% if info.pages %}Prints up to {{ info.pages }}<br>{% endif %}
@@ -134,6 +139,11 @@
                 </div>
             </div>
 
+            {% endfor %}
+        </div>
+        <div class="col-12 d-block d-lg-none">
+            {% for related in related_products %}
+            {% include 'products/includes/product_list_mobile.html' with products=related%}
             {% endfor %}
         </div>
     </div>

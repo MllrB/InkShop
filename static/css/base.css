@@ -307,9 +307,14 @@ h6 {
     .add-to-basket-btn>a {
         width: 80% !important;
     }
+    /* Product Details */
+    .optional-extras-container {
+        margin: 0 10vw;
+    }
 }
 
 @media (max-width: 426px) {
+    /* Products */
     .products-container {
         margin: 0 2%;
     }
@@ -318,5 +323,18 @@ h6 {
     }
     .card-body>p {
         margin-bottom: 0;
+    }
+    /* Product Details */
+    #product_blurb_tab,
+    #printer_compatibility_tab {
+        font-size: .75rem;
+    }
+    #product_blurb,
+    #printer_compatibility_list {
+        font-size: 0.75rem;
+        padding-top: .5rem;
+    }
+    .optional-extras-container {
+        margin: 0 5%;
     }
 }

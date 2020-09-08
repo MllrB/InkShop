@@ -95,11 +95,14 @@ def product_detail(request, product_id):
     product_info = get_product_features_info(product_list)
     related_products_info = get_product_features_info(related_products)
 
+    product_features = [product_info['products_info'][0]]
+    for x in related_products_info['products_info']:
+        product_features.append(x)
+
     context = {
         'product': product,
-        'product_info': product_info['products_info'],
+        'product_info': product_features,
         'related_products': related_products,
-        'related_products_info': related_products_info['products_info'],
     }
 
     return render(request, 'products/product_detail.html', context)
