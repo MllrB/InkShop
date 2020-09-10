@@ -3,6 +3,45 @@
 
 {% block content %}
 <div class="header-buffer">
-    <h1>Your Shopping Basket</h1>
+    <div class="container">
+        {% if basket_items %}
+        <div class="row">
+            <div class="col-12">
+                <h2>Your Shopping basket</h2>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            {% for items in basket_items %}
+            <div class="col-12">
+                <h6>stuff go here</h6>
+            </div>
+            <div class="col-2">product image</div>
+            <div class="col-2">product title</div>
+            <div class="col-2">price per unit</div>
+            <div class="col-2">qty</div>
+            <div class="col-2">sub total</div>
+            <div class="col-1">update</div>
+            <div class="col-1">remove</div>
+            {% endfor %}
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-12 text-right">
+                <p>basket sub total</p>
+                <p>VAT</p>
+                <p>Delivery</p>
+                <hr>
+                <p>Basket total</p>
+            </div>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col-12">
+                <h2>You don't have anything in your basket.</h2>
+            </div>
+        </div>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
