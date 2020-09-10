@@ -50,6 +50,10 @@ h6 {
     height: 0;
 }
 
+.header-buffer {
+    margin: 0 10vh;
+}
+
 
 /********** HEADER/NAV **********/
 

@@ -101,11 +101,19 @@
                     </div>
                     <div class="col-6">
                         <div class="text-center nav-icons">
-                            <a class="btn">
+                            <a class="btn" href="{% url 'show_basket' %}">
                                 <span class="icon">
                                     <i class="fas fa-shopping-basket fa-2x text-success"></i>
                                 </span class="icon">
-                                <p>My Basket</p>
+                                <p>
+                                    <strong>
+                                        {% if basket_total %}
+                                        €{{ basket_total |floatformat:2 }}
+                                        {% else %}
+                                        €0.00
+                                        {% endif %}
+                                    </strong>
+                                </p>
                             </a>
                         </div>
                         </a>
