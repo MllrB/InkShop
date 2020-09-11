@@ -7,4 +7,5 @@ from . import views
 urlpatterns = [
     path('', views.show_basket, name='show_basket'),
     path('add/<product_id>/', views.add_to_basket, name='add_to_basket'),
+    path('update/<product_id>/', views.update_basket, name='update_basket'),
 ]

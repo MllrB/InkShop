@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load basket_tools %}
 
 {% block content %}
 <div class="header-buffer">
@@ -11,21 +12,27 @@
                 <hr>
             </div>
         </div>
-        <div class="row">
-            {% for items in basket_items %}
-            <div class="col-12">
-                <h6>stuff go here</h6>
+        {% for item in basket_items %}
+        <div class="row basket-line">
+            <div class="col-2 text-center"><img class="basket-img" src="{{ item.product.img }}"
+                    alt="{{ item.product.name }}"></div>
+            <div class="col-4">{{ item.product.title }}</div>
+            <div class="col-1 text-right">€{{ item.product.price }}</div>
+            <div class="col-2 text-center">
+                <form action="{% url 'update_basket' item.id %}" method="POST" id="{{ item.id }}_form">
+                    {% csrf_token %}
+                    {% include 'basket/includes/quantity_selector.html' with product=item %}
+                </form>
             </div>
-            <div class="col-2">product image</div>
-            <div class="col-2">product title</div>
-            <div class="col-2">price per unit</div>
-            <div class="col-2">qty</div>
-            <div class="col-2">sub total</div>
-            <div class="col-1">update</div>
-            <div class="col-1">remove</div>
-            {% endfor %}
+            <div class="col-1 text-right">€{{ item.product.price |calc_line_total:item.quantity}}</div>
+            <div class="col-1">
+                <a class="btn btn-success text-white update-button" data-item-id="{{ item.id }}">Update</a>
+            </div>
+            <div class="col-1"><a class="btn btn-danger text-white remove-button"
+                    data-item-id="{{ item.id }}">Remove</a></div>
         </div>
         <hr>
+        {% endfor %}
         <div class="row">
             <div class="col-12 text-right">
                 <p>basket sub total</p>
@@ -45,3 +52,17 @@
     </div>
 </div>
 {% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+{% include 'products/includes/quantity_input_script.html' %}
+
+<script type="text/javascript">
+    // update basket line quantity
+    $('.update-button').click(function (e) {
+        $(this).addClass('update-clicked');
+        var productID = $(this).data('item-id');
+        $(`#${productID}_form`).submit();
+    })
+</script>
+{% endblock  %}
