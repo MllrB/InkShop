@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="card product-detail-container">
-    <div class="row p-2 d-none d-lg-block">
+    <div class="row p-2 d-none d-lg-flex">
         <div class="col-5">
             <img class="product-detail-image" src="{{ product.img }}" alt="{{ product.name }}">
         </div>
@@ -44,7 +44,7 @@
             </div>
         </div>
     </div>
-    <div class="row p-2 d-block d-lg-none">
+    <div class="row p-2 d-flex d-lg-none">
         <div class="col-12">
             {% include 'products/includes/product_list_mobile.html' %}
         </div>

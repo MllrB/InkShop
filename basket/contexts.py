@@ -9,9 +9,9 @@ def basket_contents(request):
     basket_items = []
     sub_total = 0
 
-    if total < settings.FREE_DELIVERY_THRESHOLD:
+    if sub_total < settings.FREE_DELIVERY_THRESHOLD:
         delivery = settings.DELIVERY_CHARGE
-        free_delivery_delta = settings.FREE_DELIVERY_THRESHOLD - total
+        free_delivery_delta = settings.FREE_DELIVERY_THRESHOLD - sub_total
     else:
         delivery = 0
         free_delivery_delta = 0

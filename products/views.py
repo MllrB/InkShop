@@ -34,12 +34,13 @@ def all_products(request):
     """ 
     A view to return all products and filter results for user searches
     """
-    products = Supplies.objects.all().filter(published=True)
+    queried_products = Supplies.objects.all().filter(published=True)
     user_search = None
     product_info = []
     product_filters = []
+    products = []
 
-    if request.method == 'GET':
+    if request.method == 'GET' or request.method == 'POST':
         if 'q' in request.GET:
             user_search = request.GET['q']
             if not user_search:
@@ -49,12 +50,12 @@ def all_products(request):
             queries = Q(skus__icontains=user_search) | Q(
                 name__icontains=user_search) | Q(keywords__icontains=user_search) | Q(title__contains=user_search)
 
-            products = products.filter(queries)
+            queried_products = queried_products.filter(queries)
 
             info_and_filters = get_product_features_info(products)
 
     context = {
-        'products': products,
+        'products': queried_products,
         'search': user_search,
         'product_info': info_and_filters['products_info'],
         'filters': info_and_filters['product_filters'],
@@ -91,8 +92,7 @@ def product_detail(request, product_id):
         related_product = get_object_or_404(Supplies, pk=related_id)
         related_products.append(related_product)
 
-    product_list = [product]
-    product_info = get_product_features_info(product_list)
+    product_info = get_product_features_info([product])
     related_products_info = get_product_features_info(related_products)
 
     product_features = [product_info['products_info'][0]]
