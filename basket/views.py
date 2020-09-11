@@ -1,7 +1,8 @@
 """
 Views to show the user's shopping basket
 """
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, HttpResponse
+from django.contrib import messages
 
 from products.models import Supplies
 from products.views import all_products, product_detail
@@ -17,7 +18,6 @@ def add_to_basket(request, product_id):
     """ Adds a quantity of a selected product to the shopping basket """
 
     quantity = int(request.POST.get('quantity'))
-    redirect_url = request.POST.get('redirect_url')
 
     basket = request.session.get('basket', {})
 
@@ -49,3 +49,19 @@ def update_basket(request, product_id):
     request.session['basket'] = basket
 
     return redirect(reverse('show_basket'))
+
+
+def remove_from_basket(request, product_id):
+    try:
+        basket = request.session.get('basket', {})
+        print(f'in remove: {basket}')
+        basket.pop(product_id)
+
+        request.session['basket'] = basket
+        return HttpResponse(status=200)
+
+    except Exception as oopsie:
+        print(oopsie)
+        messages.error(
+            request, "Something went wrong, could not remove that product from your basket")
+        return HttpResponse(status=500)
