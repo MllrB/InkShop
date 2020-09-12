@@ -153,6 +153,43 @@ h6 {
 }
 
 
+/********** TOASTS/MESSAGES **********/
+
+.message-container {
+    position: fixed;
+    top: 16%;
+    right: 10px;
+    z-index: 999999999;
+}
+
+.toast {
+    background-color: rgba(209, 223, 219, 0.13);
+    color: rgb(48, 53, 47);
+    border: none;
+}
+
+.toast-success {
+    box-shadow: 0px 0px 5px 0px rgba(23, 94, 34, 0.55);
+}
+
+.toast-header {
+    background-color: rgba(214, 230, 225, 0.13);
+    color: rgb(1, 32, 7);
+}
+
+.toast-warning {
+    box-shadow: 0px 0px 5px 0px rgba(116, 65, 7, 0.55);
+}
+
+.toast-error {
+    box-shadow: 0px 0px 5px 0px rgba(158, 4, 4, 0.55);
+}
+
+.toast-info {
+    box-shadow: 0px 0px 5px 0px rgba(5, 11, 100, 0.55);
+}
+
+
 /********** PRODUCTS **********/
 
 .card {
@@ -195,8 +232,11 @@ h6 {
     padding-top: 20px;
 }
 
+.form-row {
+    margin-right: 10%;
+}
+
 .add-to-basket-btn {
-    margin-top: 20px;
     width: 100%;
 }
 
@@ -299,6 +339,9 @@ h6 {
     }
     .add-to-basket-btn>a {
         padding: .75rem;
+    }
+    .form-row {
+        margin-right: 0;
     }
 }
 

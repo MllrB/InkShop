@@ -1,7 +1,7 @@
 """
 Views to show the user's shopping basket
 """
-from django.shortcuts import render, redirect, reverse, HttpResponse
+from django.shortcuts import render, redirect, reverse, HttpResponse, get_object_or_404
 from django.contrib import messages
 
 from products.models import Supplies
@@ -17,17 +17,20 @@ def show_basket(request):
 def add_to_basket(request, product_id):
     """ Adds a quantity of a selected product to the shopping basket """
 
+    product = get_object_or_404(Supplies, pk=product_id)
     quantity = int(request.POST.get('quantity'))
 
     basket = request.session.get('basket', {})
 
     if product_id in list(basket.keys()):
         basket[product_id] += quantity
+        messages.success(
+            request, f'The quantity of {product.title} in your basket has been updated.')
     else:
         basket[product_id] = quantity
+        messages.success(request, f'Added {product.title} to your basket')
 
     request.session['basket'] = basket
-    print(request.session['basket'])
 
     if 'q' in request.POST:
         request.GET = request.GET.copy()
@@ -45,10 +48,13 @@ def add_to_basket(request, product_id):
 
 def update_basket(request, product_id):
     """ A view to update line quantities in the basket """
+
+    product = get_object_or_404(Supplies, pk=product_id)
     new_quantity = int(request.POST.get('quantity'))
     basket = request.session.get('basket', {})
-    print(basket)
     basket[product_id] = new_quantity
+    messages.success(
+        request, f'The quantity of {product.title} in your basket has been updated')
 
     request.session['basket'] = basket
 
@@ -56,10 +62,13 @@ def update_basket(request, product_id):
 
 
 def remove_from_basket(request, product_id):
+    """ A view to remove a product from the shopping basket """
     try:
+        product = get_object_or_404(Supplies, pk=product_id)
         basket = request.session.get('basket', {})
-        print(f'in remove: {basket}')
         basket.pop(product_id)
+        messages.success(
+            request, f'{product.title} has been removed from your basket')
 
         request.session['basket'] = basket
         return HttpResponse(status=200)

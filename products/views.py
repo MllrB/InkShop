@@ -19,7 +19,8 @@ def all_products(request):
         if 'q' in request.GET:
             user_search = request.GET['q']
             if not user_search:
-                messages.error(request, 'What exactly are you looking for?')
+                messages.warning(
+                    request, 'We suggest you try refining your search.')
                 return redirect(reverse('products'))
 
             queries = Q(skus__icontains=user_search) | Q(
