@@ -38,6 +38,7 @@
             <div class="col-12 text-right">
                 <p class="uppercase">sub total: €{{ sub_total }}</p>
                 <p>Total VAT: {{ basket_items |calc_total_vat }}</p>
+                <p>context vat: {{ total_vat }}</p>
                 {% if delivery == 0 %}
                 <p class="text-danger">FREE DELIVERY!</p>
                 {% else %}
@@ -45,7 +46,7 @@
                 {% endif %}
 
                 <hr>
-                <p>Basket total:</p>
+                <p>Basket total: €{{ basket_total }}</p>
             </div>
         </div>
         {% else %}
