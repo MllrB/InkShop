@@ -2,12 +2,13 @@
 {% load static %}
 
 {% block content %}
-<div class="row welcome-img">
-    <div class="col-12"></div>
-</div>
-<div class="row">
-    <div class="col-12">
-        {% comment %} <h2>Product Suggestions</h2> {% endcomment %}
+<div class="header-buffer">
+    <div class="row container">
+        <div class="col-12">
+            {% if request.user.is_authenticated %}
+            <p>{{ request.user }}</p>
+            {% endif %}
+        </div>
     </div>
 </div>
 

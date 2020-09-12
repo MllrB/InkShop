@@ -13,9 +13,7 @@ def all_products(request):
     """
     queried_products = Supplies.objects.all().filter(published=True)
     user_search = None
-    product_info = []
-    product_filters = []
-    products = []
+    info_and_filters = {'products_info': None, 'product_filters': None}
 
     if request.method == 'GET' or request.method == 'POST':
         if 'q' in request.GET:
@@ -29,7 +27,7 @@ def all_products(request):
 
             queried_products = queried_products.filter(queries)
 
-            info_and_filters = get_product_features_info(products)
+            info_and_filters = get_product_features_info(queried_products)
 
     context = {
         'products': queried_products,
