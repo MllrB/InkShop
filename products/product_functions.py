@@ -32,18 +32,23 @@ def get_product_features_info(products):
     return {'products_info': products_info, 'product_filters': product_filters}
 
 
-def get_related_products(product):
-    """ find products related by common printers """
+def get_related_products(products):
+    """ 
+    find products related by common printers 
+    Accepts a list as an argument
+    """
     # Finding all related products by shared printers
     shared_printers = []
-    for printer in product.related_printers:
-        shared_printers.append(printer['printer_id'])
-
     related_matches = []
-    for printer_id in shared_printers:
-        query = Q(related_printers__contains=printer_id)
-        related_matches.append(Supplies.objects.filter(
-            query).exclude(pk=product.id))
+    for product in products:
+
+        for printer in product.related_printers:
+            shared_printers.append(printer['printer_id'])
+
+        for printer_id in shared_printers:
+            query = Q(related_printers__contains=printer_id)
+            related_matches.append(Supplies.objects.filter(
+                query).exclude(pk=product.id))
 
     # reducing the list to unique matches
     matched_ids = []
@@ -51,7 +56,6 @@ def get_related_products(product):
         for query_obj in queryset:
             matched_ids.append(query_obj.id)
     matched_ids = list(dict.fromkeys(matched_ids))
-    print(matched_ids)
 
     related_products = []
     for related_id in matched_ids:

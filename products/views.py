@@ -45,7 +45,7 @@ def product_detail(request, product_id):
     """ A view to display individual products and their related products"""
     product = get_object_or_404(Supplies, pk=product_id)
 
-    related_products = get_related_products(product)
+    related_products = get_related_products([product])
 
     product_info = get_product_features_info([product])
     related_products_info = get_product_features_info(related_products)
