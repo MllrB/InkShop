@@ -1,0 +1,58 @@
+<div class="card product-list rounded-1 border-0" id="{{ product.id }}">
+    <div class="row no-gutters">
+        <div class="col-12">
+            <h5 class="card-title text-center">
+                <strong>
+                    <a href="{% url 'product_detail' product.id %}"> {{ product.title }} </a>
+                </strong>
+            </h5>
+        </div>
+        <div class="col-12 text-center">
+            <img class="card-img" src="{{ product.img }}" alt="{{ product.name }}">
+        </div>
+        <div class="col-12">
+            <div class="row">
+                <div class="col-12 col-sm-7">
+                    <div class="card-body">
+                        <h6><strong>{{ product.description }}</strong></h6>
+                        <hr class="small-rule">
+                        {% for info in product_info %}
+                        {% if product.id == info.id %}
+                        <p>
+                            {% if info.pages %}Prints up to {{ info.pages }}<br>{% endif %}
+                            {% if info.volume %}Contains {{ info.volume }}<br>{% endif %}
+                            {% if info.colour %}Colour:
+                            <span data-prod-id="{{ info.id }}">{{ info.colour |capfirst }}</span>
+                            {% endif %}
+                        </p>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-12 col-sm-5">
+                    <hr class="small-rule d-sm-none">
+                    <div class="col-12 text-right pricing">
+                        <strong>€{{ product.calculate_inc_vat_price }} <span class="text-muted">inc
+                                VAT<span></strong>
+                        <p><small class="text-muted">€{{ product.price }} ex VAT</small></p>
+                    </div>
+                </div>
+                <div class="col-12 w-50 text-center">
+                    <form class="form" action="{% url 'add_to_basket' product.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col-12 pricing">
+                                {% include 'products/includes/quantity_selector.html' %}
+                            </div>
+                            <div class="col-12">
+                                <input type="submit" class="btn btn-success rounded-0 border-0 add-to-basket-btn"
+                                    value="Add to Basket">
+                            </div>
+                            <input type="hidden" name="origin" value="{{ originator }}">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
