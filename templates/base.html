@@ -92,8 +92,13 @@
                                     <p class="drop-text">Account</p>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="account-dropdown">
-                                    <a class="dropdown-item" type="button" href="#">Log In</a>
+                                    {% if request.user.is_authenticated %}
+                                    <a class="dropdown-item" type="button" href="#">Profile</a>
+                                    <a class="dropdown-item" type="button" href="{% url 'account_logout' %}">Log Out</a>
+                                    {% else %}
+                                    <a class="dropdown-item" type="button" href="{% url 'account_login' %}">Log In</a>
                                     <a class="dropdown-item" type="button" href="">Register</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
