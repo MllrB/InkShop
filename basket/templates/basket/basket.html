@@ -5,8 +5,11 @@
 
 {% block content %}
 {% if basket_items %}
+<div class="containier-fluid d-block d-md-none p-2 text-center">
+    {% include 'basket/includes/mobile-basket.html' %}
+</div>
 <div class="header-buffer">
-    <div class="container">
+    <div class="container d-none d-md-block">
         <div class="row">
             <div class="card">
                 <div class="col-12 w-100 card-title">
@@ -103,9 +106,16 @@
 </div>
 {% include 'products/includes/optional_extras.html' with originator='basket' %}
 {% else %}
-<div class="header-buffer">
+<div class="header-buffer d-none d-md-block">
     <div class="row container">
         <div class="col-12">
+            <h2>You don't have anything in your basket.</h2>
+        </div>
+    </div>
+</div>
+<div class="d-block d-md-none">
+    <div class="row container">
+        <div class="col-12 ml-3">
             <h2>You don't have anything in your basket.</h2>
         </div>
     </div>
