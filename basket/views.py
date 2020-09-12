@@ -33,8 +33,14 @@ def add_to_basket(request, product_id):
         request.GET = request.GET.copy()
         request.GET['q'] = request.POST['q']
         return all_products(request)
-
-    return product_detail(request, product_id)
+    elif 'origin' in request.POST:
+        if request.POST['origin'] == 'basket':
+            return redirect(reverse('show_basket'))
+        else:
+            product_id = request.POST['origin']
+            return product_detail(request, product_id)
+    else:
+        return product_detail(request, product_id)
 
 
 def update_basket(request, product_id):

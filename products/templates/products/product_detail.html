@@ -36,11 +36,17 @@
                 <small class="text-muted">{{ product.price }} ex VAT</small>
             </div>
             <div class="col-12 pricing">
-                {% include 'products/includes/quantity_selector.html' %}
-            </div>
-
-            <div class="col-12 pricing add-to-basket-btn">
-                <a href="#" class="btn btn-success w-100 rounded-0 border-0">Add to Basket</a>
+                <form class="form" action="{% url 'add_to_basket' product.id %}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="col-12 pricing">
+                            {% include 'products/includes/quantity_selector.html' %}
+                        </div>
+                        <div class="col-12 pricing add-to-basket-btn">
+                            <input type="submit" class="btn btn-success w-100 rounded-0 border-0" value="Add to Basket">
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -70,7 +76,7 @@
         </div>
     </div>
 </div>
-{% include 'products/includes/optional_extras.html' %}
+{% include 'products/includes/optional_extras.html' with originator=product.id %}
 {% endblock %}
 
 

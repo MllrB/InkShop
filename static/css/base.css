@@ -324,8 +324,9 @@ h6 {
         width: 80% !important;
         margin-left: 10%;
     }
-    .add-to-basket-btn>a {
+    .add-to-basket-btn {
         width: 80% !important;
+        margin: 10% 0;
     }
     /* Product Details */
     .optional-extras-container {

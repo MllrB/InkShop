@@ -4,9 +4,9 @@
 
 
 {% block content %}
+{% if basket_items %}
 <div class="header-buffer">
     <div class="container">
-        {% if basket_items %}
         <div class="row">
             <div class="card">
                 <div class="col-12 w-100 card-title">
@@ -99,17 +99,21 @@
                 <p class="pt-2"><strong>€{{ basket_total }}</strong></p>
             </div>
         </div>
-        {% else %}
-        <div class="row">
-            <div class="col-12">
-                <h2>You don't have anything in your basket.</h2>
-            </div>
-        </div>
-        {% endif %}
     </div>
 </div>
+{% include 'products/includes/optional_extras.html' with originator='basket' %}
+{% else %}
+<div class="header-buffer">
+    <div class="row container">
+        <div class="col-12">
+            <h2>You don't have anything in your basket.</h2>
+        </div>
+    </div>
+</div>
+{% endif %}
 
-{% include 'products/includes/optional_extras.html' %}
+
+
 {% endblock %}
 
 {% block postloadjs %}
