@@ -38,13 +38,11 @@ def add_to_basket(request, product_id):
 
 
 def update_basket(request, product_id):
+    """ A view to update line quantities in the basket """
     new_quantity = int(request.POST.get('quantity'))
     basket = request.session.get('basket', {})
     print(basket)
-    if new_quantity > 0:
-        basket[product_id] = new_quantity
-    else:
-        basket.pop(product_id)
+    basket[product_id] = new_quantity
 
     request.session['basket'] = basket
 

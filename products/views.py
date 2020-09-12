@@ -2,32 +2,9 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.db.models import Q
 from .models import Supplies
+from .product_functions import get_product_features_info, get_related_products
 
 # Create your views here.
-
-
-def get_product_features_info(products):
-    products_info = []
-    product_filters = []
-    for product in products:
-        info = {}
-        info['id'] = product.id
-        for feature in product.features:
-            if 'yield' in feature['feature_name'].lower():
-                if 'footnote' not in feature['feature_name'].lower():
-                    info['pages'] = feature['feature_value'].lower()
-            if 'colours' in feature['feature_name'].lower():
-                info['colour'] = feature['feature_value'].lower()
-                product_filters.append(
-                    feature['feature_value'].lower())
-            if 'volume' in feature['feature_name'].lower():
-                info['volume'] = feature['feature_value'].lower()
-
-        products_info.append(info)
-
-    product_filters = list(dict.fromkeys(product_filters))
-
-    return {'products_info': products_info, 'product_filters': product_filters}
 
 
 def all_products(request):
@@ -68,29 +45,7 @@ def product_detail(request, product_id):
     """ A view to display individual products and their related products"""
     product = get_object_or_404(Supplies, pk=product_id)
 
-    # Finding all related products by shared printers
-    shared_printers = []
-    for printer in product.related_printers:
-        shared_printers.append(printer['printer_id'])
-
-    related_matches = []
-    for printer_id in shared_printers:
-        query = Q(related_printers__contains=printer_id)
-        related_matches.append(Supplies.objects.filter(
-            query).exclude(pk=product_id))
-
-    # reducing the list to unique matches
-    matched_ids = []
-    for queryset in related_matches:
-        for query_obj in queryset:
-            matched_ids.append(query_obj.id)
-    matched_ids = list(dict.fromkeys(matched_ids))
-    print(matched_ids)
-
-    related_products = []
-    for related_id in matched_ids:
-        related_product = get_object_or_404(Supplies, pk=related_id)
-        related_products.append(related_product)
+    related_products = get_related_products(product)
 
     product_info = get_product_features_info([product])
     related_products_info = get_product_features_info(related_products)

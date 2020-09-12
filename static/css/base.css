@@ -261,8 +261,8 @@ h6 {
     max-height: 100px;
 }
 
-.update-clicked {
-    color: yellow !important;
+.basket-card {
+    box-shadow: 0px 0px 5px 1px rgba(183, 243, 226, 0.726);
 }
 
 
