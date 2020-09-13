@@ -43,7 +43,7 @@
                 <img src="{{ item.product.img }}" alt="{{ item.product.name }}" class="w-100">
             </div>
             <div class="col-6 mt-2 text-right">Price per Unit:</div>
-            <div class="col-6 mt-2 text-left">{{ item.product.price }}</div>
+            <div class="col-6 mt-2 text-left">€{{ item.product.price }}</div>
             <div class="col-6 mt-2 text-right">Sub-total:</div>
             <div class="col-6 mt-2 text-left">€{{ item.product.price |calc_line_total:item.quantity}}</div>
             <div class="col-12 mt-3">

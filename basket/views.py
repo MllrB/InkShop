@@ -74,7 +74,6 @@ def remove_from_basket(request, product_id):
         return HttpResponse(status=200)
 
     except Exception as oopsie:
-        print(oopsie)
         messages.error(
             request, "Something went wrong, could not remove that product from your basket")
         return HttpResponse(status=500)

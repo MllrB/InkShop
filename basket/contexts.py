@@ -39,8 +39,6 @@ def basket_contents(request):
 
     related_products_info = get_product_features_info(related_products)
 
-    print(related_products_info)
-
     if sub_total < settings.FREE_DELIVERY_THRESHOLD:
         delivery = settings.DELIVERY_CHARGE
         free_delivery_delta = settings.FREE_DELIVERY_THRESHOLD - sub_total
