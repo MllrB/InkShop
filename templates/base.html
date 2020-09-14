@@ -93,7 +93,8 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="account-dropdown">
                                     {% if request.user.is_authenticated %}
-                                    <a class="dropdown-item" type="button" href="{% url 'user_profile' %}">Profile</a>
+                                    <a class="dropdown-item" type="button"
+                                        href="{% url 'user_profile' template_target='billing' %}">Profile</a>
                                     <a class="dropdown-item" type="button" href="{% url 'account_logout' %}">Log Out</a>
                                     {% else %}
                                     <a class="dropdown-item" type="button" href="{% url 'account_login' %}">Log In</a>

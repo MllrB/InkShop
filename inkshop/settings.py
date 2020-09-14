@@ -49,8 +49,6 @@ INSTALLED_APPS = [
     'customers',
 ]
 
-SITE_ID = 1
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -62,6 +60,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'inkshop.urls'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 TEMPLATES = [
     {
@@ -135,9 +135,28 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+# SOCIALACCOUNT_ADAPTER
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
+
+COUNTRIES_ONLY = [
+    'IE',
+    'GB',
+]
 
 LANGUAGE_CODE = 'en-us'
 

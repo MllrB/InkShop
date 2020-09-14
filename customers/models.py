@@ -2,8 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from allauth.socialaccount.models import SocialAccount
 
 from django_countries.fields import CountryField
+
+COUNTRIES_ONLY = [
+    'IE',
+    'GB',
+]
 
 
 class UserProfile(models.Model):
@@ -11,6 +17,8 @@ class UserProfile(models.Model):
     User profile model for maintaining user data
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    # full_name = models.CharField(max_length=254, null=True, blank=True)
+    # profile_pic_url = models.CharField(max_length=254, null=True, blank=True)
     default_phone_number = models.CharField(
         max_length=254, null=True, blank=True)
     billing_address_line1 = models.CharField(
@@ -26,6 +34,17 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+# @receiver(post_save, sender=User)
+# def create_user_from_social_account(sender, instance, created, **kwargs):
+#     """
+#     Create a user profile from a social account login
+#     """
+#     if created:
+#         UserProfile.objects.create(user=instance)
+
+#     instance.userprofile.save()
 
 
 class DeliveryAddress(models.Model):

@@ -6,5 +6,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.show_profile, name='user_profile'),
+    path('<template_target>/', views.show_profile, name='user_profile'),
 ]

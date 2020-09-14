@@ -5,7 +5,7 @@ from .models import UserProfile, DeliveryAddress
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        exclude = ('user',)
+        exclude = ('user', 'full_name', 'profile_pic_url',)
 
     def __init__(self, *args, **kwargs):
         """
@@ -48,9 +48,9 @@ class UserDeliveryAddressForm(forms.ModelForm):
 
         super().__init__(*args, **kwargs)
         placeholders = {
-            'address_ref': 'Phone Number',
-            'contact_name': 'Phone Number',
-            'contact_phone_number': 'Phone Number',
+            'address_ref': 'Delivery Address Reference',
+            'contact_name': 'Delivery Contact Name',
+            'contact_phone_number': 'Delivery Contact Phone Number',
             'address_line1': 'Address Line 1',
             'address_line2': 'Address Line 2',
             'town_or_city': 'Town/City',
@@ -60,7 +60,7 @@ class UserDeliveryAddressForm(forms.ModelForm):
 
         self.fields['address_ref'].widget.attrs['autofocus'] = True
         for field in self.fields:
-            if field != 'billing_country':
+            if field != 'country':
                 if self.fields[field].required:
                     placeholder = f'{placeholders[field]} *'
                 else:
