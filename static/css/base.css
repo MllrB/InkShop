@@ -336,6 +336,19 @@ h6 {
     color: tomato;
 }
 
+.allauth-forms-container {
+    width: 30%;
+    margin: 0 35%;
+}
+
+.socialaccount_providers {
+    padding: 0;
+}
+
+.socialaccount_logo {
+    max-height: 40px;
+}
+
 
 /********** MEDIA QUERIES **********/
 

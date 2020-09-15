@@ -1,6 +1,7 @@
 """
 Customer Profile views
 """
+import json
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -9,6 +10,7 @@ from django.dispatch import receiver
 
 from .models import UserProfile, DeliveryAddress
 from .forms import UserProfileForm, UserDeliveryAddressForm
+from products.models import Supplies
 
 
 @login_required
@@ -23,6 +25,8 @@ def show_profile(request, template_target):
     """
     this_user = request.user
     delivery_addresses = None
+    form = None
+    products = None
 
     try:
         user_profile = get_object_or_404(UserProfile, user=this_user)
@@ -41,31 +45,36 @@ def show_profile(request, template_target):
         else:
             form = UserProfileForm(instance=user_profile)
     elif template_target == 'delivery':
-        delivery_addresses = DeliveryAddress.objects.all().filter(user=user_profile)
         form = None
+
         if request.method == 'POST':
-            if 'updating' in request.POST:
-                address_id = int(request.POST['updating'])
-                delivery_address = DeliveryAddress.objects.get(pk=address_id)
-                form = UserDeliveryAddressForm(
-                    request.POST, instance=delivery_address, updating=True)
+            if 'deleting' in request.POST:
+                print('deleting')
             else:
-                delivery_address = DeliveryAddress(user=user_profile)
+                if 'updating' in request.POST:
+                    address_id = int(request.POST['updating'])
+                    delivery_address = DeliveryAddress.objects.get(
+                        pk=address_id)
+                    form = UserDeliveryAddressForm(
+                        request.POST, instance=delivery_address, updating=True)
+                else:
+                    delivery_address = DeliveryAddress(user=user_profile)
 
-                form = UserDeliveryAddressForm(
-                    request.POST, instance=delivery_address, user=user_profile)
+                    form = UserDeliveryAddressForm(
+                        request.POST, instance=delivery_address, user=user_profile)
 
-            if form.is_valid():
-                form.save()
-                messages.success(
-                    request, 'Delivery address successfully updated')
-            else:
-                messages.error(
-                    request, 'Something went wrong. Please ensure your form is valid')
-                delivery_addresses = None
+                if form.is_valid():
+                    form.save()
+                    messages.success(
+                        request, 'Delivery address successfully updated')
+                else:
+                    messages.error(
+                        request, 'Something went wrong. Please ensure your form is valid')
+                    delivery_addresses = None
 
-    else:
-        form = UserProfileForm(instance=user_profile)
+        delivery_addresses = DeliveryAddress.objects.all().filter(user=user_profile)
+        if not delivery_addresses:
+            form = UserDeliveryAddressForm()
 
     email = request.user.email
 
@@ -137,31 +146,40 @@ def delete_delivery_address(request, address_id):
     """
 
     template_target = 'delivery'
-    this_user = request.user
-    email = request.user.email
 
     delivery_address = DeliveryAddress.objects.get(pk=address_id)
     try:
         delivery_address.delete()
         messages.success(
             request, 'Delivery address successfully removed')
+        return show_profile(request, template_target)
     except:
         messages.error(
             request, 'We were unable to delete that delivery address, please refresh the page and try again')
 
+
+@login_required
+def delete_favourited_product(request, product_id):
+    """
+    A view to delete a product from a user's favourites via the user's profile
+    """
+
+    template_target = 'favourites'
+    user_profile = get_object_or_404(UserProfile, user=request.user)
+
     try:
-        user_profile = get_object_or_404(UserProfile, user=this_user)
-    except:
-        user_profile = UserProfile(user=this_user)
+        favourites = []
+        favourites = json.loads(user_profile.favourites)
+        favourites.remove(int(product_id))
+        favourites = json.dumps(favourites)
+        user_profile.favourites = favourites
+        user_profile.save()
 
-    delivery_addresses = DeliveryAddress.objects.all().filter(user=user_profile)
-
-    context = {
-        'form': None,
-        'email': email,
-        'user': this_user,
-        'delivery_addresses': delivery_addresses,
-        'target': template_target,
-    }
-
-    return render(request, 'customers/profile.html', context)
+        messages.success(
+            request, 'Product successfully removed from your favourites')
+        return show_profile(request, template_target)
+    except Exception as e:
+        print(e)
+        messages.error(
+            request, 'We were unable to delete that product from your favourites, please refresh the page and try again')
+        return show_profile(request, template_target)

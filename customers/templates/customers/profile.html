@@ -62,6 +62,7 @@
                                         <span class="icon">
                                             <i class="fas fa-trash fa-lg"></i>
                                         </span>
+                                        <input type="hidden" name="deleting" value="deleting">
                                     </a>
                                 </td>
                             </tr>
@@ -91,7 +92,7 @@
                 </form>
                 {% endif %}
                 {% elif target == "favourites"%}
-                <p>favourite products here</p>
+                {% include 'customers/includes/favourite_products.html' %}
                 {% else %}
                 <p>order history here</p>
                 {% endif %}

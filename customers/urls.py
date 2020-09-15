@@ -13,4 +13,6 @@ urlpatterns = [
          name='update_delivery_address'),
     path('delete_delivery_address/<address_id>/', views.delete_delivery_address,
          name='delete_delivery_address'),
+    path('delete_favourited_product/<product_id>/', views.delete_favourited_product,
+         name='delete_favourited_product'),
 ]

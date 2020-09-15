@@ -1,0 +1,55 @@
+<div class="d-none d-lg-block col-lg-12">
+    {% for product in favourite_products %}
+    <div class="card product-list rounded-1 border-0" id="{{ product.id }}">
+        <div class="row no-gutters">
+            <div class="col-3">
+                <img class="card-img" src="{{ product.img }}" alt="{{ product.name }}">
+            </div>
+            <div class="col-6">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <strong>
+                            <a href="{% url 'product_detail' product.id %}"> {{ product.title }} </a>
+                        </strong>
+                    </h5>
+                    <p class="card-text">
+                        {{ product.description }}
+                        <br>
+                        <small>
+                            <a href="{% url 'delete_favourited_product' product.id %}" class="text-danger">Remove from
+                                favourites</a>
+                        </small>
+                    </p>
+                    <p class="card-text">
+                    </p>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="col-12 pricing">
+                    <strong>€{{ product.calculate_inc_vat_price }} <span class="text-muted">inc VAT<span></strong>
+                </div>
+                <div class="col-12 pricing">
+                    <small class="text-muted">€{{ product.price }} ex VAT</small>
+                </div>
+
+                <form class="form" action="{% url 'add_to_basket' product.id %}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="col-12 pricing">
+                            {% include 'products/includes/quantity_selector.html' %}
+                        </div>
+                        <div class="col-12 pricing add-to-basket-btn mb-2 pb-2 ">
+                            <input type="submit" class="btn btn-success w-100 rounded-0 border-0" value="Add to Basket">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% comment %} <div class="d-block d-lg-none col-12">
+    {% for product in products %}
+    {% include 'products/includes/product_list_mobile.html' %}
+    {% endfor %}
+</div> {% endcomment %}
