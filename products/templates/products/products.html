@@ -52,7 +52,7 @@
                         </h5>
                         <p class="card-text">
                             <div class="row">
-                                <div class="col-8">{{ product.description }}</div>
+                                <div class="col-8 pt-2">{{ product.description }}</div>
                                 <div class="col-4">
                                     {% if user.is_authenticated %}
                                     {% if product.id in favourites %}
@@ -149,14 +149,6 @@
 {{ block.super }}
 {% include 'products/includes/quantity_input_script.html' %}
 {% include 'products/includes/filter_behaviour_script.html' %}
-
-<script>
-    $('.favourite-btn').mouseenter(function () {
-        $(this).popover('show')
-    })
-    $('.favourite-btn').mouseleave(function () {
-        $(this).popover('hide')
-    })
-</script>
+{% include 'products/includes/favourites_popover_script.html' %}
 
 {% endblock %}

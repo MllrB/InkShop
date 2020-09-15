@@ -17,7 +17,39 @@
                                     <a href="{% url 'product_detail' related.id %}"> {{ related.title }} </a>
                                 </strong>
                             </div>
-                            <p class="card-text pt-4">{{ related.description }}
+                            <p class="card-text pt-4">
+                                <div class="row">
+                                    <div class="col-8 pt-2">{{ related.description }}</div>
+                                    <div class="col-4">
+                                        {% if user.is_authenticated %}
+                                        {% if related.id in favourites %}
+                                        <form action="{% url 'remove_from_favourites' related.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn favourite-btn float-right"
+                                                data-toggle="popover" data-content="Remove from favourites"
+                                                data-placement="bottom">
+                                                <span class="icon text-danger">
+                                                    <i class="fas fa-heart"></i>
+                                                </span>
+                                            </button>
+                                            <input type="hidden" name="origin" value="{{ originator }}">
+                                        </form>
+                                        {% else %}
+                                        <form action="{% url 'add_to_favourites' related.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn favourite-btn float-right"
+                                                data-toggle="popover" data-content="Add to favourites"
+                                                data-placement="bottom">
+                                                <span class="icon text-danger">
+                                                    <i class="far fa-heart"></i>
+                                                </span>
+                                            </button>
+                                            <input type="hidden" name="origin" value="{{ originator }}">
+                                        </form>
+                                        {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </div>
                                 <hr>
                             </p>
                             {% for info in product_info %}

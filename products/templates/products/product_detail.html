@@ -17,7 +17,36 @@
                     {% endfor %}
                 </small>
             </p>
-            <p>{{ product.description }}</p>
+            <p>
+                <div class="row">
+                    <div class="col-5 pt-1">{{ product.description }}</div>
+                    <div class="col-7">
+                        {% if user.is_authenticated %}
+                        {% if product.id in favourites %}
+                        <form action="{% url 'remove_from_favourites' product.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn favourite-btn float-left" data-toggle="popover"
+                                data-content="Remove from favourites" data-placement="bottom">
+                                <span class="icon text-danger">
+                                    <i class="fas fa-heart"></i>
+                                </span>
+                            </button>
+                        </form>
+                        {% else %}
+                        <form action="{% url 'add_to_favourites' product.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn favourite-btn float-left" data-toggle="popover"
+                                data-content="Add to favourites" data-placement="bottom">
+                                <span class="icon text-danger">
+                                    <i class="far fa-heart"></i>
+                                </span>
+                            </button>
+                        </form>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </p>
             <h5>Product Features:</h5>
             {% for info in product_info %}
             {% if product.id == info.id %}
@@ -83,6 +112,7 @@
 {% block postloadjs %}
 {{ block.super }}
 {% include 'products/includes/quantity_input_script.html' %}
+{% include 'products/includes/favourites_popover_script.html' %}
 <script>
     /* Behaviour for switching between Extra info and compatibility tabs */
 

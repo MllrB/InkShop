@@ -17,11 +17,6 @@ def all_products(request):
     queried_products = Supplies.objects.all().filter(published=True)
     user_search = None
     info_and_filters = {'products_info': None, 'product_filters': None}
-    user_favourites = None
-
-    if request.user.is_authenticated:
-        this_user = get_object_or_404(UserProfile, user=request.user)
-        user_favourites = json.loads(this_user.favourites)
 
     if request.method == 'GET' or request.method == 'POST':
         if 'q' in request.GET:
@@ -43,7 +38,6 @@ def all_products(request):
         'search': user_search,
         'product_info': info_and_filters['products_info'],
         'filters': info_and_filters['product_filters'],
-        'favourites': user_favourites,
     }
 
     return render(request, 'products/products.html', context)
@@ -51,6 +45,7 @@ def all_products(request):
 
 def product_detail(request, product_id):
     """ A view to display individual products and their related products"""
+
     product = get_object_or_404(Supplies, pk=product_id)
 
     related_products = get_related_products([product])
@@ -103,7 +98,14 @@ def add_to_favourites(request, product_id):
         request.GET = request.GET.copy()
         request.GET['q'] = request.POST['q']
         return all_products(request)
-    return redirect(reverse('home'))
+    elif 'origin' in request.POST:
+        if request.POST['origin'] == 'basket':
+            return redirect(reverse('show_basket'))
+        else:
+            product_id = request.POST['origin']
+            return product_detail(request, product_id)
+    else:
+        return product_detail(request, product_id)
 
 
 @login_required
@@ -131,4 +133,11 @@ def remove_from_favourites(request, product_id):
         request.GET = request.GET.copy()
         request.GET['q'] = request.POST['q']
         return all_products(request)
-    return redirect(reverse('home'))
+    elif 'origin' in request.POST:
+        if request.POST['origin'] == 'basket':
+            return redirect(reverse('show_basket'))
+        else:
+            product_id = request.POST['origin']
+            return product_detail(request, product_id)
+    else:
+        return product_detail(request, product_id)
