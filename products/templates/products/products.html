@@ -50,9 +50,28 @@
                                 <a href="{% url 'product_detail' product.id %}"> {{ product.title }} </a>
                             </strong>
                         </h5>
-                        <p class="card-text pt-4">{{ product.description }}
-                            <hr>
+                        <p class="card-text">
+                            <div class="row">
+                                <div class="col-8">{{ product.description }}</div>
+                                <div class="col-4">
+                                    {% if user.is_authenticated %}
+                                    <form action="{% url 'add_to_favourites' product.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn favourite-btn float-right"
+                                            data-toggle="popover" data-content="Add to favourites"
+                                            data-placement="bottom">
+                                            <span class="icon text-danger">
+                                                <i class="far fa-heart"></i>
+                                            </span>
+                                        </button>
+                                        <input type="hidden" name="q" value="{{ search }}">
+                                    </form>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </p>
+                        <hr>
+
                         {% for info in product_info %}
                         {% if product.id == info.id %}
                         <p>
@@ -116,5 +135,14 @@
 {{ block.super }}
 {% include 'products/includes/quantity_input_script.html' %}
 {% include 'products/includes/filter_behaviour_script.html' %}
+
+<script>
+    $('.favourite-btn').mouseenter(function () {
+        $(this).popover('show')
+    })
+    $('.favourite-btn').mouseleave(function () {
+        $(this).popover('hide')
+    })
+</script>
 
 {% endblock %}

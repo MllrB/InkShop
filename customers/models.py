@@ -5,6 +5,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from allauth.socialaccount.models import SocialAccount
 
+from jsonfield import JSONField
 from django_countries.fields import CountryField
 
 
@@ -15,6 +16,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # full_name = models.CharField(max_length=254, null=True, blank=True)
     # profile_pic_url = models.CharField(max_length=254, null=True, blank=True)
+    favourites = JSONField(null=True, blank=True)
     default_phone_number = models.CharField(
         max_length=254, null=True, blank=True)
     billing_address_line1 = models.CharField(

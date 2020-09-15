@@ -25,7 +25,7 @@
                 <a href="{% url 'user_profile' template_target='billing' %}"
                     class="btn btn-info w-100 rounded-0 profile-btn profile-btn-selected">Billing Details</a>
                 <a href="{% url 'user_profile' template_target='delivery' %}"
-                    class="btn btn-info w-100 rounded-0">Delivery Adresses</a>
+                    class="btn btn-info w-100 rounded-0">Delivery Addresses</a>
                 <a href="{% url 'user_profile' template_target='favourites' %}"
                     class="btn btn-info w-100 rounded-0">Favourite Products</a>
                 <a href="{% url 'user_profile' template_target='orders' %}" class="btn btn-info w-100 rounded-0">Order
@@ -65,22 +65,6 @@
                                     </a>
                                 </td>
                             </tr>
-
-
-                            {% comment %} <div class="row">
-                                <div class="col-10">
-                                    <a href="{% url 'update_delivery_address' address.id %}" class="btn delivery_btn">
-                                        {{ address.address_ref }}
-                                    </a>
-                                </div>
-                                <div class="col-2">
-                                    <a href="">
-                                        <span class="icon">
-                                            <i class="fas fa-trash text-danger"></i>
-                                        </span>
-                                    </a>
-                                </div>
-                            </div> {% endcomment %}
                             {% endfor %}
                         </table>
                         <p>

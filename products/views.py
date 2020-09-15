@@ -1,7 +1,10 @@
+import json
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .models import Supplies
+from customers.models import UserProfile
 from .product_functions import get_product_features_info, get_related_products
 
 # Create your views here.
@@ -60,3 +63,38 @@ def product_detail(request, product_id):
     }
 
     return render(request, 'products/product_detail.html', context)
+
+
+@login_required
+def add_to_favourites(request, product_id):
+    this_user = request.user
+
+    try:
+        user_profile = get_object_or_404(UserProfile, user=this_user)
+    except:
+        user_profile = UserProfile(user=this_user)
+        messages.error(request, 'User not found')
+
+    product = get_object_or_404(Supplies, pk=product_id)
+    favourites = []
+
+    if not user_profile.favourites:
+        favourites.append(product_id)
+        favourites = json.dumps(favourites)
+        user_profile.favourites = favourites
+        user_profile.save()
+    else:
+        favourites = json.loads(user_profile.favourites)
+        favourites.append(product_id)
+        favourites = list(dict.fromkeys(favourites))
+        favourites = json.dumps(favourites)
+        user_profile.favourites = favourites
+        user_profile.save()
+
+    messages.success(request, f'Added {product.title} to your favourites')
+
+    if 'q' in request.POST:
+        request.GET = request.GET.copy()
+        request.GET['q'] = request.POST['q']
+        return all_products(request)
+    return redirect(reverse('home'))

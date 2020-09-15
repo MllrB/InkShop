@@ -7,7 +7,7 @@ from .models import UserProfile, DeliveryAddress
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        exclude = ('user', 'full_name', 'profile_pic_url',)
+        exclude = ('user', 'full_name', 'profile_pic_url', 'favourites')
 
     def __init__(self, *args, **kwargs):
         """
