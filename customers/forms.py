@@ -58,6 +58,7 @@ class UserDeliveryAddressForm(forms.ModelForm):
         labels and set focus on address reference field
         """
         self.user = kwargs.pop('user', None)
+        self.updating = kwargs.pop('updating', None)
         super().__init__(*args, **kwargs)
         placeholders = {
             'address_ref': 'Delivery Address Reference',
@@ -84,14 +85,13 @@ class UserDeliveryAddressForm(forms.ModelForm):
     def clean_address_ref(self):
         address_ref = self.cleaned_data.get("address_ref")
         user_profile = self.user
-        print('in form validation')
-        print(user_profile)
         existing_address_refs = DeliveryAddress.objects.all().filter(
             user=user_profile)
 
-        for existing_ref in existing_address_refs:
-            if address_ref == existing_ref.address_ref:
-                raise forms.ValidationError(
-                    _("Your address reference must be unique."), code="Non unique address reference")
+        if not self.updating:
+            for existing_ref in existing_address_refs:
+                if address_ref == existing_ref.address_ref:
+                    raise forms.ValidationError(
+                        _("Your address reference must be unique."), code="Non unique address reference")
 
         return address_ref

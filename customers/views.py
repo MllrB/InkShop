@@ -21,9 +21,6 @@ def show_profile(request, template_target):
     except:
         user_profile = UserProfile(user=this_user)
 
-    print('in view')
-    print(user_profile)
-
     if template_target == 'billing':
         if request.method == 'POST':
             form = UserProfileForm(request.POST, instance=user_profile)
@@ -39,10 +36,16 @@ def show_profile(request, template_target):
         delivery_addresses = DeliveryAddress.objects.all().filter(user=user_profile)
         form = None
         if request.method == 'POST':
-            delivery_address = DeliveryAddress(user=user_profile)
+            if 'updating' in request.POST:
+                address_id = int(request.POST['updating'])
+                delivery_address = DeliveryAddress.objects.get(pk=address_id)
+                form = UserDeliveryAddressForm(
+                    request.POST, instance=delivery_address, updating=True)
+            else:
+                delivery_address = DeliveryAddress(user=user_profile)
 
-            form = UserDeliveryAddressForm(
-                request.POST, instance=delivery_address, user=user_profile)
+                form = UserDeliveryAddressForm(
+                    request.POST, instance=delivery_address, user=user_profile)
 
             if form.is_valid():
                 form.save()
@@ -90,14 +93,12 @@ def add_delivery_address(request, template_target):
     return render(request, 'customers/profile.html', context)
 
 
-def edit_delivery_address(request, template_target):
+def update_delivery_address(request, address_id):
+    template_target = 'delivery'
     this_user = request.user
-    try:
-        user_profile = get_object_or_404(UserProfile, user=this_user)
-    except:
-        user_profile = UserProfile(user=this_user)
+    delivery_address = DeliveryAddress.objects.get(pk=address_id)
 
-    form = UserDeliveryAddressForm(instance=user_profile)
+    form = UserDeliveryAddressForm(instance=delivery_address)
     email = request.user.email
 
     context = {
@@ -105,6 +106,40 @@ def edit_delivery_address(request, template_target):
         'email': email,
         'user': this_user,
         'delivery_addresses': None,
+        'target': template_target,
+        'updating': True,
+        'address_id': address_id,
+    }
+
+    return render(request, 'customers/profile.html', context)
+
+
+def delete_delivery_address(request, address_id):
+    template_target = 'delivery'
+    this_user = request.user
+    email = request.user.email
+
+    delivery_address = DeliveryAddress.objects.get(pk=address_id)
+    try:
+        delivery_address.delete()
+        messages.success(
+            request, 'Delivery address successfully removed')
+    except:
+        messages.error(
+            request, 'We were unable to delete that delivery address, please refresh the page and try again')
+
+    try:
+        user_profile = get_object_or_404(UserProfile, user=this_user)
+    except:
+        user_profile = UserProfile(user=this_user)
+
+    delivery_addresses = DeliveryAddress.objects.all().filter(user=user_profile)
+
+    context = {
+        'form': None,
+        'email': email,
+        'user': this_user,
+        'delivery_addresses': delivery_addresses,
         'target': template_target,
     }
 

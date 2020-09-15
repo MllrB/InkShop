@@ -42,35 +42,68 @@
                 {% if delivery_addresses %}
                 <div class="row">
                     <div class="col-6">
-                        <div class="card">
-                            <div class="card-title">
-                                Saved Delivery Addresses
-                            </div>
-                            <div class="card-body">
-                                {% for address in delivery_addresses %}
-                                <p>
-                                    <a href="">{{ address.address_ref }}</a>
-                                </p>
-                                {% endfor %}
-                            </div>
-                        </div>
+                        <table class="table table-responsive table-borderless">
+                            <thead>
+                                <tr>
+                                    <th class="w-100">Saved Delivery Addresses</th>
+                                </tr>
+                            </thead>
+                            {% for address in delivery_addresses %}
+
+                            <tr>
+                                <td class="w-100">
+                                    <a href="{% url 'update_delivery_address' address.id %}" class="delivery_btn">
+                                        {{ address.address_ref }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{% url 'delete_delivery_address' address.id %}"
+                                        class="text-danger delivery-delete">
+                                        <span class="icon">
+                                            <i class="fas fa-trash fa-lg"></i>
+                                        </span>
+                                    </a>
+                                </td>
+                            </tr>
+
+
+                            {% comment %} <div class="row">
+                                <div class="col-10">
+                                    <a href="{% url 'update_delivery_address' address.id %}" class="btn delivery_btn">
+                                        {{ address.address_ref }}
+                                    </a>
+                                </div>
+                                <div class="col-2">
+                                    <a href="">
+                                        <span class="icon">
+                                            <i class="fas fa-trash text-danger"></i>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div> {% endcomment %}
+                            {% endfor %}
+                        </table>
                         <p>
                             <a href="{% url 'add_delivery_address' template_target='delivery' %}"
-                                class="btn btn-info rounded-0">Add a new delivery
-                                address</a>
+                                class="btn btn-info rounded-0">
+                                Add a new delivery address
+                            </a>
                         </p>
                     </div>
                     <div class="col-6">
                         saved contacts
                     </div>
                 </div>
-                {% endif %}
-                {% if not delivery_addresses %}
-                <form class="mt-3" action="{% url 'user_profile' template_target='delivery' %}" method="POST">
+                {% else %}
+                <form class="mt-3" action="{% url 'user_profile' template_target=target %}" method="POST">
                     {% csrf_token %}
                     {{ form|crispy }}
-                    <button class="btn btn-success rounded-0 text-uppercase float-right">Update Delivery
-                        Address</button>
+                    {% if updating %}
+                    <input type="hidden" name="updating" value="{{ address_id }}">
+                    {% endif %}
+                    <button class="btn btn-success rounded-0 text-uppercase float-right">
+                        Update Delivery Address
+                    </button>
                 </form>
                 {% endif %}
                 {% elif target == "favourites"%}

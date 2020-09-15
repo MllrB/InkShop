@@ -319,6 +319,19 @@ h6 {
     border-radius: 50%;
 }
 
+.delivery_btn {
+    color: #000;
+}
+
+.delivery_btn:hover {
+    text-decoration: none;
+    color: teal;
+}
+
+.delivery-delete:hover {
+    color: tomato;
+}
+
 
 /********** MEDIA QUERIES **********/
 
