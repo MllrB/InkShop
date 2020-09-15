@@ -1,4 +1,6 @@
 from django import forms
+from django.utils.translation import gettext_lazy as _
+
 from .models import UserProfile, DeliveryAddress
 
 
@@ -38,14 +40,24 @@ class UserProfileForm(forms.ModelForm):
 class UserDeliveryAddressForm(forms.ModelForm):
     class Meta:
         model = DeliveryAddress
-        exclude = ('user',)
+        fields = [
+            'address_ref',
+            'contact_name',
+            'contact_phone_number',
+            'address_line1',
+            'address_line2',
+            'town_or_city',
+            'county',
+            'post_code',
+            'country',
+        ]
 
     def __init__(self, *args, **kwargs):
         """
         Add placeholders and classes, remove auto-generated
         labels and set focus on address reference field
         """
-
+        self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
         placeholders = {
             'address_ref': 'Delivery Address Reference',
@@ -68,3 +80,18 @@ class UserDeliveryAddressForm(forms.ModelForm):
                 self.fields[field].widget.attrs['placeholder'] = placeholder
             # self.fields[field].widget.attrs['class'] = 'border-black rounded-0 profile-form-input'
             self.fields[field].label = False
+
+    def clean_address_ref(self):
+        address_ref = self.cleaned_data.get("address_ref")
+        user_profile = self.user
+        print('in form validation')
+        print(user_profile)
+        existing_address_refs = DeliveryAddress.objects.all().filter(
+            user=user_profile)
+
+        for existing_ref in existing_address_refs:
+            if address_ref == existing_ref.address_ref:
+                raise forms.ValidationError(
+                    _("Your address reference must be unique."), code="Non unique address reference")
+
+        return address_ref

@@ -1,15 +1,11 @@
 from django.db import models
+from django.db.models import UniqueConstraint
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from allauth.socialaccount.models import SocialAccount
 
 from django_countries.fields import CountryField
-
-COUNTRIES_ONLY = [
-    'IE',
-    'GB',
-]
 
 
 class UserProfile(models.Model):
@@ -63,3 +59,9 @@ class DeliveryAddress(models.Model):
     county = models.CharField(max_length=254, null=True, blank=True)
     post_code = models.CharField(max_length=254, null=True, blank=True)
     country = CountryField(blank_label="Select Country", null=True, blank=True)
+
+    class Meta:
+        constraints = [
+            UniqueConstraint(
+                fields=['user', 'address_ref'], name='unique address')
+        ]
