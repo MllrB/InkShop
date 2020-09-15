@@ -17,6 +17,11 @@ def all_products(request):
     queried_products = Supplies.objects.all().filter(published=True)
     user_search = None
     info_and_filters = {'products_info': None, 'product_filters': None}
+    user_favourites = None
+
+    if request.user.is_authenticated:
+        this_user = get_object_or_404(UserProfile, user=request.user)
+        user_favourites = json.loads(this_user.favourites)
 
     if request.method == 'GET' or request.method == 'POST':
         if 'q' in request.GET:
@@ -38,6 +43,7 @@ def all_products(request):
         'search': user_search,
         'product_info': info_and_filters['products_info'],
         'filters': info_and_filters['product_filters'],
+        'favourites': user_favourites,
     }
 
     return render(request, 'products/products.html', context)
@@ -79,19 +85,47 @@ def add_to_favourites(request, product_id):
     favourites = []
 
     if not user_profile.favourites:
-        favourites.append(product_id)
+        favourites.append(int(product_id))
         favourites = json.dumps(favourites)
         user_profile.favourites = favourites
         user_profile.save()
     else:
         favourites = json.loads(user_profile.favourites)
-        favourites.append(product_id)
+        favourites.append(int(product_id))
         favourites = list(dict.fromkeys(favourites))
         favourites = json.dumps(favourites)
         user_profile.favourites = favourites
         user_profile.save()
 
     messages.success(request, f'Added {product.title} to your favourites')
+
+    if 'q' in request.POST:
+        request.GET = request.GET.copy()
+        request.GET['q'] = request.POST['q']
+        return all_products(request)
+    return redirect(reverse('home'))
+
+
+@login_required
+def remove_from_favourites(request, product_id):
+    this_user = request.user
+
+    try:
+        user_profile = get_object_or_404(UserProfile, user=this_user)
+    except:
+        user_profile = UserProfile(user=this_user)
+        messages.error(request, 'User not found')
+
+    product = get_object_or_404(Supplies, pk=product_id)
+    favourites = []
+
+    favourites = json.loads(user_profile.favourites)
+    favourites.remove(int(product_id))
+    favourites = json.dumps(favourites)
+    user_profile.favourites = favourites
+    user_profile.save()
+
+    messages.success(request, f'Removed {product.title} from your favourites')
 
     if 'q' in request.POST:
         request.GET = request.GET.copy()

@@ -55,6 +55,19 @@
                                 <div class="col-8">{{ product.description }}</div>
                                 <div class="col-4">
                                     {% if user.is_authenticated %}
+                                    {% if product.id in favourites %}
+                                    <form action="{% url 'remove_from_favourites' product.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn favourite-btn float-right"
+                                            data-toggle="popover" data-content="Remove from favourites"
+                                            data-placement="bottom">
+                                            <span class="icon text-danger">
+                                                <i class="fas fa-heart"></i>
+                                            </span>
+                                        </button>
+                                        <input type="hidden" name="q" value="{{ search }}">
+                                    </form>
+                                    {% else %}
                                     <form action="{% url 'add_to_favourites' product.id %}" method="POST">
                                         {% csrf_token %}
                                         <button type="submit" class="btn favourite-btn float-right"
@@ -66,6 +79,7 @@
                                         </button>
                                         <input type="hidden" name="q" value="{{ search }}">
                                     </form>
+                                    {% endif %}
                                     {% endif %}
                                 </div>
                             </div>
