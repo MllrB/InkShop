@@ -14,8 +14,10 @@ class UserProfile(models.Model):
     User profile model for maintaining user data
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # full_name = models.CharField(max_length=254, null=True, blank=True)
-    # profile_pic_url = models.CharField(max_length=254, null=True, blank=True)
+    full_name = models.CharField(max_length=254, null=True, blank=True)
+    profile_pic_url = models.CharField(max_length=254, null=True, blank=True)
+    profile_pic = models.ImageField(null=True, blank=True)
+    email = models.EmailField(default='placeholder@mllrb.com')
     favourites = JSONField(null=True, blank=True)
     default_phone_number = models.CharField(
         max_length=254, null=True, blank=True)
@@ -34,8 +36,23 @@ class UserProfile(models.Model):
         return self.user.username
 
 
+@receiver(post_save, sender=SocialAccount)
+def create_user_from_social_account(sender, instance, created, **kwargs):
+    """
+    Create a user profile from a social account login
+    """
+    if created:
+        if instance.provider == 'google':
+            email = instance.extra_data['email']
+            full_name = instance.extra_data['name']
+            profile_pic_url = instance.extra_data['picture']
+
+            UserProfile.objects.create(user=instance.user,
+                                       full_name=full_name, profile_pic_url=profile_pic_url, email=email)
+
+
 # @receiver(post_save, sender=User)
-# def create_user_from_social_account(sender, instance, created, **kwargs):
+# def create_user_from_signup(sender, instance, created, **kwargs):
 #     """
 #     Create a user profile from a social account login
 #     """

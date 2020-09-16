@@ -20,7 +20,7 @@ def user_favourited_products(request):
             favourited_products = Supplies.objects.filter(
                 pk__in=user_favourites)
         except:
-            messages.error(request, 'no such user')
+            this_user = UserProfile(user=request.user)
 
     context = {
         'favourites': user_favourites,
