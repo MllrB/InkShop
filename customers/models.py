@@ -51,15 +51,16 @@ def create_user_from_social_account(sender, instance, created, **kwargs):
                                        full_name=full_name, profile_pic_url=profile_pic_url, email=email)
 
 
-# @receiver(post_save, sender=User)
-# def create_user_from_signup(sender, instance, created, **kwargs):
-#     """
-#     Create a user profile from a social account login
-#     """
-#     if created:
-#         UserProfile.objects.create(user=instance)
-
-#     instance.userprofile.save()
+@receiver(post_save, sender=User)
+def create_user_from_signup(sender, instance, created, **kwargs):
+    """
+    Create a user profile from a social account login
+    """
+    if created:
+        email = instance.email.split('@')
+        instance.username = email[0]
+        instance.save()
+        UserProfile.objects.create(user=instance)
 
 
 class DeliveryAddress(models.Model):

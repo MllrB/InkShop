@@ -1,13 +1,14 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
-
+from django.contrib.auth.models import User
+from allauth.account.forms import SignupForm
 from .models import UserProfile, DeliveryAddress
 
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        exclude = ('user', 'full_name', 'profile_pic_url', 'profile_pic',
+        exclude = ('user', 'profile_pic_url', 'profile_pic',
                    'email', 'favourites',)
 
     def __init__(self, *args, **kwargs):
@@ -18,6 +19,7 @@ class UserProfileForm(forms.ModelForm):
 
         super().__init__(*args, **kwargs)
         placeholders = {
+            'full_name': 'Your Full Name',
             'default_phone_number': 'Phone Number',
             'billing_address_line1': 'Address Line 1',
             'billing_address_line2': 'Address Line 2',

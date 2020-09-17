@@ -96,14 +96,16 @@ SITE_ID = 1
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
-ACCOUNT_USERNAME_MIN_LENGTH = 4
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/customers/billing/'
+
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/customers/billing/'
-
 WSGI_APPLICATION = 'inkshop.wsgi.application'
 
 
@@ -147,8 +149,6 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
-
-# SOCIALACCOUNT_ADAPTER
 
 
 # Internationalization
