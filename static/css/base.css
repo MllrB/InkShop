@@ -363,6 +363,11 @@ h6 {
     padding: 1.2rem;
 }
 
+.verification-card {
+    width: 40%;
+    margin: 0 30%;
+}
+
 .login-title {
     background-color: rgba(44, 90, 14, 0.04);
     rgb(44 90 14 / 4%);

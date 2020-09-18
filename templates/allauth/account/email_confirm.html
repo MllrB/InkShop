@@ -7,24 +7,24 @@
 
 
 {% block inner_content %}
-<hr>
-<h2 class="logo-font mb-4">{% trans "Confirm E-mail Address" %}</h1>
-    <hr>
+<div class="card login-card verification-card text-center pt-5 pb-5 mt-2 mb-5">
+    <h2 class="card-title">{% trans "Confirm E-mail Address" %}</h2>
+
 
     {% if confirmation %}
 
     {% user_display confirmation.email_address.user as user_display %}
 
     <p>{% blocktrans with confirmation.email_address.email as email %}Please confirm that <a
-            href="mailto:{{ email }}">{{ email }}</a> is an e-mail address for user
-        {{ user_display }}.{% endblocktrans %}</p>
+            href="mailto:{{ email }}">{{ email }}</a> is your e-mail address{% endblocktrans %}</p>
+    <div class="form-wrapper">
+        <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+            {% csrf_token %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="customers/billing/" />
 
-    <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
-        {% csrf_token %}
-        <input type="hidden" name="{{ redirect_field_name }}" value="customers/billing/" />
-
-        <button type="submit">{% trans 'Confirm' %}</button>
-    </form>
+            <button class="btn btn-success" type="submit">{% trans 'Confirm' %}</button>
+        </form>
+    </div>
 
     {% else %}
 
@@ -34,5 +34,6 @@
             e-mail confirmation request</a>.{% endblocktrans %}</p>
 
     {% endif %}
+</div>
 
-    {% endblock %}
+{% endblock %}
