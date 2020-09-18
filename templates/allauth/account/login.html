@@ -1,46 +1,58 @@
-{% extends "account/base.html" %}
+{% comment %} {% extends "account/base.html" %} {% endcomment %}
 
 {% load i18n %}
 {% load account socialaccount %}
 {% load crispy_forms_tags %}
 
-{% block inner_content %}
+{% comment %} {% block inner_content %} {% endcomment %}
 
-<div class="card product-list">
+{% comment %} <div class="card product-list">
     <div class="row card-title pt-5">
         <div class="col-12">
             <h2 class="card-title text-center">Sign In</h2>
         </div>
     </div>
     <div class="row card-body text-center">
-        <div class="col-12">
-            <div class="socialaccount_ballot">
-
-                <ul class="socialaccount_providers">
-                    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-                </ul>
-
-                <div class="login-or">{% trans 'or' %}</div>
-
+        <div class="col-12"> {% endcomment %}
+            <div class="card login-card text-center login-title">
+                <h2 class="card-title pt-2">Sign In</h2>
             </div>
+            <div class="card login-card">
+                <div class="socialaccount_ballot text-center">
 
-            {% include "socialaccount/snippets/login_extra.html" %}
+                    <ul class="socialaccount_providers pt-3">
+                        {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+                    </ul>
 
-            <form class="login" method="POST" action="{% url 'account_login' %}">
-                {% csrf_token %}
-                {{ form |crispy}}
-                {% if redirect_field_value %}
-                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-                {% endif %}
-                <a href="{% url 'home' %}" class="btn">Home</a>
-                <button class="btn btn-black rounded-0 primaryAction" type="submit">{% trans "Sign In" %}</button>
-                <p class="mt-2">
-                    <a class="button secondaryAction"
-                        href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-                </p>
-            </form>
+                    {% comment %} <div class="login-or">{% trans 'or' %}</div> {% endcomment %}
+
+                </div>
+
+                {% include "socialaccount/snippets/login_extra.html" %}
+
+                <div class="card-body form-wrapper">
+                    <form class="login w-100" method="POST" action="{% url 'account_login' %}">
+                        {% csrf_token %}
+                        {{ form |crispy}}
+                        {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                        {% endif %}
+                        <div class="text-center pt-3">
+                            <a href="{% url 'home' %}" class="btn btn-info">Home</a>
+                            <button class="btn btn-success primaryAction" type="submit">{% trans "Sign In" %}</button>
+                            <p class="mt-2">
+                                <small>
+                                    <a class="text-secondary forgot-password"
+                                        href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+                                </small>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% comment %}
         </div>
     </div>
 </div>
 
-{% endblock %}
+{% endblock %}{% endcomment %}
