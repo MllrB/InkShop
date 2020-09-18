@@ -420,6 +420,18 @@ h6 {
     .form-row {
         margin-right: 0;
     }
+    /* Accounts */
+    .allauth-forms-container {
+        margin: 0 9%;
+    }
+    .verification-card {
+        width: 90%;
+        margin: 0 9%;
+    }
+    .form-wrapper {
+        width: 90%;
+        margin: 0 5%;
+    }
 }
 
 @media (max-width: 768px) {
@@ -457,6 +469,16 @@ h6 {
         width: 90%;
         margin: 0 5%;
     }
+    /* Account */
+    .allauth-forms-container {
+        margin: 0 8.5%;
+    }
+}
+
+@media (max-width: 462px) {
+    .account-btn {
+        width: 90%;
+    }
 }
 
 @media (max-width: 426px) {
@@ -488,5 +510,9 @@ h6 {
         right: 0px;
         width: 90%;
         margin: 0 5%;
+    }
+    /* Account */
+    .allauth-forms-container {
+        margin: 0 6%;
     }
 }
