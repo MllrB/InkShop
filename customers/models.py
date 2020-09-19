@@ -85,3 +85,6 @@ class DeliveryAddress(models.Model):
             UniqueConstraint(
                 fields=['user', 'address_ref'], name='unique address')
         ]
+
+    def __str__(self):
+        return self.address_ref

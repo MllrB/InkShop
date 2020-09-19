@@ -8,99 +8,110 @@
 <div class="containier-fluid d-block d-md-none p-2 text-center">
     {% include 'basket/includes/mobile-basket.html' %}
 </div>
-<div class="header-buffer">
-    <div class="container d-none d-md-block">
-        <div class="row">
-            <div class="card">
-                <div class="col-12 w-100 card-title">
-                    <h2>Your Shopping Basket <span class="text-right"></span></h2>
-                </div>
-                <div class="col-12">
-                    <p>You have €{{ basket_total }} in your basket.
-                        {% if free_delivery_delta > 0 %}
-                        Spend only €{{ free_delivery_delta }} more to get <span class="text-danger">free
-                            delivery!</span>
-                        {% else %}
-                        Delivery is <span class="text-danger">FREE!</span>
-                        {% endif %}
-                    </p>
-                </div>
+<div class="container d-none d-md-block">
+    <div class="row">
+        <div class="card">
+            <div class="col-12 w-100 card-title">
+                <h2>Your Shopping Basket <span class="text-right"></span></h2>
             </div>
-
+            <div class="col-12">
+                <p>You have €{{ sub_total }} (ex VAT) in your basket.
+                    {% if free_delivery_delta > 0 %}
+                    Spend only €{{ free_delivery_delta |floatformat:2}} more to get <span class="text-danger">free
+                        delivery!</span>
+                    {% else %}
+                    Delivery is <span class="text-danger">FREE!</span>
+                    {% endif %}
+                </p>
+            </div>
         </div>
-        <div class="row">
-            <div class="card w-100 basket-card">
-                <div class="table-responsive">
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr class="border-bottom">
-                                <th scope="col" class="text-center">Product Info</th>
-                                <th scope="col"></th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Qty</th>
-                                <th scope="col">Subtotal</th>
-                                <th scope="col" class="text-center">Adjust Your Basket</th>
-                            </tr>
-                        </thead>
-                        {% for item in basket_items %}
-                        <tr>
-                            <td><img class="basket-img" src="{{ item.product.img }}" alt="{{ item.product.name }}"></td>
-                            <td class="w-25 ">
-                                <p>{{ item.product.title }}</p>
-                            </td>
-                            <td>€{{ item.product.price }}</td>
-                            <td>
-                                <form action="{% url 'update_basket' item.id %}" method="POST" id="{{ item.id }}_form">
-                                    {% csrf_token %}
-                                    {% include 'basket/includes/quantity_selector.html' with product=item %}
-                                </form>
-                            </td>
-                            <td>€{{ item.product.price |calc_line_total:item.quantity}}</td>
-                            <td class="text-center">
-                                <a class="btn btn-success text-white update-button"
-                                    data-item-id="{{ item.id }}">Update</a>
-                                <a class="btn btn-danger text-white remove-button"
-                                    data-item-id="{{ item.id }}">Remove</a>
-                            </td>
+
+    </div>
+    <div class="row">
+        <div class="card w-100 basket-card">
+            <div class="table-responsive">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr class="border-bottom">
+                            <th scope="col" class="text-center">Product Info</th>
+                            <th scope="col"></th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Qty</th>
+                            <th scope="col">Subtotal</th>
+                            <th scope="col" class="text-center">Adjust Your Basket</th>
                         </tr>
-                        {% endfor %}
-                    </table>
-                </div>
+                    </thead>
+                    {% for item in basket_items %}
+                    <tr>
+                        <td>
+                            {% if item.product.img %}
+                            <img class="basket-img" src="{{ item.product.img }}" alt="{{ item.product.name }}">
+                            {% else %}
+                            <img class="basket-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ item.product.name }}">
+                            {% endif %}
+                        </td>
+                        <td class="w-25 ">
+                            <p>{{ item.product.title }}</p>
+                        </td>
+                        <td>€{{ item.product.price }}</td>
+                        <td>
+                            <form action="{% url 'update_basket' item.id %}" method="POST" id="{{ item.id }}_form">
+                                {% csrf_token %}
+                                {% include 'basket/includes/quantity_selector.html' with product=item %}
+                            </form>
+                        </td>
+                        <td>€{{ item.product.price |calc_line_total:item.quantity}}</td>
+                        <td class="text-center">
+                            <a class="btn btn-success text-white update-button" data-item-id="{{ item.id }}">Update</a>
+                            <a class="btn btn-danger text-white remove-button" data-item-id="{{ item.id }}">Remove</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
             </div>
         </div>
+    </div>
 
-        <div class="row mt-4">
-            <div class="col-11 text-right">
-                <p>Sub Total</p>
-            </div>
-            <div class="col-1 text-right">
-                <p>€{{ sub_total }}</p>
-            </div>
-            <div class="col-11 text-right">
-                <p>Total VAT:</p>
-            </div>
-            <div class="col-1 text-right">
-                <p>€{{ total_vat }}</p>
-            </div>
-            {% if delivery == 0 %}
-            <div class="col-12 text-right">
-                <p class="text-danger">FREE DELIVERY!</p>
-            </div>
-            {% else %}
-            <div class="col-11 text-right">
-                <p>Delivery:</p>
-            </div>
-            <div class="col-1 text-right">
-                <p>€{{ delivery |floatformat:2}}</p>
-            </div>
-            {% endif %}
-            <hr>
-            <div class="col-11 text-right border-top">
-                <p class="pt-2"><strong>Basket total:</strong></p>
-            </div>
-            <div class="col-1 text-right border-top">
-                <p class="pt-2"><strong>€{{ basket_total }}</strong></p>
-            </div>
+    <div class="row mt-4">
+        <div class="col-11 text-right">
+            <p>Sub Total</p>
+        </div>
+        <div class="col-1 text-right">
+            <p>€{{ sub_total }}</p>
+        </div>
+        <div class="col-11 text-right">
+            <p>Total VAT:</p>
+        </div>
+        <div class="col-1 text-right">
+            <p>€{{ total_vat }}</p>
+        </div>
+        {% if delivery == 0 %}
+        <div class="col-12 text-right">
+            <p class="text-danger">FREE DELIVERY!</p>
+        </div>
+        {% else %}
+        <div class="col-11 text-right">
+            <p>Delivery:</p>
+        </div>
+        <div class="col-1 text-right">
+            <p>€{{ delivery |floatformat:2}}</p>
+        </div>
+        {% endif %}
+        <hr>
+        <div class="col-11 text-right border-top">
+            <p class="pt-2"><strong>Basket total:</strong></p>
+        </div>
+        <div class="col-1 text-right border-top">
+            <p class="pt-2"><strong>€{{ basket_total }}</strong></p>
+        </div>
+    </div>
+
+    <div class="row mt-4 mb-4">
+        <div class="col-12 text-right">
+            <a href="" class="btn btn-secondary">Checkout with paypal</a>
+        </div>
+        <div class="col-12 text-right">
+            <a href="{% url 'checkout' %}" class="btn btn-success rounded-1">Checkout with Card</a>
         </div>
     </div>
 </div>

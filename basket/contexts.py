@@ -49,6 +49,7 @@ def basket_contents(request):
     # not including delivery charge unless items have been added to basket
     if sub_total > 0:
         basket_total = sub_total + total_vat + delivery
+        basket_total = round(basket_total, 2)
     else:
         basket_total = 0
 

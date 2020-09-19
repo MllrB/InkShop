@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load basket_tools %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="row checkout-container">
+    <div class="col-6">
+        <h4 class="card-title text-center">Your Details</h4>
+        <hr>
+        {% if request.user.is_authenticated %}
+        <div id="accordion">
+            <div class="card product-list ml-0 pl-0">
+                <div class="card-header rounded-1" id="billing-details">
+                    <button class="btn w-100 h-100 card-title" data-toggle="collapse"
+                        data-target="#billing-details-form" aria-expanded="false" aria-controls="billing-details-form">
+                        Billing Details
+                    </button>
+                </div>
+
+                <div id="billing-details-form" class="collapse" aria-labelledby="billing-details"
+                    data-parent="#accordion">
+                    <div class="card-body">
+                        {{form |crispy}}
+                    </div>
+                </div>
+            </div>
+            <div class="card product-list ml-0 pl-0">
+                <div class="card-header rounded-1" id="delivery-details">
+                    <button class="btn w-100 h-100 card-title" data-toggle="collapse"
+                        data-target="#delivery-details-form" aria-expanded="true" aria-controls="delivery-details-form">
+                        Delivery Details
+                    </button>
+                </div>
+
+                <div id="delivery-details-form" class="collapse show" aria-labelledby="delivery-details"
+                    data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-8">
+                                <p>Choose a saved delivery address or enter a new one:</p>
+                            </div>
+                            <div class="col-4 text-right">
+                                <form action="{% url 'checkout' %}" method="POST" id="select-address">
+                                    {% csrf_token %}
+                                    <select type="submit" class="w-100" name="delivery" id="delivery-addresses">
+                                        <option value="None" {% if not ref %}selected{% endif %}>Enter New</option>
+                                        {% for address in delivery_addresses %}
+                                        <option value="{{ address.address_ref }}"
+                                            {% if ref == address.address_ref %}selected{% endif %}>
+                                            {{ address.address_ref }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </form>
+                            </div>
+                        </div>
+                        <div class=" row">
+                            <div class="col-12">
+                                <p></p>
+                            </div>
+                            <div class="col-12">
+                                {{ delivery_form |crispy }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        {{ form |crispy}}
+        {% endif %}
+    </div>
+    <div class="col-6">
+        <h4 class="card-title text-center">Order Details</h4>
+        <hr>
+        {% for item in basket_items %}
+        <div class="row">
+            <div class="col-2">
+                {% if item.product.img %}
+                <img class="basket-img" src="{{ item.product.img }}" alt="{{ item.product.name }}">
+                {% else %}
+                <img class="basket-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ item.product.name }}">
+                {% endif %}
+            </div>
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-12">
+                        <p>{{ item.product.title }}</p>
+                    </div>
+                    <div class="col-6">
+                        <p class="small">Price: €{{ item.product.price }} each</p>
+                    </div>
+                    <div class="col-6">
+                        <p class="small">Qty: {{ item.quantity }}</p>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-2">
+                <p>€{{ item.product.price |calc_line_total:item.quantity}}</p>
+            </div>
+        </div>
+        <hr>
+        {% endfor %}
+        <div class="row mt-4">
+            <div class="col-11 text-right">
+                <p>Sub Total</p>
+            </div>
+            <div class="col-1 text-right">
+                <p>€{{ sub_total }}</p>
+            </div>
+            <div class="col-11 text-right">
+                <p>Total VAT:</p>
+            </div>
+            <div class="col-1 text-right">
+                <p>€{{ total_vat }}</p>
+            </div>
+            {% if delivery == 0 %}
+            <div class="col-12 text-right">
+                <p class="text-danger">FREE DELIVERY!</p>
+            </div>
+            {% else %}
+            <div class="col-11 text-right">
+                <p>Delivery:</p>
+            </div>
+            <div class="col-1 text-right">
+                <p>€{{ delivery |floatformat:2}}</p>
+            </div>
+            {% endif %}
+            <hr>
+            <div class="col-11 text-right border-top">
+                <p class="pt-2"><strong>Basket total:</strong></p>
+            </div>
+            <div class="col-1 text-right border-top">
+                <p class="pt-2"><strong>€{{ basket_total }}</strong></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block postloadjs %}
+{% include 'checkout/includes/delivery_address_selector.html' %}
+<script type="text/javascript">
+    var form = document.getElementById('select-address');
+    $('#delivery-addresses').change(function () {
+        form.submit();
+    })
+</script>
+{% endblock %}

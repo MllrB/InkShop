@@ -314,6 +314,19 @@ h6 {
 }
 
 
+/********** CHECKOUT **********/
+
+.checkout-container {
+    width: 80%;
+    margin: 0 10%;
+}
+
+#billing-details:hover {
+    cursor: pointer;
+    background-color: rgba(252, 252, 252, 0.42);
+}
+
+
 /********** USER PROFILE **********/
 
 .profile-container {
