@@ -68,7 +68,7 @@ def product_detail(request, product_id):
 
 @login_required
 def add_to_favourites(request, product_id):
-     """
+    """
     A view to add a product from a user's favourites
     and return the user to the same page
     """
