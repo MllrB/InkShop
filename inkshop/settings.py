@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'products',
     'basket',
     'customers',
+    'checkout',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +78,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',  # required
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
                 'basket.contexts.basket_contents',
                 'customers.contexts.user_favourited_products',
             ],
@@ -180,5 +182,5 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-DELIVERY_CHARGE = 3
+DELIVERY_CHARGE = 2.99
 FREE_DELIVERY_THRESHOLD = 40

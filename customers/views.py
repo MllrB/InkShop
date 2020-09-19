@@ -81,7 +81,7 @@ def show_profile(request, template_target):
     context = {
         'form': form,
         'email': email,
-        'user': this_user,
+        'user': user_profile,
         'delivery_addresses': delivery_addresses,
         'target': template_target,
     }

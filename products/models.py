@@ -93,6 +93,11 @@ class Supplies(models.Model):
         price = Decimal(self.cost_price) / Decimal(margin)
         return round(price, 2)
 
+    def calculate_vat(self):
+        vat_rate = (Decimal(self.vat_rate.vat_rate) + 100)/100
+        vat = (Decimal(self.price) * vat_rate) - Decimal(self.price)
+        return round(vat, 2)
+
     def calculate_inc_vat_price(self):
         inc_vat_price = Decimal(self.price) * \
             ((Decimal(self.vat_rate.vat_rate) + 100)/100)

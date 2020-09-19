@@ -37,6 +37,10 @@ h6 {
     margin-top: 190px;
 }
 
+.btn {
+    font-family: 'Raleway';
+}
+
 .btn:focus {
     box-shadow: none;
 }
@@ -321,6 +325,19 @@ h6 {
 .profile-image {
     max-height: 100px;
     border-radius: 50%;
+}
+
+.profile-btn {
+    /* background-color: rgba(183, 243, 226, 0.726); */
+    /* box-shadow: inset 350px 0px 2px 17px rgba(23, 111, 86, .16); */
+    margin-top: 3px;
+    background-color: rgb(217, 0, 243, .12);
+    box-shadow: inset 350px 0px 2px 17px rgb(241, 196, 233, .32);
+}
+
+.profile-btn:hover,
+.profile-btn-selected {
+    box-shadow: inset 300px 0px 10px 15px rgba(252, 19, 213, 0.16);
 }
 
 .delivery_btn {
