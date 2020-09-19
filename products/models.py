@@ -66,7 +66,7 @@ class Supplies(models.Model):
         verbose_name_plural = 'Supplies'
 
     skus = JSONField(null=True)
-    name = models.CharField(max_length=60, null=True, blank=True)
+    name = models.CharField(max_length=254, null=True, blank=True)
     title = models.CharField(max_length=254, null=True, blank=True)
     category = models.ForeignKey(
         'Category', null=True, blank=True, on_delete=models.SET_NULL)

@@ -1,0 +1,17 @@
+[{
+        "pk": "1",
+        "model": "products.VatGroup",
+        "fields": {
+            "name": "Default",
+            "vat_rate": 21
+        }
+    },
+    {
+        "pk": "2",
+        "model": "products.VatGroup",
+        "fields": {
+            "name": "VAT Exempt",
+            "vat_rate": 0
+        }
+    }
+]

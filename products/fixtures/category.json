@@ -1,5 +1,4 @@
-[
-    {
+[{
         "pk": "978",
         "model": "products.category",
         "fields": {
@@ -61,7 +60,7 @@
             "name": "Imaging_Units",
             "friendly_name": "Imaging Units",
             "img": "http://images.icecat.biz/img/low_pic/981-16.jpg",
-            "description": "Component of a printer or photocopier which is sometimes referred to as copier cartridge, toner cartridge, or drum unit. An imaging unit in which all or many of the consumable and maintenance items, such as toner, developer, photoconductor, corona wires, wiper blade, etc. are sometimes combined in one module which may be user-disposable/recyclable.",
+            "description": "Component of a printer or photocopier which is sometimes referred to as copier cartridge, toner cartridge, or drum unit.",
             "relevant_model": "Supplies"
         }
     },
@@ -72,7 +71,7 @@
             "name": "Printer_Drums",
             "friendly_name": "Printer Drums",
             "img": "http://images.icecat.biz/img/low_pic/381-2665.jpg",
-            "description": "Laser printers and copiers not only need toner (ink powder) for printing, but also a drum (comparable with the print head of an inkjet printer). The drum puts the toner in the right place, and afterwards the paper is heated so the toner melts and is attached permanently to the paper. Drums, like all components of a printer, wear and will have to be replaced at some time, although they are fairly durable.",
+            "description": "Laser printers and copiers not only need toner (ink powder) for printing, but also a drum (comparable with the print head of an inkjet printer).",
             "relevant_model": "Supplies"
         }
     },
