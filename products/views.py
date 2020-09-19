@@ -11,7 +11,7 @@ from .product_functions import get_product_features_info, get_related_products
 
 
 def all_products(request):
-    """ 
+    """
     A view to return all products and filter results for user searches
     """
     queried_products = Supplies.objects.all().filter(published=True)
@@ -68,6 +68,10 @@ def product_detail(request, product_id):
 
 @login_required
 def add_to_favourites(request, product_id):
+     """
+    A view to add a product from a user's favourites
+    and return the user to the same page
+    """
     this_user = request.user
 
     try:
@@ -110,6 +114,10 @@ def add_to_favourites(request, product_id):
 
 @login_required
 def remove_from_favourites(request, product_id):
+    """
+    A view to remove a product from a user's favourites
+    and return the user to the same page
+    """
     this_user = request.user
 
     try:
