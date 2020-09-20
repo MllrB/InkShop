@@ -8,6 +8,25 @@
         <h2 class="text-center">Product Maintenance</h2>
         <hr>
     </div>
+    <div class="col-12">
+        <div class="card product-list">
+            <div class="card-body">
+                <form method="GET" action="{% url 'edit_products' %}">
+                    <div class="input-group w-100">
+                        <input class="form-control w-100 border-0 rounded-1" type="text" name="q"
+                            placeholder="Search for a product to edit">
+                        <div class="input-group-append">
+                            <button class="form-control btn border-0 rounded-1 bg-white text-success" type="submit">
+                                <span class="icon search-field">
+                                    <i class="fas fa-search "></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="col-6">
         <div class="card product-list">
             <div class="card-title text-center pt-4">Product Groups</div>
@@ -124,7 +143,6 @@
         </div>
 
     </div>
-    <div class="col-12">Products + Seacrh here</div>
     <div class="col-12 text-center">
         <p>If you have made changes to product or vat groups, it is recommended that you update all pricing</p>
         <a class="btn btn-success rounded-1" href="{% url 'update_prices' %}">Update Pricing</a>

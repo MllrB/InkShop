@@ -22,4 +22,6 @@ urlpatterns = [
          views.update_vat_group, name='update_v_group'),
     path('product_maintenance/update_category/<category_id>/',
          views.update_category, name='update_category'),
+    path('product_maintenance/edit_products/',
+         views.edit_products, name='edit_products'),
 ]

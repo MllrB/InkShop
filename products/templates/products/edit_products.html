@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="row std-container">
+    <div class="col-12">
+        <h2 class="text-center">Product Maintenance: Edit Products</h2>
+        <hr>
+    </div>
+    <div class="col-12">
+        <div class="card product-list">
+            <div class="card-body">
+                <form method="GET" action="{% url 'edit_products' %}">
+                    <div class="input-group w-100">
+                        <input class="form-control w-100 border-0 rounded-1" type="text" name="q"
+                            placeholder="Search for a product to edit">
+                        <div class="input-group-append">
+                            <button class="form-control btn border-0 rounded-1 bg-white text-success" type="submit">
+                                <span class="icon search-field">
+                                    <i class="fas fa-search "></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card product-list">
+            {% for product in products %}
+            <div class="row">
+                <div class="col-1">{{ product.id }}</div>
+                <div class="col-2">{{ product.skus }}</div>
+                <div class="col-2">{{ product.name }}</div>
+                <div class="col-2">{{ product.title }}</div>
+                <div class="col-2">{{ product.description }}</div>
+                <div class="col-1">{{ product.category }}</div>
+                <div class="col-2">{{ product.cost_price }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

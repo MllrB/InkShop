@@ -27,7 +27,7 @@ def all_products(request):
                 return redirect(reverse('products'))
 
             queries = Q(skus__icontains=user_search) | Q(
-                name__icontains=user_search) | Q(keywords__icontains=user_search) | Q(title__contains=user_search)
+                name__icontains=user_search) | Q(keywords__icontains=user_search) | Q(title__icontains=user_search)
 
             queried_products = queried_products.filter(queries)
 
@@ -161,19 +161,45 @@ def product_maintenance(request):
             request, 'You are not authorised to access this area of the site')
         return redirect(reverse('home'))
 
-    products = Supplies.objects.all()
     pgroups = ProductGroup.objects.all()
     vatgroups = VatGroup.objects.all()
     categories = Category.objects.all()
 
     context = {
-        'products': products,
         'pgroups': pgroups,
         'vatgroups': vatgroups,
         'categories': categories,
     }
 
     return render(request, 'products/product_maintenance.html', context)
+
+
+@login_required
+def edit_products(request):
+    """
+    Returns a list of products to edit
+    """
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'You are not authorised to access this area of the site')
+        return redirect(reverse('home'))
+
+    products = None
+    if request.method == 'GET':
+        user_search = request.GET['q']
+        print(user_search)
+        queries = Q(skus__icontains=user_search) | Q(
+            name__icontains=user_search) | Q(keywords__icontains=user_search) | Q(title__icontains=user_search)
+        products = Supplies.objects.filter(queries)
+        print(products.count())
+        if products.count() < 1:
+            print("none found")
+
+    context = {
+        'products': products,
+    }
+
+    return render(request, 'products/edit_products.html', context)
 
 
 @login_required
