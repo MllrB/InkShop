@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from .models import Supplies
+from .models import Supplies, ProductGroup, VatGroup, Category
 from customers.models import UserProfile
 from .product_functions import get_product_features_info, get_related_products
 
@@ -149,3 +149,52 @@ def remove_from_favourites(request, product_id):
             return product_detail(request, product_id)
     else:
         return product_detail(request, product_id)
+
+
+@login_required
+def product_maintenance(request):
+    """
+    Returns a template for superusers to perform product maintenance
+    """
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'You are not authorised to access this area of the site')
+        return redirect(reverse('home'))
+
+    products = Supplies.objects.all()
+    pgroups = ProductGroup.objects.all()
+    vatgroups = VatGroup.objects.all()
+    categories = Category.objects.all()
+
+    context = {
+        'products': products,
+        'pgroups': pgroups,
+        'vatgroups': vatgroups,
+        'categories': categories,
+    }
+
+    return render(request, 'products/product_maintenance.html', context)
+
+
+@login_required
+def update_prices(request):
+    """
+    Updates all product prices
+    """
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'You are not authorised to access this area of the site')
+        return redirect(reverse('home'))
+
+    try:
+        all_products = Supplies.objects.all()
+        for product in all_products:
+            product_to_update = get_object_or_404(Supplies, pk=product.id)
+            product_to_update.price = product_to_update.calculate_price()
+            product_to_update.save()
+
+        messages.success(request, 'Product prices updated')
+    except:
+        messages.error(request, 'Unable to update all products')
+
+    return redirect(reverse('product_maintenance'))

@@ -93,6 +93,10 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="account-dropdown">
                                     {% if request.user.is_authenticated %}
+                                    {% if request.user.is_superuser %}
+                                    <a class="dropdown-item" type="button"
+                                        href="{% url 'product_maintenance' %}">Product Maintenance</a>
+                                    {% endif %}
                                     <a class="dropdown-item" type="button"
                                         href="{% url 'user_profile' template_target='billing' %}">Profile</a>
                                     <a class="dropdown-item" type="button" href="{% url 'account_logout' %}">Log Out</a>

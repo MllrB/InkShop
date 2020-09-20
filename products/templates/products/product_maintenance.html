@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-12">
+        <h2>Product Maintenance</h2>
+    </div>
+    <div class="col-4">Product-Groups Go here</div>
+    <div class="col-4">Vat-Groups Go here</div>
+    <div class="col-4">Categories Go here</div>
+    <div class="col-12">Products + Seacrh here</div>
+    <div class="col-12 text-center">
+        <p>If you have made changes to product or vat groups, it is recommended that you update all pricing</p>
+        <a class="btn btn-success rounded-1" href="{% url 'update_prices' %}">Update Pricing</a>
+    </div>
+</div>
+
+{% endblock %}
