@@ -85,6 +85,15 @@ class Supplies(models.Model):
     cost_price = models.DecimalField(max_digits=7, decimal_places=2, default=0)
     price = models.DecimalField(max_digits=7, decimal_places=2, default=0)
 
+    def __init__(self, *args, **kwargs):
+        """
+        Overide init to populate price fields
+        """
+        super(Supplies, self).__init__(*args, **kwargs)
+
+        self.price = self.calculate_price()
+        self.save()
+
     def __str__(self):
         return self.name
 
