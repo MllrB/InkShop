@@ -3,75 +3,14 @@
 {% load basket_tools %}
 {% load crispy_forms_tags %}
 
+{% block customcss %}
+<link rel="stylesheet" href="{% static 'checkout/css/checkout.css' %}">
+{% endblock %}
+
 {% block content %}
 
 <div class="row checkout-container">
-    <div class="col-6">
-        <h4 class="card-title text-center">Your Details</h4>
-        <hr>
-        {% if request.user.is_authenticated %}
-        <div id="accordion">
-            <div class="card product-list ml-0 pl-0">
-                <div class="card-header rounded-1" id="billing-details">
-                    <button class="btn w-100 h-100 card-title" data-toggle="collapse"
-                        data-target="#billing-details-form" aria-expanded="false" aria-controls="billing-details-form">
-                        Billing Details
-                    </button>
-                </div>
-
-                <div id="billing-details-form" class="collapse" aria-labelledby="billing-details"
-                    data-parent="#accordion">
-                    <div class="card-body">
-                        {{form |crispy}}
-                    </div>
-                </div>
-            </div>
-            <div class="card product-list ml-0 pl-0">
-                <div class="card-header rounded-1" id="delivery-details">
-                    <button class="btn w-100 h-100 card-title" data-toggle="collapse"
-                        data-target="#delivery-details-form" aria-expanded="true" aria-controls="delivery-details-form">
-                        Delivery Details
-                    </button>
-                </div>
-
-                <div id="delivery-details-form" class="collapse show" aria-labelledby="delivery-details"
-                    data-parent="#accordion">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-8">
-                                <p>Choose a saved delivery address or enter a new one:</p>
-                            </div>
-                            <div class="col-4 text-right">
-                                <form action="{% url 'checkout' %}" method="POST" id="select-address">
-                                    {% csrf_token %}
-                                    <select type="submit" class="w-100" name="delivery" id="delivery-addresses">
-                                        <option value="None" {% if not ref %}selected{% endif %}>Enter New</option>
-                                        {% for address in delivery_addresses %}
-                                        <option value="{{ address.address_ref }}"
-                                            {% if ref == address.address_ref %}selected{% endif %}>
-                                            {{ address.address_ref }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </form>
-                            </div>
-                        </div>
-                        <div class=" row">
-                            <div class="col-12">
-                                <p></p>
-                            </div>
-                            <div class="col-12">
-                                {{ delivery_form |crispy }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% else %}
-        {{ form |crispy}}
-        {% endif %}
-    </div>
-    <div class="col-6">
+    <div class="col-6 order-lg-last">
         <h4 class="card-title text-center">Order Details</h4>
         <hr>
         {% for item in basket_items %}
@@ -138,15 +77,112 @@
             </div>
         </div>
     </div>
+
+    <div class="col-6">
+        <form action="{% url 'checkout' %}" method="POST">
+            {% csrf_token %}
+            <h4 class="card-title text-center">Your Details</h4>
+            <hr>
+            {% if request.user.is_authenticated %}
+            <div id="accordion">
+                <div class="card product-list ml-0 pl-0">
+                    <div class="card-header rounded-1" id="billing-details">
+                        <button class="btn w-100 h-100 card-title" data-toggle="collapse"
+                            data-target="#billing-details-form" aria-expanded="false"
+                            aria-controls="billing-details-form">
+                            Billing Address
+                        </button>
+                    </div>
+
+                    <div id="billing-details-form" class="collapse" aria-labelledby="billing-details"
+                        data-parent="#accordion">
+                        <div class="card-body">
+                            {{form |crispy}}
+                        </div>
+                    </div>
+                </div>
+                <div class="card product-list ml-0 pl-0">
+                    <div class="card-header rounded-1" id="delivery-details">
+                        <button class="btn w-100 h-100 card-title" data-toggle="collapse"
+                            data-target="#delivery-details-form" aria-expanded="true"
+                            aria-controls="delivery-details-form">
+                            Delivery Address
+                        </button>
+                    </div>
+
+                    <div id="delivery-details-form" class="collapse show" aria-labelledby="delivery-details"
+                        data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-8">
+                                    <p>Choose a saved delivery address or enter a new one:</p>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <select class="w-100" name="delivery" id="delivery-addresses">
+                                        <option name="new_address" value="None" selected>Enter New</option>
+                                        {% for address in delivery_addresses %}
+                                        <option name="{{ address.address_ref }}" value="{{ address.address_ref }}">
+                                            {{ address.address_ref }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class=" row">
+                                <div class="col-12">
+                                    {% for form in delivery_forms %}
+                                    --{{ form.address_ref.value}}
+                                    {% if forloop.last %}
+                                    <div id="blank-form">
+                                        {{ form |crispy }}
+                                    </div>
+                                    {% else %}
+                                    <div class="delivery-form" id="{{ form.address_ref.value}}">
+                                        {{ form |crispy }}
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            {{ form |crispy}}
+            {% endif %}
+            <div class="col-12">
+                <div class="mb-3" id="card-element"></div>
+                <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
+            </div>
+            <div class="col-12 w-100"><button type="submit" class="btn btn-success">test</button></div>
+        </form>
+    </div>
+
+
 </div>
 {% endblock %}
 
 {% block postloadjs %}
-{% include 'checkout/includes/delivery_address_selector.html' %}
+{{ block.super }}
+{{ stripe_public_key|json_script:"id_stripe_public_key" }}
+{{ client_secret|json_script:"id_client_secret" }}
 <script type="text/javascript">
-    var form = document.getElementById('select-address');
+    $('.delivery-form').hide()
+
     $('#delivery-addresses').change(function () {
-        form.submit();
+        var addressRef = $('#delivery-addresses').val();
+        console.log(addressRef)
+        console.log(addressRef == 'a third')
+        if (addressRef == 'None') {
+            $('.delivery-form').hide();
+            $('#blank-form').show();
+        } else {
+            $('#blank-form').hide();
+            $('.delivery-form').hide()
+            $(`#${addressRef}`).show();
+        }
     })
 </script>
+<script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
+
 {% endblock %}
