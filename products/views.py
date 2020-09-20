@@ -188,8 +188,10 @@ def update_product_group(request, group_id):
 
     try:
         if request.method == 'POST':
+            new_name = request.POST[f'{group_id}_name']
             new_margin = int(request.POST[f'{group_id}_margin'])
             group = get_object_or_404(ProductGroup, pk=group_id)
+            group.name = new_name
             group.profit_margin = new_margin
             group.save()
             messages.success(request, 'Product group updated')
@@ -211,11 +213,42 @@ def update_vat_group(request, group_id):
 
     try:
         if request.method == 'POST':
+            new_name = request.POST[f'{group_id}_name']
             new_rate = int(request.POST[f'{group_id}_rate'])
             group = get_object_or_404(VatGroup, pk=group_id)
+            group.name = new_name
             group.vat_rate = new_rate
             group.save()
             messages.success(request, 'Product group updated')
+    except:
+        messages.error(request, 'Unable to update product group')
+
+    return redirect(reverse('product_maintenance'))
+
+
+@login_required
+def update_category(request, category_id):
+    """
+    Updates existing vat groups
+    """
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'You are not authorised to access this area of the site')
+        return redirect(reverse('home'))
+
+    try:
+        if request.method == 'POST':
+            new_name = request.POST[f'{category_id}_name']
+            new_description = request.POST[f'{category_id}_description']
+            category = get_object_or_404(Category, pk=category_id)
+            category.friendly_name = new_name
+            category.description = new_description
+
+            new_name = new_name.replace(' ', '_')
+            category.name = new_name.lower()
+
+            category.save()
+            messages.success(request, 'Category updated')
     except:
         messages.error(request, 'Unable to update product group')
 

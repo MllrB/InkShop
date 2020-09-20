@@ -20,4 +20,6 @@ urlpatterns = [
          views.update_product_group, name='update_p_group'),
     path('product_maintenance/update_v_group/<group_id>/',
          views.update_vat_group, name='update_v_group'),
+    path('product_maintenance/update_category/<category_id>/',
+         views.update_category, name='update_category'),
 ]

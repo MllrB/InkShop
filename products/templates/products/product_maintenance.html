@@ -3,13 +3,14 @@
 
 {% block content %}
 
-<div class="row">
+<div class="row std-container">
     <div class="col-12">
-        <h2>Product Maintenance</h2>
+        <h2 class="text-center">Product Maintenance</h2>
+        <hr>
     </div>
-    <div class="col-4">
+    <div class="col-6">
         <div class="card product-list">
-            <div class="card-title text-center">Product Groups</div>
+            <div class="card-title text-center pt-4">Product Groups</div>
             <div class="card-body">
                 <table class="text-center w-100">
                     <thead>
@@ -45,9 +46,9 @@
             </div>
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-6">
         <div class="card product-list">
-            <div class="card-title text-center">VAT Groups</div>
+            <div class="card-title text-center pt-4">VAT Groups</div>
             <div class="card-body">
                 <table class="text-center w-100">
                     <thead>
@@ -84,7 +85,45 @@
             </div>
         </div>
     </div>
-    <div class="col-4">Categories Go here</div>
+    <hr>
+    <div class="col-12">
+        <div class="card product-list">
+            <div class="card-title text-center pt-4">Categories</div>
+            <div class="card-body">
+                <table class="w-100">
+                    <tr>
+                        <th class="id_col">ID</th>
+                        <th class="w-25">Name</th>
+                        <th class="w-100">Description</th>
+                        <th></th>
+                    </tr>
+                    {% for category in categories %}
+                    <tr>
+                        <form action="{% url 'update_category' category.id %}" method="POST">
+                            {% csrf_token %}
+                            <td>
+                                <input type="number" class="w-75" name="{{ category.id }}_id" value="{{ category.id }}"
+                                    disabled>
+                            </td>
+                            <td>
+                                <input type="text" class="w-75" name="{{ category.id }}_name"
+                                    value="{{ category.friendly_name }}">
+                            </td>
+                            <td>
+                                <textarea class="w-100"
+                                    name="{{ category.id }}_description">{{ category.description }}</textarea>
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-success rounded-1">Update</button>
+                            </td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+    </div>
     <div class="col-12">Products + Seacrh here</div>
     <div class="col-12 text-center">
         <p>If you have made changes to product or vat groups, it is recommended that you update all pricing</p>

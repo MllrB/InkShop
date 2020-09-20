@@ -58,6 +58,15 @@ h6 {
     margin: 0 10vh;
 }
 
+.std-container {
+    width: 80%;
+    margin: 0 10%;
+}
+
+.id_col {
+    width: 10% !important;
+}
+
 
 /********** HEADER/NAV **********/
 
