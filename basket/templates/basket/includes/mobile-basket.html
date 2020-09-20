@@ -12,8 +12,9 @@
                 <div class="col-6 text-left">€{{ total_vat }}</div>
                 {% if free_delivery_delta > 0 %}
                 <div class="col-6 text-right">Delivery:</div>
-                <div class="col-6 text-left">€{{ delivery }}</div>
-                <div class="col-12 small text-danger">Spend just €{{ free_delivery_delta }} more to get free delivery
+                <div class="col-6 text-left">€{{ delivery |floatformat:2 }}</div>
+                <div class="col-12 small text-danger">Spend just €{{ free_delivery_delta |floatformat:2 }} more to get
+                    free delivery
                 </div>
                 {% else %}
                 <div class="col-6 text-right">Delivery:</div>
