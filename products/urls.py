@@ -16,4 +16,8 @@ urlpatterns = [
          views.product_maintenance, name='product_maintenance'),
     path('product_maintenance/update_prices/',
          views.update_prices, name='update_prices'),
+    path('product_maintenance/update_p_group/<group_id>/',
+         views.update_product_group, name='update_p_group'),
+    path('product_maintenance/update_v_group/<group_id>/',
+         views.update_vat_group, name='update_v_group'),
 ]

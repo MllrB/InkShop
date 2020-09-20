@@ -177,6 +177,52 @@ def product_maintenance(request):
 
 
 @login_required
+def update_product_group(request, group_id):
+    """
+    Updates existing product groups
+    """
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'You are not authorised to access this area of the site')
+        return redirect(reverse('home'))
+
+    try:
+        if request.method == 'POST':
+            new_margin = int(request.POST[f'{group_id}_margin'])
+            group = get_object_or_404(ProductGroup, pk=group_id)
+            group.profit_margin = new_margin
+            group.save()
+            messages.success(request, 'Product group updated')
+    except:
+        messages.error(request, 'Unable to update product group')
+
+    return redirect(reverse('product_maintenance'))
+
+
+@login_required
+def update_vat_group(request, group_id):
+    """
+    Updates existing vat groups
+    """
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'You are not authorised to access this area of the site')
+        return redirect(reverse('home'))
+
+    try:
+        if request.method == 'POST':
+            new_rate = int(request.POST[f'{group_id}_rate'])
+            group = get_object_or_404(VatGroup, pk=group_id)
+            group.vat_rate = new_rate
+            group.save()
+            messages.success(request, 'Product group updated')
+    except:
+        messages.error(request, 'Unable to update product group')
+
+    return redirect(reverse('product_maintenance'))
+
+
+@login_required
 def update_prices(request):
     """
     Updates all product prices

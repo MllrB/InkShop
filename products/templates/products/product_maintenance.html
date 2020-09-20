@@ -7,8 +7,83 @@
     <div class="col-12">
         <h2>Product Maintenance</h2>
     </div>
-    <div class="col-4">Product-Groups Go here</div>
-    <div class="col-4">Vat-Groups Go here</div>
+    <div class="col-4">
+        <div class="card product-list">
+            <div class="card-title text-center">Product Groups</div>
+            <div class="card-body">
+                <table class="text-center w-100">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Profit Margin</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    {% for group in pgroups %}
+                    <tr>
+                        <form action="{% url 'update_p_group' group.id %}" method="POST">
+                            {% csrf_token %}
+                            <td>
+                                <input class="w-50 text-center" type="number" value="{{group.id}}" disabled>
+                            </td>
+                            <td>
+                                <input type="text" class="form-input text-uppercase" name="{{ group.id }}_name"
+                                    value="{{ group.name }}">
+                            </td>
+                            <td>
+                                <input type="number" class="form-input" min="1" max="99" name="{{ group.id }}_margin"
+                                    value="{{ group.profit_margin }}">
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-success rounded-1">Update</button>
+                            </td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card product-list">
+            <div class="card-title text-center">VAT Groups</div>
+            <div class="card-body">
+                <table class="text-center w-100">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>VAT Rate %</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    {% for group in vatgroups %}
+                    <tr>
+                        <form action="{% url 'update_v_group' group.id %}" method="POST">
+                            {% csrf_token %}
+                            <td>
+                                <input class="w-50 text-center" type="number" value="{{group.id}}" disabled>
+                            </td>
+                            <td>
+                                <input type="text" class="form-input text-uppercase" name="{{ group.id }}_name"
+                                    value="{{ group.name }}">
+                            </td>
+                            <td>
+                                <input type="number" class="form-input" min="1" max="99" name="{{ group.id }}_rate"
+                                    value="{{ group.vat_rate }}">
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-success rounded-1">Update</button>
+                            </td>
+
+                        </form>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
     <div class="col-4">Categories Go here</div>
     <div class="col-12">Products + Seacrh here</div>
     <div class="col-12 text-center">
