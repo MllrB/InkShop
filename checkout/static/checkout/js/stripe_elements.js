@@ -46,7 +46,8 @@ var style = {
 
 // Create an instance of the card Element.
 var card = elements.create('card', {
-    style: style
+    style: style,
+    hidePostalCode: true
 });
 
 card.mount('#card-element');
@@ -146,9 +147,9 @@ form.addEventListener('submit', function(ev) {
             // $('#payment-form').fadeToggle(100);
             // $('#loading-overlay').fadeToggle(100);
             card.update({
-                'disabled': true
+                'disabled': false
             });
-            $('#checkout-submit-btn').attr('disabled', true);
+            $('#checkout-submit-btn').attr('disabled', false);
         } else {
             if (result.paymentIntent.status === 'succeeded') {
                 form.submit();

@@ -45,32 +45,23 @@ def checkout(request):
 
         DeliveryFormSet = modelformset_factory(
             DeliveryAddress, UserDeliveryAddressForm)
-        delivery_address_forms = DeliveryFormSet(
-            queryset=DeliveryAddress.objects.filter(user=user_profile))
-        total_forms = delivery_address_forms.total_form_count()
-        blank_form_id = f'form-{total_forms - 1}'
-        blank_form = f'{blank_form_id}-address_ref'
-
-        delivery_addresses = DeliveryAddress.objects.filter(user=user_profile)
 
         if request.method == 'POST':
-            if request.POST[blank_form] != '':
-                print('wahey!')
-                # removing whitespace from address ref
-                address_ref_nws = request.POST[blank_form].replace(' ', '_')
-                new_delivery_address = DeliveryAddress(
-                    user=user_profile,
-                    address_ref=address_ref_nws,
-                    contact_name=request.POST[f'{blank_form_id}-contact_name'],
-                    contact_phone_number=request.POST[f'{blank_form_id}-contact_phone_number'],
-                    address_line1=request.POST[f'{blank_form_id}-address_line1'],
-                    address_line2=request.POST[f'{blank_form_id}-address_line2'],
-                    town_or_city=request.POST[f'{blank_form_id}-town_or_city'],
-                    county=request.POST[f'{blank_form_id}-county'],
-                    post_code=request.POST[f'{blank_form_id}-post_code'],
-                    country=request.POST[f'{blank_form_id}-country'],
-                )
-                new_delivery_address.save()
+            my_formset = DeliveryFormSet(
+                request.POST, request.FILES)
+            if my_formset.is_valid():
+                for form in my_formset.forms:
+                    form = form.save(commit=False)
+                    form.address_ref = form.address_ref.replace(' ', '-')
+                    form.user = user_profile
+                    form.save()
+            else:
+                messages.error(request, my_formset.errors)
+
+        delivery_addresses = DeliveryAddress.objects.filter(user=user_profile)
+        delivery_address_forms = DeliveryFormSet(
+            queryset=delivery_addresses)
+        print(delivery_address_forms.errors)
     else:
         order_form = OrderForm()
 

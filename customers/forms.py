@@ -47,7 +47,11 @@ class UserProfileForm(forms.ModelForm):
 class UserDeliveryAddressForm(forms.ModelForm):
     class Meta:
         model = DeliveryAddress
+        widgets = {
+            'id': forms.HiddenInput(),
+        }
         fields = [
+            'id',
             'address_ref',
             'contact_name',
             'contact_phone_number',
@@ -78,10 +82,8 @@ class UserDeliveryAddressForm(forms.ModelForm):
             'post_code': 'Postcode/Eircode',
         }
 
-        # fields reuired by stripe but not immediately on login
-        self.fields['default_phone_number'].required = True
         self.fields['address_line1'].required = True
-        self.fields['billing_country'].required = True
+        self.fields['country'].required = True
 
         self.fields['address_ref'].widget.attrs['autofocus'] = True
         for field in self.fields:
