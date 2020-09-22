@@ -1,22 +1,38 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
+from django.conf import settings
 from django.forms import formset_factory, modelformset_factory
 
 from .forms import OrderForm
 from customers.forms import UserProfileForm, UserDeliveryAddressForm
 from customers.models import UserProfile, DeliveryAddress
+from basket.contexts import basket_contents
+
+import stripe
 
 
 def checkout(request):
     """
     A view to return the checkout by card page
     """
+    stripe_public_key = settings.STRIPE_PUBLIC_KEY
+    stripe_secret_key = settings.STRIPE_SECRET_KEY
 
     basket = request.session.get('basket', {})
 
     if not basket:
         messages.error(request, 'There are no products in your basket')
         return redirect(reverse, 'show_basket')
+
+    # stripe
+    current_basket = basket_contents(request)
+    total = current_basket['basket_total']
+    stripe_total = round(total*100)
+    stripe.api_key = stripe_secret_key
+    intent = stripe.PaymentIntent.create(
+        amount=stripe_total,
+        currency=settings.STRIPE_CURRENCY,
+    )
 
     this_user = request.user
     delivery_form = UserDeliveryAddressForm()
@@ -34,12 +50,10 @@ def checkout(request):
         total_forms = delivery_address_forms.total_form_count()
         blank_form_id = f'form-{total_forms - 1}'
         blank_form = f'{blank_form_id}-address_ref'
-        print(blank_form_id)
 
         delivery_addresses = DeliveryAddress.objects.filter(user=user_profile)
 
         if request.method == 'POST':
-            print(request.POST)
             if request.POST[blank_form] != '':
                 print('wahey!')
                 # removing whitespace from address ref
@@ -64,8 +78,8 @@ def checkout(request):
         'form': order_form,
         'delivery_addresses': delivery_addresses,
         'delivery_forms': delivery_address_forms,
-        'stripe_public_key': 'pk_test_51H4XWiD9PZjek6qFetNbsghsphTJQ8gyyXXLhBQH6CHwskR9t9p77BDpGRKBiLm1CnZybPlzpMOpJAtLfLEayC5g00UrBGbDLM',
-        'client_secret': 'Test CS',
+        'stripe_public_key': stripe_public_key,
+        'client_secret': intent.client_secret,
     }
 
     return render(request, 'checkout/checkout.html', context)
