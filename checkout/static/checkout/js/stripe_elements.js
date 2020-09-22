@@ -25,7 +25,6 @@ $('#delivery-addresses').change(function() {
 
 var stripePublicKey = $('#id_stripe_public_key').text().slice(1, -1);
 var clientSecret = $('#id_client_secret').text().slice(1, -1);
-console.log(stripePublicKey);
 var stripe = Stripe(stripePublicKey);
 var elements = stripe.elements();
 
@@ -74,6 +73,12 @@ var form = document.getElementById('payment-form');
 form.addEventListener('submit', function(ev) {
     ev.preventDefault();
 
+    //disable card entry and form submit button
+    card.update({
+        'disabled': true
+    });
+    $('#checkout-submit-btn').attr('disabled', true);
+
     // get shipping details from active form
     var shippingAddressRef = $('#delivery-addresses').val();
     if (shippingAddressRef == 'None') {
@@ -93,14 +98,10 @@ form.addEventListener('submit', function(ev) {
         this.shippingCounty = $(`#${formName}county`).val();
         this.shippingCountry = $(`#${formName}country`).val();
         this.shippingPostCode = $(`#${formName}post_code`).val();
-    }
+    };
 
     shippingAddress = new ShippingAddress();
 
-    card.update({
-        'disabled': true
-    });
-    $('#checkout-submit-btn').attr('disabled', true);
     stripe.confirmCardPayment(clientSecret, {
         payment_method: {
             card: card,
