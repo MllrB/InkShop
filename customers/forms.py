@@ -28,6 +28,10 @@ class UserProfileForm(forms.ModelForm):
             'billing_post_code': 'Postcode/Eircode',
         }
 
+        # fields reuired by stripe but not immediately on login
+        self.fields['default_phone_number'].required = True
+        self.fields['billing_country'].required = True
+
         self.fields['default_phone_number'].widget.attrs['autofocus'] = True
         for field in self.fields:
             if field != 'billing_country':
@@ -73,6 +77,11 @@ class UserDeliveryAddressForm(forms.ModelForm):
             'county': 'County',
             'post_code': 'Postcode/Eircode',
         }
+
+        # fields reuired by stripe but not immediately on login
+        self.fields['default_phone_number'].required = True
+        self.fields['address_line1'].required = True
+        self.fields['billing_country'].required = True
 
         self.fields['address_ref'].widget.attrs['autofocus'] = True
         for field in self.fields:

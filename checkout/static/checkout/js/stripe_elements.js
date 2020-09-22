@@ -70,8 +70,12 @@ card.addEventListener('change', function(event) {
 // handle form submit
 var form = document.getElementById('payment-form');
 
+console.log
+
 form.addEventListener('submit', function(ev) {
+    console.log('form submitting')
     ev.preventDefault();
+
 
     //disable card entry and form submit button
     card.update({
@@ -111,7 +115,7 @@ form.addEventListener('submit', function(ev) {
                 email: $.trim(form.email.value),
                 address: {
                     line1: $.trim(form.billing_address_line1.value),
-                    line2: $.trim(billing_address_line2.value),
+                    line2: $.trim(form.billing_address_line2.value),
                     city: $.trim(form.billing_town_or_city.value),
                     country: $.trim(form.billing_country.value),
                     state: $.trim(form.billing_county.value),
@@ -142,9 +146,9 @@ form.addEventListener('submit', function(ev) {
             // $('#payment-form').fadeToggle(100);
             // $('#loading-overlay').fadeToggle(100);
             card.update({
-                'disabled': false
+                'disabled': true
             });
-            $('#submit-button').attr('disabled', false);
+            $('#checkout-submit-btn').attr('disabled', true);
         } else {
             if (result.paymentIntent.status === 'succeeded') {
                 form.submit();
