@@ -47,6 +47,7 @@ def checkout(request):
             DeliveryAddress, UserDeliveryAddressForm)
 
         if request.method == 'POST':
+            # save any changes or new addresses authenticated user has made
             my_formset = DeliveryFormSet(
                 request.POST, request.FILES)
             if my_formset.is_valid():
@@ -56,12 +57,14 @@ def checkout(request):
                     form.user = user_profile
                     form.save()
             else:
-                messages.error(request, my_formset.errors)
+                print(my_formset.errors)
+
+            print(request.POST)
+            print(intent)
 
         delivery_addresses = DeliveryAddress.objects.filter(user=user_profile)
         delivery_address_forms = DeliveryFormSet(
             queryset=delivery_addresses)
-        print(delivery_address_forms.errors)
     else:
         order_form = OrderForm()
 

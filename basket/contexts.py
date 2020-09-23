@@ -32,10 +32,10 @@ def basket_contents(request):
 
     related_products = get_related_products(product_list)
     # remove products already in the basket
-    for index, product in enumerate(related_products):
-        for item in basket_items:
+    for item in basket_items:
+        for index, product in enumerate(related_products):
             if int(item['id']) == int(product.id):
-                related_products.pop(index)
+                del related_products[index]
 
     related_products_info = get_product_features_info(related_products)
 

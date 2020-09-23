@@ -94,7 +94,7 @@
                                 {% csrf_token %}
                                 <div class="form-row">
                                     <div class="col-12 pricing">
-                                        {% include 'products/includes/quantity_selector.html' %}
+                                        {% include 'products/includes/quantity_selector.html' with product=related%}
                                     </div>
                                     <div class="col-12 pricing add-to-basket-btn">
                                         <input type="submit" class="btn btn-success w-100 rounded-0 border-0"

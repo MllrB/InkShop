@@ -5,7 +5,7 @@
 
 {% block content %}
 {% if basket_items %}
-<div class="containier-fluid d-block d-md-none p-2 text-center">
+<div class="containier-fluid d-block d-md-none p-2 text-center" id="mobile-basket-parent">
     {% include 'basket/includes/mobile-basket.html' %}
 </div>
 <div class="container d-none d-md-block">
@@ -139,13 +139,19 @@
 
 {% block postloadjs %}
 {{ block.super }}
-{% include 'products/includes/quantity_input_script.html' %}
 
 <script type="text/javascript">
+    var windowWidth = window.innerWidth;
+    if (windowWidth > 991) {
+        var mobileElems = document.querySelector('#mobile-basket-parent');
+        mobileElems.parentNode.removeChild(mobileElems);
+    }
     // update basket line quantity
     $('.update-button').click(function (e) {
         $(this).addClass('update-clicked');
         var productID = $(this).data('item-id');
+        var quantity = $(`#id_qty_${productID}`).val();
+        console.log(quantity)
         $(`#${productID}_form`).submit();
     })
 
@@ -163,5 +169,50 @@
             location.reload();
         });
     })
+
+    function handleEnabledDisabledBasket(itemId) {
+        let currentValue = parseInt($(`#basket_qty_${itemId}`).val());
+        let decrementDisabledBasket = currentValue < 2;
+        let incrementDisabledBasket = currentValue > 98;
+        document.getElementById(`decrement-qty-basket-${itemId}`).disabled = decrementDisabledBasket;
+        document.getElementById(`increment-qty-basket-${itemId}`).disabled = incrementDisabledBasket;
+    }
+
+    // disable decrement on quantity inputs by default
+    var allQtyInputsBasket = $('.qty-input-basket');
+
+    for (i = 0; i < allQtyInputsBasket.length; i++) {
+        let itemId = allQtyInputsBasket[i].dataset.item_id;
+        handleEnabledDisabledBasket(itemId);
+    }
+
+    $('.qty-input-basket').change(function () {
+        let itemId = $(this).data('item_id');
+        handleEnabledDisabledBasket(itemId);
+    })
+
+    // decrement quantity
+    $('.decrement-qty-basket').click(function (e) {
+        e.preventDefault();
+        let closestInput = $(this).closest('.input-group').find('.qty-input-basket')[0];
+        let currentValue = parseInt($(closestInput).val());
+        $(closestInput).val(currentValue - 1);
+        let itemId = $(this).data('item_id');
+        document.getElementById(`basket_qty_${itemId}`).value = currentValue - 1;
+        handleEnabledDisabledBasket(itemId);
+    });
+
+    // increment quantity
+    $('.increment-qty-basket').click(function (e) {
+        e.preventDefault();
+        let closestInput = $(this).closest('.input-group').find('.qty-input-basket')[0];
+        let currentValue = parseInt($(closestInput).val());
+        $(closestInput).val(currentValue + 1);
+        let itemId = $(this).data('item_id');
+        document.getElementById(`basket_qty_${itemId}`).value = currentValue + 1;
+        handleEnabledDisabledBasket(itemId);
+    });
 </script>
+
+{% include 'products/includes/quantity_input_script.html' %}
 {% endblock  %}

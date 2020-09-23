@@ -5,18 +5,18 @@ https://github.com/ckz8780/boutique_ado_v1
 <div class="form-group w-100 qty-selector">
     <div class="input-group">
         <div class="input-group-prepend">
-            <button class="decrement-qty btn btn-dark rounded-0" data-item_id="{{ product.id }}"
-                id="decrement-qty_{{ product.id }}">
+            <button type="button" class="decrement-qty-basket btn btn-dark rounded-0" data-item_id="{{ product.id }}"
+                id="decrement-qty-basket-{{ product.id }}">
                 <span class="icon">
                     <i class="fas fa-minus"></i>
                 </span>
             </button>
         </div>
-        <input type="number" class="form-control qty-input" name="quantity" value="{{ product.quantity }}" min="1"
-            max="99" data-item_id="{{ product.id }}" id="id_qty_{{ product.id }}">
+        <input type="number" class="form-control qty-input-basket" name="quantity" value="{{ product.quantity }}"
+            min="1" max="99" data-item_id="{{ product.id }}" id="basket_qty_{{ product.id }}">
         <div class="input-group-prepend">
-            <button class="increment-qty btn btn-dark rounded-0" data-item_id="{{ product.id }}"
-                id="increment-qty_{{ product.id }}">
+            <button type="button" class="increment-qty-basket btn btn-dark rounded-0" data-item_id="{{ product.id }}"
+                id="increment-qty-basket-{{ product.id }}">
                 <span class="icon">
                     <i class="fas fa-plus"></i>
                 </span>
