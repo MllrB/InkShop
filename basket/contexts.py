@@ -5,7 +5,7 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 from decimal import Decimal
 
-from products.models import Supplies
+from products.models import Product
 from products.product_functions import get_product_features_info, get_related_products
 
 
@@ -19,7 +19,7 @@ def basket_contents(request):
     basket = request.session.get('basket', {})
 
     for item, quantity in basket.items():
-        product = get_object_or_404(Supplies, pk=item)
+        product = get_object_or_404(Product, pk=item)
         sub_total += quantity * product.price
         total_vat += (product.calculate_inc_vat_price() -
                       product.price) * quantity

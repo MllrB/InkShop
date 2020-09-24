@@ -8,7 +8,11 @@
             </h5>
         </div>
         <div class="col-12 text-center">
-            <img class="card-img" src="{{ product.img }}" alt="{{ product.name }}">
+            {% if product.img_src %}
+            <img class="card-img" src="{{ product.img_src }}" alt="{{ product.name }}">
+            {% else %}
+            <img class="card-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
+            {% endif %}
         </div>
         <div class="col-12">
             <div class="row">

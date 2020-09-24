@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib import messages
 
 from customers.models import UserProfile
-from products.models import Supplies
+from products.models import Product
 
 
 def user_favourited_products(request):
@@ -17,7 +17,7 @@ def user_favourited_products(request):
         try:
             this_user = get_object_or_404(UserProfile, user=request.user)
             user_favourites = json.loads(this_user.favourites)
-            favourited_products = Supplies.objects.filter(
+            favourited_products = Product.objects.filter(
                 pk__in=user_favourites)
         except:
             this_user = UserProfile(user=request.user)

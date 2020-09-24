@@ -4,7 +4,7 @@ Functions for building product info and finding related products
 
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
-from .models import Supplies
+from .models import Product
 
 
 def get_product_features_info(products):
@@ -47,7 +47,7 @@ def get_related_products(products):
 
         for printer_id in shared_printers:
             query = Q(related_printers__contains=printer_id)
-            related_matches.append(Supplies.objects.filter(
+            related_matches.append(Product.objects.filter(
                 query).exclude(pk=product.id))
 
     # reducing the list to unique matches
@@ -59,7 +59,7 @@ def get_related_products(products):
 
     related_products = []
     for related_id in matched_ids:
-        related_product = get_object_or_404(Supplies, pk=related_id)
+        related_product = get_object_or_404(Product, pk=related_id)
         related_products.append(related_product)
 
     return related_products

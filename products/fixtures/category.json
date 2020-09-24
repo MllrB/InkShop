@@ -1,4 +1,70 @@
 [{
+        "pk": "304",
+        "model": "products.category",
+        "fields": {
+            "name": "Multifunctionals",
+            "friendly_name": "Multifunctionals",
+            "img": "http://images.icecat.biz/img/low_pic/304-6486.jpg",
+            "description": "A multifunctional is really an all-in-one device; it is both a scanner and a printer, and often even has a fax function. So effectively it's a copier, but one that has the scanning and printing functions available separately. All this is a great advantage when you have limited office space. Moreover, you will be able to work faster and more efficiently by using the device's convenient special functions.",
+            "relevant_model": "printers"
+        }
+    },
+    {
+        "pk": "235",
+        "model": "products.category",
+        "fields": {
+            "name": "Laser_Printers",
+            "friendly_name": "Laser Printers",
+            "img": "http://images.icecat.biz/img/low_pic/235-297.jpg",
+            "description": "Laser printers are devices that print high quality text or illustrations fast. They do so by very accurately applying toner (a kind of ink powder) to the paper and then heating the paper so the toner will melt and stick to the paper.",
+            "relevant_model": "printers"
+        }
+    },
+    {
+        "pk": "922",
+        "model": "products.category",
+        "fields": {
+            "name": "Photo_Printers",
+            "friendly_name": "Photo Printers",
+            "img": "http://images.icecat.biz/img/low_pic/922-7713.jpg",
+            "description": "Photo printers allow you to print digital photos, often they can even print directly from a digital camera, so you do not even need a computer to print your photos. Having such a printer at home, you can forget the photolabs!",
+            "relevant_model": "printers"
+        }
+    },
+    {
+        "pk": "234",
+        "model": "products.category",
+        "fields": {
+            "name": "Inkjet_Printers",
+            "friendly_name": "Inkjet Printers",
+            "img": "http://images.icecat.biz/img/low_pic/234-5565.jpg",
+            "description": "Inkjet printers are the most suitable printers for home and small office use. They are generally not as fast as laser printers, but make prints of very high quality and are quite affordable.",
+            "relevant_model": "printers"
+        }
+    },
+    {
+        "pk": "1554",
+        "model": "products.category",
+        "fields": {
+            "name": "USB_Flash_Drives",
+            "friendly_name": "USB Flash Drives",
+            "img": "http://images.icecat.biz/img/low_pic/1554-3371.jpg",
+            "description": "Also known as a USB stick or a USB pen, these are small devices with a USB connector which can be connected to a computer or other electronic device and used to store data.",
+            "relevant_model": "accessories"
+        }
+    },
+    {
+        "pk": "714",
+        "model": "products.category",
+        "fields": {
+            "name": "Printing_Paper",
+            "friendly_name": "Printing Paper",
+            "img": "http://images.icecat.biz/img/low_pic/714-4366.jpg",
+            "description": "Paper for use with ink jet printers, often with a special coating that makes the ink dry faster and/or last longer without fading.",
+            "relevant_model": "accessories"
+        }
+    },
+    {
         "pk": "978",
         "model": "products.category",
         "fields": {
@@ -6,7 +72,7 @@
             "friendly_name": "Printer Kits",
             "img": "http://images.icecat.biz/img/low_pic/978-5619.jpg",
             "description": "Components needed to build a printer.",
-            "relevant_model": "Supplies"
+            "relevant_model": "supplies"
         }
     },
     {
@@ -17,7 +83,7 @@
             "friendly_name": "Toner Cartridges",
             "img": "http://images.icecat.biz/img/low_pic/375-6992.jpg",
             "description": "Toner cartridges for your laser printer or copier.",
-            "relevant_model": "Supplies"
+            "relevant_model": "supplies"
         }
     },
     {
@@ -28,7 +94,7 @@
             "friendly_name": "Ink Cartridges",
             "img": "http://images.icecat.biz/img/low_pic/377-5508.jpg",
             "description": "Ink cartridges for inkjet printers.",
-            "relevant_model": "Supplies"
+            "relevant_model": "supplies"
         }
     },
     {
@@ -39,7 +105,7 @@
             "friendly_name": "Fusers",
             "img": "http://images.icecat.biz/img/low_pic/372-3497.jpg",
             "description": "Devices in laser printers or photocopiers which melts the toner onto the paper.",
-            "relevant_model": "Supplies"
+            "relevant_model": "supplies"
         }
     },
     {
@@ -50,7 +116,7 @@
             "friendly_name": "Toner Collectors",
             "img": "http://images.icecat.biz/img/low_pic/1024-7105.jpg",
             "description": "Container which collects excess toner that is produced during printing.",
-            "relevant_model": "Supplies"
+            "relevant_model": "supplies"
         }
     },
     {
@@ -60,8 +126,8 @@
             "name": "Imaging_Units",
             "friendly_name": "Imaging Units",
             "img": "http://images.icecat.biz/img/low_pic/981-16.jpg",
-            "description": "Component of a printer or photocopier which is sometimes referred to as copier cartridge, toner cartridge, or drum unit.",
-            "relevant_model": "Supplies"
+            "description": "Component of a printer or photocopier which is sometimes referred to as copier cartridge, toner cartridge, or drum unit. An imaging unit in which all or many of the consumable and maintenance items, such as toner, developer, photoconductor, corona wires, wiper blade, etc. are sometimes combined in one module which may be user-disposable/recyclable.",
+            "relevant_model": "supplies"
         }
     },
     {
@@ -71,8 +137,8 @@
             "name": "Printer_Drums",
             "friendly_name": "Printer Drums",
             "img": "http://images.icecat.biz/img/low_pic/381-2665.jpg",
-            "description": "Laser printers and copiers not only need toner (ink powder) for printing, but also a drum (comparable with the print head of an inkjet printer).",
-            "relevant_model": "Supplies"
+            "description": "Laser printers and copiers not only need toner (ink powder) for printing, but also a drum (comparable with the print head of an inkjet printer). The drum puts the toner in the right place, and afterwards the paper is heated so the toner melts and is attached permanently to the paper. Drums, like all components of a printer, wear and will have to be replaced at some time, although they are fairly durable.",
+            "relevant_model": "supplies"
         }
     },
     {
@@ -83,7 +149,7 @@
             "friendly_name": "Printer/Scanner Spare Parts",
             "img": "http://images.icecat.biz/img/low_pic/2595-1389.jpg",
             "description": "Components of printing equipment such as drums and lasers used in laser printers.",
-            "relevant_model": "Supplies"
+            "relevant_model": "supplies"
         }
     },
     {
@@ -94,7 +160,7 @@
             "friendly_name": "Printer Belts",
             "img": "http://images.icecat.biz/img/low_pic/374-3211.jpg",
             "description": "Component in printers used to transfer colour onto paper.",
-            "relevant_model": "Supplies"
+            "relevant_model": "supplies"
         }
     },
     {
@@ -105,7 +171,7 @@
             "friendly_name": "Print Heads",
             "img": "http://images.icecat.biz/img/low_pic/846-7485.jpg",
             "description": "These are part of inkjet printers, which prints ink onto paper. They are fixed heads, which are built into the printer, or disposable heads, which are built into the disposable ink carttridges.",
-            "relevant_model": "Supplies"
+            "relevant_model": "supplies"
         }
     },
     {
@@ -116,7 +182,7 @@
             "friendly_name": "Printer Ribbons",
             "img": "http://images.icecat.biz/img/low_pic/905-9158.jpg",
             "description": "Ribbon for printers that need this for printing. Please make sure you purchase the right type for your printer.",
-            "relevant_model": "Supplies"
+            "relevant_model": "supplies"
         }
     },
     {
@@ -127,7 +193,7 @@
             "friendly_name": "Printer Ink Refills",
             "img": "http://images.icecat.biz/img/low_pic/7408-4309.jpg",
             "description": "Undescribed",
-            "relevant_model": "Supplies"
+            "relevant_model": "supplies"
         }
     },
     {
@@ -138,7 +204,7 @@
             "friendly_name": "Printer Rollers",
             "img": "http://images.icecat.biz/img/low_pic/376-5839.jpg",
             "description": "Component in laser printers which is coated in toner particles which stick to the drum.",
-            "relevant_model": "Supplies"
+            "relevant_model": "supplies"
         }
     }
 ]

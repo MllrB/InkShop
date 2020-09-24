@@ -3,7 +3,7 @@ Automated testing for products.models
 """
 from django.test import TestCase
 from decimal import Decimal
-from .models import Category, ProductGroup, VatGroup, Supplies
+from .models import Category, ProductGroup, VatGroup, Product
 
 
 class TestModels(TestCase):
@@ -20,29 +20,29 @@ class TestModels(TestCase):
         vat_group = VatGroup.objects.create(name="Test VatGroup")
         self.assertEqual(str(vat_group), "Test VatGroup")
 
-    def test_supplies_string_method_returns_supplies_name(self):
+    def test_Product_string_method_returns_Product_name(self):
         product_group = ProductGroup.objects.create(name="Test ProductGroup")
         vat_group = VatGroup.objects.create(name="Test VatGroup")
-        supplies = Supplies.objects.create(name="Test Supplies")
-        self.assertEqual(str(supplies), "Test Supplies")
+        product = Product.objects.create(name="Test Product")
+        self.assertEqual(str(Product), "Test Product")
 
-    def test_supplies_calculate_price_method(self):
+    def test_Product_calculate_price_method(self):
         product_group = ProductGroup.objects.create(
             name="Test ProductGroup", profit_margin=30)
         vat_group = VatGroup.objects.create(name="Test VatGroup")
-        supplies = Supplies.objects.create(name="Test Supplies", cost_price=10)
+        product = Product.objects.create(name="Test Product", cost_price=10)
 
         test_price = round(Decimal(10/0.7), 2)
-        price = supplies.calculate_price()
+        price = product.calculate_price()
         self.assertEqual(price, test_price)
 
-    def test_supplies_calculate_inc_vat_price_method(self):
+    def test_Product_calculate_inc_vat_price_method(self):
         product_group = ProductGroup.objects.create(
             name="Test ProductGroup", profit_margin=20)
         vat_group = VatGroup.objects.create(name="Test VatGroup")
-        supplies = Supplies.objects.create(name="Test Supplies", cost_price=10)
+        product = Product.objects.create(name="Test Product", cost_price=10)
 
-        supplies.price = round(supplies.calculate_price(), 2)
-        inc_vat_price = supplies.calculate_inc_vat_price()
+        product.price = round(product.calculate_price(), 2)
+        inc_vat_price = product.calculate_inc_vat_price()
         test_price = round(Decimal(10/0.8*1.21), 2)
         self.assertEqual(inc_vat_price, test_price)

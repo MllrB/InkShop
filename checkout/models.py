@@ -10,7 +10,7 @@ from django.conf import settings
 from django_countries.fields import CountryField
 
 from customers.models import UserProfile, DeliveryAddress
-from products.models import Supplies
+from products.models import Product
 
 
 class Order(models.Model):
@@ -91,8 +91,10 @@ class OrderItem(models.Model):
         save the product
         """
         if self.product_model_name == 'Supplies':
-            product = get_object_or_404(Supplies, pk=self.product_id)
-            self.total_price = product.price * self.quantity
+            product = models.ForeignKey(
+                Product, null=False, blank=False, on_delete=models.CASCADE)
+            self.product = get_object_or_404(Product, pk=self.product_id)
+            self.total_price = self.product.price * self.quantity
             self.total_VAT = self.product.calculate_vat() * self.quantity
 
         super().save(*args, **kwargs)

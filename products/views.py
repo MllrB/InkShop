@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from .models import Supplies, ProductGroup, VatGroup, Category
+from .models import Product, ProductGroup, VatGroup, Category
 from customers.models import UserProfile
 from .product_functions import get_product_features_info, get_related_products
 
@@ -14,7 +14,7 @@ def all_products(request):
     """
     A view to return all products and filter results for user searches
     """
-    queried_products = Supplies.objects.all().filter(published=True)
+    queried_products = Product.objects.all().filter(published=True)
     user_search = None
     info_and_filters = {'products_info': None, 'product_filters': None}
 
@@ -27,7 +27,7 @@ def all_products(request):
                 return redirect(reverse('products'))
 
             queries = Q(skus__icontains=user_search) | Q(
-                name__icontains=user_search) | Q(keywords__icontains=user_search) | Q(title__icontains=user_search)
+                description__icontains=user_search) | Q(title__icontains=user_search)
 
             queried_products = queried_products.filter(queries)
 
@@ -46,7 +46,7 @@ def all_products(request):
 def product_detail(request, product_id):
     """ A view to display individual products and their related products"""
 
-    product = get_object_or_404(Supplies, pk=product_id)
+    product = get_object_or_404(Product, pk=product_id)
 
     related_products = get_related_products([product])
 
@@ -80,7 +80,7 @@ def add_to_favourites(request, product_id):
         user_profile = UserProfile(user=this_user)
         messages.error(request, 'User not found')
 
-    product = get_object_or_404(Supplies, pk=product_id)
+    product = get_object_or_404(Product, pk=product_id)
     favourites = []
 
     if not user_profile.favourites:
@@ -126,7 +126,7 @@ def remove_from_favourites(request, product_id):
         user_profile = UserProfile(user=this_user)
         messages.error(request, 'User not found')
 
-    product = get_object_or_404(Supplies, pk=product_id)
+    product = get_object_or_404(Product, pk=product_id)
     favourites = []
 
     favourites = json.loads(user_profile.favourites)
@@ -190,7 +190,7 @@ def edit_products(request):
         print(user_search)
         queries = Q(skus__icontains=user_search) | Q(
             name__icontains=user_search) | Q(keywords__icontains=user_search) | Q(title__icontains=user_search)
-        products = Supplies.objects.filter(queries)
+        products = Product.objects.filter(queries)
         print(products.count())
         if products.count() < 1:
             print("none found")
@@ -292,9 +292,9 @@ def update_prices(request):
         return redirect(reverse('home'))
 
     try:
-        all_products = Supplies.objects.all()
+        all_products = Product.objects.all()
         for product in all_products:
-            product_to_update = get_object_or_404(Supplies, pk=product.id)
+            product_to_update = get_object_or_404(Product, pk=product.id)
             product_to_update.price = product_to_update.calculate_price()
             product_to_update.save()
 

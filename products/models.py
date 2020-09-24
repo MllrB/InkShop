@@ -26,8 +26,8 @@ class Category(models.Model):
     name = models.CharField(max_length=254)
     friendly_name = models.CharField(max_length=254, null=True, blank=True)
     img = models.CharField(max_length=254, null=True, blank=True)
-    description = models.CharField(max_length=254, null=True, blank=True)
-    relevant_model = models.CharField(max_length=60, default='Supplies')
+    description = models.TextField(null=True, blank=True)
+    relevant_model = models.CharField(max_length=60, default='supplies')
 
     def __str__(self):
         return self.name
@@ -57,26 +57,22 @@ class VatGroup(models.Model):
         return self.name
 
 
-class Supplies(models.Model):
+class Product(models.Model):
     """
     Supplies: Describes inks, toners, parts etc...
     """
 
     class Meta:
-        verbose_name_plural = 'Supplies'
+        verbose_name_plural = 'Products'
 
     skus = JSONField(null=True)
-    name = models.CharField(max_length=254, null=True, blank=True)
     title = models.CharField(max_length=254, null=True, blank=True)
     category = models.ForeignKey(
         'Category', null=True, blank=True, on_delete=models.SET_NULL)
-    img = models.CharField(max_length=254, blank=True, null=True)
-    manufacturer = models.CharField(max_length=60, null=True, blank=True)
+    img_src = models.CharField(max_length=254, blank=True, null=True)
     description = models.TextField(null=True)
     blurb = models.TextField(null=True)
-    related_printers = JSONField(null=True)
     features = JSONField(null=True)
-    keywords = JSONField(null=True)
     published = models.BooleanField(default=True)
     product_group = models.ForeignKey(
         'ProductGroup', null=True, blank=True, default=1, on_delete=models.SET_NULL)
@@ -89,13 +85,13 @@ class Supplies(models.Model):
         """
         Overide init to populate price fields
         """
-        super(Supplies, self).__init__(*args, **kwargs)
+        super(Product, self).__init__(*args, **kwargs)
 
         self.price = self.calculate_price()
         self.save()
 
     def __str__(self):
-        return self.name
+        return self.title
 
     def calculate_price(self):
         margin = (100 - Decimal(self.product_group.profit_margin))/100

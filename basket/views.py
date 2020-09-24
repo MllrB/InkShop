@@ -4,7 +4,7 @@ Views to show the user's shopping basket
 from django.shortcuts import render, redirect, reverse, HttpResponse, get_object_or_404
 from django.contrib import messages
 
-from products.models import Supplies
+from products.models import Product
 from products.views import all_products, product_detail
 
 
@@ -17,7 +17,7 @@ def show_basket(request):
 def add_to_basket(request, product_id):
     """ Adds a quantity of a selected product to the shopping basket """
 
-    product = get_object_or_404(Supplies, pk=product_id)
+    product = get_object_or_404(Product, pk=product_id)
     quantity = int(request.POST.get('quantity'))
 
     basket = request.session.get('basket', {})
@@ -50,7 +50,7 @@ def add_to_basket(request, product_id):
 def update_basket(request, product_id):
     """ A view to update line quantities in the basket """
 
-    product = get_object_or_404(Supplies, pk=product_id)
+    product = get_object_or_404(Product, pk=product_id)
     new_quantity = int(request.POST.get('quantity'))
     basket = request.session.get('basket', {})
     basket[product_id] = new_quantity
@@ -65,7 +65,7 @@ def update_basket(request, product_id):
 def remove_from_basket(request, product_id):
     """ A view to remove a product from the shopping basket """
     try:
-        product = get_object_or_404(Supplies, pk=product_id)
+        product = get_object_or_404(Product, pk=product_id)
         basket = request.session.get('basket', {})
         basket.pop(product_id)
         messages.success(

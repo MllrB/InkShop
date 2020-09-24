@@ -4,7 +4,7 @@ Automated testing for products.models
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.db.models import Q
-from .models import Category, ProductGroup, VatGroup, Supplies
+from .models import Category, ProductGroup, VatGroup, Product
 from .views import all_products
 
 
@@ -18,7 +18,7 @@ class TestProductsViews(TestCase):
         self.product_group = ProductGroup.objects.create(
             name='Test_Product_Group')
         self.vat_group = VatGroup.objects.create(name='Test_Vat_Group')
-        self.product = Supplies.objects.create(
+        self.product = Product.objects.create(
             skus=["N9K08AE", "N9K08A"],
             name="304XL",
             title="HP 304XL Original Black",

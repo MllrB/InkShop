@@ -10,7 +10,6 @@ from django.dispatch import receiver
 
 from .models import UserProfile, DeliveryAddress
 from .forms import UserProfileForm, UserDeliveryAddressForm
-from products.models import Supplies
 
 
 @login_required

@@ -6,7 +6,11 @@
 <div class="card product-detail-container">
     <div class="row p-2 d-none d-lg-flex">
         <div class="col-5">
-            <img class="product-detail-image" src="{{ product.img }}" alt="{{ product.name }}">
+            {% if product.img_src %}
+            <img class="product-detail-image" src="{{ product.img_src }}" alt="{{ product.name }}">
+            {% else %}
+            <img class="product-detail-image" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
+            {% endif %}
         </div>
         <div class="col-7">
             <div class="card-title"><strong>{{ product.title }}</strong></div>
