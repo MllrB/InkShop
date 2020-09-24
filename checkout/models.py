@@ -69,7 +69,7 @@ class Order(models.Model):
         self.save()
 
     def __str__(self):
-        return self.order_number
+        return str(self.order_number)
 
 
 class OrderItem(models.Model):
@@ -87,12 +87,13 @@ class OrderItem(models.Model):
 
     def save(self, *args, **kwargs):
         """
-        Overide save method to update the VAT and Price totals
+        Overide save method to update the VAT and Price totals and
+        save the product
         """
         if self.product_model_name == 'Supplies':
             product = get_object_or_404(Supplies, pk=self.product_id)
             self.total_price = product.price * self.quantity
-            self.total_VAT = product.calculate_vat() * self.quantity
+            self.total_VAT = self.product.calculate_vat() * self.quantity
 
         super().save(*args, **kwargs)
 

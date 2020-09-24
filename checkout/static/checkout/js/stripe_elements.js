@@ -71,12 +71,9 @@ card.addEventListener('change', function(event) {
 // handle form submit
 var form = document.getElementById('payment-form');
 
-console.log
-
 form.addEventListener('submit', function(ev) {
     console.log('form submitting')
     ev.preventDefault();
-
 
     //disable card entry and form submit button
     card.update({
@@ -85,41 +82,78 @@ form.addEventListener('submit', function(ev) {
     $('#checkout-submit-btn').attr('disabled', true);
 
     // get shipping details from active form
-    var shippingAddressRef = $('#delivery-addresses').val();
-    if (shippingAddressRef == 'None') {
-        var shippingFormRef = 'blank-form';
+    var anonUser = document.getElementById('delivery-addresses');
+
+    if (anonUser != null) {
+        var shippingAddressRef = $('#delivery-addresses').val();
+        if (shippingAddressRef == 'None') {
+            var shippingFormRef = 'blank-form';
+        } else {
+            var shippingFormRef = shippingAddressRef;
+        }
+        var shippingForm = $(`#${shippingFormRef}`);
+        var formName = shippingForm.find('input').attr('ID').slice(0, 10);
+
+        function ShippingAddress() {
+            this.shippingName = $(`#${formName}contact_name`).val();
+            this.shippingPhone = $(`#${formName}contact_phone_number`).val();
+            this.shippingLine1 = $(`#${formName}address_line1`).val();
+            this.shippingLine2 = $(`#${formName}address_line2`).val();
+            this.shippingTownCity = $(`#${formName}town_or_city`).val();
+            this.shippingCounty = $(`#${formName}county`).val();
+            this.shippingCountry = $(`#${formName}country`).val();
+            this.shippingPostCode = $(`#${formName}post_code`).val();
+        };
+
+        function BillingAddress() {
+            this.name = $.trim(form.full_name.value);
+            this.phone = $.trim(form.default_phone_number.value);
+            this.email = $.trim(form.email.value);
+            this.line1 = $.trim(form.billing_address_line1.value);
+            this.line2 = $.trim(form.billing_address_line2.value);
+            this.city = $.trim(form.billing_town_or_city.value);
+            this.country = $.trim(form.billing_country.value);
+            this.state = $.trim(form.billing_county.value);
+        };
     } else {
-        var shippingFormRef = shippingAddressRef;
+        function ShippingAddress() {
+            this.shippingName = $.trim(form.customer_name.value);
+            this.shippingPhone = $.trim(form.phone_number.value);
+            this.shippingLine1 = $.trim(form.order_address_line1.value);
+            this.shippingLine2 = $.trim(form.order_address_line2.value);
+            this.shippingTownCity = $.trim(form.order_town_or_city.value);
+            this.shippingCounty = $.trim(form.order_county.value);
+            this.shippingCountry = $.trim(form.order_country.value);
+            this.shippingPostCode = $.trim(form.order_post_code.value);
+        };
+
+        function BillingAddress() {
+            this.name = $.trim(form.customer_name.value);
+            this.phone = $.trim(form.phone_number.value);
+            this.email = $.trim(form.email.value);
+            this.line1 = $.trim(form.order_address_line1.value);
+            this.line2 = $.trim(form.order_address_line2.value);
+            this.city = $.trim(form.order_town_or_city.value);
+            this.country = $.trim(form.order_country.value);
+            this.state = $.trim(form.order_county.value);
+        };
     }
-    var shippingForm = $(`#${shippingFormRef}`);
-    var formName = shippingForm.find('input').attr('ID').slice(0, 10);
-
-    function ShippingAddress() {
-        this.shippingName = $(`#${formName}contact_name`).val();
-        this.shippingPhone = $(`#${formName}contact_phone_number`).val();
-        this.shippingLine1 = $(`#${formName}address_line1`).val();
-        this.shippingLine2 = $(`#${formName}address_line2`).val();
-        this.shippingTownCity = $(`#${formName}town_or_city`).val();
-        this.shippingCounty = $(`#${formName}county`).val();
-        this.shippingCountry = $(`#${formName}country`).val();
-        this.shippingPostCode = $(`#${formName}post_code`).val();
-    };
-
-    shippingAddress = new ShippingAddress();
+    var shippingAddress = new ShippingAddress();
+    var billingAddress = new BillingAddress();
 
     stripe.confirmCardPayment(clientSecret, {
         payment_method: {
             card: card,
             billing_details: {
-                name: $.trim(form.full_name.value),
-                phone: $.trim(form.default_phone_number.value),
-                email: $.trim(form.email.value),
+                name: billingAddress.name,
+                phone: billingAddress.phone,
+                email: billingAddress.email,
                 address: {
-                    line1: $.trim(form.billing_address_line1.value),
-                    line2: $.trim(form.billing_address_line2.value),
-                    city: $.trim(form.billing_town_or_city.value),
-                    country: $.trim(form.billing_country.value),
-                    state: $.trim(form.billing_county.value),
+                    line1: billingAddress.line1,
+                    line2: billingAddress.line2,
+                    city: billingAddress.city,
+                    country: billingAddress.country,
+                    state: billingAddress.state,
                 }
             }
         },

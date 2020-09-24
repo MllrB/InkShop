@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.forms import formset_factory, modelformset_factory
 
 from .forms import OrderForm
@@ -66,6 +67,47 @@ def checkout(request):
         delivery_address_forms = DeliveryFormSet(
             queryset=delivery_addresses)
     else:
+        if request.method == 'POST':
+            form_data = {
+                'customer_name': request.POST['customer_name'],
+                'email': request.POST['email'],
+                'phone_number': request.POST['phone_number'],
+                'order_address_line1': request.POST['order_address_line1'],
+                'order_address_line2': request.POST['order_address_line2'],
+                'order_town_or_city': request.POST['order_town_or_city'],
+                'order_county': request.POST['order_county'],
+                'order_country': request.POST['order_country'],
+                'order_post_code': request.POST['order_post_code'],
+            }
+            order_form = OrderForm(form_data)
+            if order_form.is_valid():
+                order = order_form.save(commit=False)
+                # try:
+                #     this_user = get_object_or_404(
+                #         UserProfile, email=form_data['email'])
+                # except:
+                #     username = form_data['customer_name'].replace(' ', '')
+                #     new_user = User.objects.create_user(
+                #         username=username, email=form_data['email'], password=None)
+                #     this_user = UserProfile.objects.create(
+                #         user=new_user,
+                #         full_name=form_data['customer_name'],
+                #         email=form_data['email'],
+                #         default_phone_number=form_data['email'],
+                #         billing_address_line1=form_data['order_address_line1'],
+                #         billing_address_line2=form_data['order_address_line2'],
+                #         billing_town_or_city=form_data['order_town_or_city'],
+                #         billing_county=form_data['order_county'],
+                #         billing_post_code=form_data['order_post_code'],
+                #         billing_country=form_data['order_country'],
+                #     )
+
+                # order.user_profile = this_user
+                order.payment_processor = 'Stripe'
+                order.payment_id = intent['client_secret'].split('_secret')[0]
+                order.original_basket = current_basket
+                order.save()
+
         order_form = OrderForm()
 
     context = {
