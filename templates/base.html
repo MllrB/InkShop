@@ -124,6 +124,9 @@
                                         {% endif %}
                                     </strong>
                                 </p>
+                                <div class="message-container" id='basket-preview'>
+                                    {% include 'includes/toasts/toast_shopping_basket.html' %}
+                                </div>
                             </a>
 
                         </div>
@@ -205,9 +208,20 @@
     {% block postloadjs %}
     <script type="text/javascript">
         $('.toast').toast('show');
+        $('#basket-preview').hide();
+
+        $('#shopping-basket-nav').hover(function () {
+            $('#basket-preview').show();
+        }, function () {
+            $('#basket-preview').hide();
+        });
+
+        $('#basket-preview').hover(function () {
+            $(this).show();
+        }, function () {
+            $(this).hide();
+        });
     </script>
-    {% endblock %}
-    {% block extrajs %}
     {% endblock %}
 </body>
 

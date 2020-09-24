@@ -1,0 +1,73 @@
+<div class="toast toast-basket" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+    <div class="toast-header m-0 p-0 w-100">
+        <span class="icon"><i class="far fa-smile fa-2x text-success"></i></span>
+        <strong class="pl-3 mr-auto">Your Shopping Basket</strong>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="toast-body">
+        {% if basket_total %}
+        <div class="basket-notification-wrapper">
+            {% for item in basket_items %}
+            <div class="row pb-3">
+                <div class="col-3">
+                    {% if item.product.img %}
+                    <img class="basket-preview-img" src="{{ item.product.img }}" alt="{{ item.product.name }}">
+                    {% else %}
+                    <img class="basket-preview-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ item.product.name }}">
+                    {% endif %}
+                </div>
+                <div class="col-9 pl-5 text-left">
+                    <strong>
+                        <p>{{ item.product.title }}</p>
+                        <p>Quantity: {{ item.quantity }}</p>
+                        <p>Price inc VAT (each): €{{ item.product.calculate_inc_vat_price }}</p>
+                    </strong>
+                </div>
+                <hr>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="row mt-4 mx-2 basket-preview-total">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12 text-right">
+                        <table class="float-right">
+                            <tr>
+                                <td>Sub Total: &nbsp;&nbsp;</td>
+                                <td>€{{ sub_total }}</td>
+                            </tr>
+                            <tr>
+                                <td>Total VAT:&nbsp;&nbsp;</td>
+                                <td>€{{ total_vat }}</td>
+                            </tr>
+                            <tr>
+                                {% if delivery == 0 %}
+                                <td>&nbsp;</td>
+                                <td class="text-danger">FREE DELIVERY!</td>
+                                {% else %}
+                                <td>Delivery:&nbsp;&nbsp;</td>
+                                <td>€{{ delivery |floatformat:2}}</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td><strong>Basket total:&nbsp;&nbsp;</strong></td>
+                                <td><strong>€{{ basket_total }}</strong></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center mb-3">
+                        <a href="{% url 'checkout' %}" class="btn btn-success rounded-0 w-100">Checkout with Card</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        You don't have anything in your basket yet.
+        {% endif %}
+    </div>
+</div>

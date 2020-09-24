@@ -52,14 +52,12 @@ def update_basket(request, product_id):
 
     product = get_object_or_404(Supplies, pk=product_id)
     new_quantity = int(request.POST.get('quantity'))
-    print(request.POST)
     basket = request.session.get('basket', {})
     basket[product_id] = new_quantity
     messages.success(
         request, f'The quantity of {product.title} in your basket has been updated')
 
     request.session['basket'] = basket
-    print(request.session['basket'])
 
     return redirect(reverse('show_basket'))
 
