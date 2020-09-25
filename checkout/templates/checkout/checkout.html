@@ -8,7 +8,6 @@
 {% endblock %}
 
 {% block content %}
-
 <div class="row checkout-container">
     <div class="col-6 order-lg-last">
         <h4 class="card-title text-center">Order Details</h4>
@@ -164,8 +163,13 @@
             </div>
         </form>
     </div>
-
-
+</div>
+<div id="loading-overlay">
+    <h1 class="text-light loading-spinner">
+        <span class="icon">
+            <i class="fas fa-5x fa-cog fa-spin"></i>
+        </span>
+    </h1>
 </div>
 {% endblock %}
 

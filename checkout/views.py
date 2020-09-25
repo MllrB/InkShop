@@ -56,14 +56,18 @@ def checkout(request):
             if my_formset.is_valid():
                 for form in my_formset.forms:
                     form = form.save(commit=False)
-                    form.address_ref = form.address_ref.replace(' ', '-')
-                    form.user = user_profile
-                    form.save()
+                    if form.address_ref == '':
+                        continue
+                    else:
+                        form.address_ref = form.address_ref.replace(' ', '-')
+                        form.user = user_profile
+                        form.save()
             else:
+                messages.error(
+                    request, 'One of your forms is invalid, please check and try again')
                 print(my_formset.errors)
 
             print(request.POST)
-            print(intent)
 
         delivery_addresses = DeliveryAddress.objects.filter(user=user_profile)
         delivery_address_forms = DeliveryFormSet(
