@@ -1,6 +1,7 @@
 import json
 import time
 
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 
 from .models import Order, OrderItem
@@ -92,7 +93,7 @@ class StripeWH_Handler:
                     payment_id=pid,
                 )
                 for item_id, item_qty in json.loads(basket).items():
-                    product = Product.objects.get(pk=item_id)
+                    product = get_object_or_404(Product, pk=item_id)
                     order_line = OrderItem(
                         order=order,
                         product=product,

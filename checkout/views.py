@@ -121,7 +121,7 @@ def checkout(request):
 
                 for item_id, item_qty in basket.items():
                     try:
-                        product = Product.objects.get(pk=item_id)
+                        product = get_object_or_404(Product, pk=item_id)
                         order_line = OrderItem(
                             order=order,
                             product=product,
@@ -168,7 +168,7 @@ def checkout(request):
 
                 for item_id, item_qty in basket.items():
                     try:
-                        product = Product.objects.get(pk=item_id)
+                        product = get_object_or_404(Product, pk=item_id)
                         order_line = OrderItem(
                             order=order,
                             product=product,
