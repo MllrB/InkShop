@@ -18,7 +18,7 @@ def show_profile(request, template_target):
     A view to show the user's profile
 
     PARAMS:
-    template_target:    A string used to determine which part of their profile a user wishes to see. 
+    template_target:    A string used to determine which part of their profile a user wishes to see.
                         Options are 'billing', 'delivery', 'favourites and 'orders'.
 
     """
@@ -29,7 +29,6 @@ def show_profile(request, template_target):
 
     try:
         user_profile = get_object_or_404(UserProfile, user=this_user)
-        print('got it in the try')
     except:
         user_profile = UserProfile(user=this_user)
 
@@ -49,31 +48,31 @@ def show_profile(request, template_target):
             form = UserProfileForm(instance=user_profile)
     elif template_target == 'delivery':
         form = None
-
         if request.method == 'POST':
-            if 'deleting' in request.POST:
-                print('deleting')
+
+            user_profile.email = request.user.email
+            user_profile.save()
+
+            if 'updating' in request.POST:
+                address_id = int(request.POST['updating'])
+                delivery_address = DeliveryAddress.objects.get(
+                    pk=address_id)
+                form = UserDeliveryAddressForm(
+                    request.POST, instance=delivery_address, updating=True)
             else:
-                if 'updating' in request.POST:
-                    address_id = int(request.POST['updating'])
-                    delivery_address = DeliveryAddress.objects.get(
-                        pk=address_id)
-                    form = UserDeliveryAddressForm(
-                        request.POST, instance=delivery_address, updating=True)
-                else:
-                    delivery_address = DeliveryAddress(user=user_profile)
+                delivery_address = DeliveryAddress(user=user_profile)
 
-                    form = UserDeliveryAddressForm(
-                        request.POST, instance=delivery_address, user=user_profile)
+                form = UserDeliveryAddressForm(
+                    request.POST, instance=delivery_address, user=user_profile)
 
-                if form.is_valid():
-                    form.save()
-                    messages.success(
-                        request, 'Delivery address successfully updated')
-                else:
-                    messages.error(
-                        request, 'Something went wrong. Please ensure your form is valid')
-                    delivery_addresses = None
+            if form.is_valid():
+                form.save()
+                messages.success(
+                    request, 'Delivery address successfully updated')
+            else:
+                messages.error(
+                    request, 'Something went wrong. Please ensure your form is valid')
+                delivery_addresses = None
 
         delivery_addresses = DeliveryAddress.objects.all().filter(user=user_profile)
         if not delivery_addresses:

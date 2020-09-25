@@ -64,12 +64,12 @@ def checkout(request):
     delivery_addresses = None
     delivery_address_forms = [delivery_form]
 
+    DeliveryFormSet = modelformset_factory(
+        DeliveryAddress, UserDeliveryAddressForm)
+
     if this_user.is_authenticated:
         user_profile = get_object_or_404(UserProfile, user=this_user)
         order_form = UserProfileForm(instance=user_profile)
-
-        DeliveryFormSet = modelformset_factory(
-            DeliveryAddress, UserDeliveryAddressForm)
 
         if request.method == 'POST':
             # save any changes or new addresses authenticated user has made
@@ -111,7 +111,7 @@ def checkout(request):
 
             if order_form.is_valid():
                 order = order_form.save(commit=False)
-                order.user = user_profile
+                order.user_profile = user_profile
                 order.payment_processor = 'Stripe'
                 order.payment_id = intent['client_secret'].split('_secret')[0]
                 order.original_basket = current_basket

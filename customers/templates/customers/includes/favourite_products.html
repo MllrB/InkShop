@@ -4,7 +4,11 @@
     <div class="card product-list rounded-1 border-0" id="{{ product.id }}">
         <div class="row no-gutters">
             <div class="col-3">
-                <img class="card-img" src="{{ product.img }}" alt="{{ product.name }}">
+                {% if product.img_src %}
+                <img class="card-img" src="{{ product.img_src }}" alt="{{ product.name }}">
+                {% else %}
+                <img class="card-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
+                {% endif %}
             </div>
             <div class="col-6">
                 <div class="card-body">

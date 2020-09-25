@@ -105,6 +105,10 @@
                 {% include 'customers/includes/favourite_products.html' %}
                 {% else %}
                 <p>order history here</p>
+                {% for order in user.orders.all %}
+                <p>order</p>
+                {{order.order_number}}
+                {% endfor %}
                 {% endif %}
             </div>
         </div>
