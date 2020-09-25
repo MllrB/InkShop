@@ -5,9 +5,11 @@ from django.contrib.auth.models import User
 from django.forms import formset_factory, modelformset_factory
 
 from .forms import OrderForm
+from .models import OrderItem, Order
 from customers.forms import UserProfileForm, UserDeliveryAddressForm
 from customers.models import UserProfile, DeliveryAddress
 from basket.contexts import basket_contents
+from products.models import Product
 
 import stripe
 
@@ -82,31 +84,30 @@ def checkout(request):
             order_form = OrderForm(form_data)
             if order_form.is_valid():
                 order = order_form.save(commit=False)
-                # try:
-                #     this_user = get_object_or_404(
-                #         UserProfile, email=form_data['email'])
-                # except:
-                #     username = form_data['customer_name'].replace(' ', '')
-                #     new_user = User.objects.create_user(
-                #         username=username, email=form_data['email'], password=None)
-                #     this_user = UserProfile.objects.create(
-                #         user=new_user,
-                #         full_name=form_data['customer_name'],
-                #         email=form_data['email'],
-                #         default_phone_number=form_data['email'],
-                #         billing_address_line1=form_data['order_address_line1'],
-                #         billing_address_line2=form_data['order_address_line2'],
-                #         billing_town_or_city=form_data['order_town_or_city'],
-                #         billing_county=form_data['order_county'],
-                #         billing_post_code=form_data['order_post_code'],
-                #         billing_country=form_data['order_country'],
-                #     )
-
-                # order.user_profile = this_user
                 order.payment_processor = 'Stripe'
                 order.payment_id = intent['client_secret'].split('_secret')[0]
                 order.original_basket = current_basket
                 order.save()
+
+                for item_id, item_qty in basket.items():
+                    try:
+                        product = Product.objects.get(pk=item_id)
+                        order_line = OrderItem(
+                            order=order,
+                            product=product,
+                            quantity=item_qty,
+                        )
+                        order_line.save()
+                    except Product.DoesNotExist:
+                        messages.error(
+                            request, 'One of the products in your basket no longer exists in our catalogue. \
+                                please empty your basket and try again')
+                        order.delete()
+                        return redirect(reverse('show_basket'))
+                return redirect(reverse('checkout_success', args=[order.order_number]))
+            else:
+                messages.error(
+                    request, 'There was an error in your form. Please check and try again')
 
         order_form = OrderForm()
 
@@ -121,5 +122,20 @@ def checkout(request):
     return render(request, 'checkout/checkout.html', context)
 
 
-def checkout_success(request):
-    return render(request, 'checkout/checkout_success.html')
+def checkout_success(request, order_no):
+    """
+    Succesful Checkout
+    """
+
+    order = get_object_or_404(Order, order_number=order_no)
+    messages.success(request, f'Thank you for your order. \
+        \nYour order number is {order.order_number}. \
+        \nAn email confirmation will be sent to {order.email} momentarily')
+
+    if 'basket' in request.session:
+        del request.session['basket']
+
+    context = {
+        'order': order,
+    }
+    return render(request, 'checkout/checkout_success.html', context)

@@ -9,6 +9,8 @@ from django.conf import settings
 
 from django_countries.fields import CountryField
 
+from decimal import Decimal
+
 from customers.models import UserProfile, DeliveryAddress
 from products.models import Product
 
@@ -75,27 +77,22 @@ class Order(models.Model):
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, null=False, blank=False,
                               on_delete=models.CASCADE, related_name='order_items')
-    product_model_name = models.CharField(
-        max_length=60, null=False, blank=False, default="Supplies")
-    product_id = models.CharField(
-        max_length=60, null=False, blank=False, default='')
+    product = models.ForeignKey(
+        Product, null=False, blank=False, on_delete=models.CASCADE)
     quantity = models.IntegerField(null=False, blank=False, default=0)
     total_VAT = models.DecimalField(
         max_digits=6, decimal_places=2, null=False, default=0)
     total_price = models.DecimalField(
-        max_digits=3, decimal_places=2, null=False, blank=False, editable=False, default=0)
+        max_digits=8, decimal_places=2, null=False, blank=False, editable=False, default=0)
 
     def save(self, *args, **kwargs):
         """
-        Overide save method to update the VAT and Price totals and
-        save the product
+        Overide save method to update the VAT and Price totals
         """
-        if self.product_model_name == 'Supplies':
-            product = models.ForeignKey(
-                Product, null=False, blank=False, on_delete=models.CASCADE)
-            self.product = get_object_or_404(Product, pk=self.product_id)
-            self.total_price = self.product.price * self.quantity
-            self.total_VAT = self.product.calculate_vat() * self.quantity
+        self.total_price = round(
+            Decimal(self.product.price * self.quantity), 2)
+        self.total_VAT = round(
+            Decimal(self.product.calculate_vat() * self.quantity), 2)
 
         super().save(*args, **kwargs)
 

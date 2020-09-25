@@ -1,11 +1,136 @@
 {% extends 'base.html' %}
-
+{% load static %}
+{% load basket_tools %}
 {% block content %}
 
-<div class="row">
-    <div class="col">
-        <h1>checkout successful</h1>
+<div class="row std-container">
+    <div class="col-12 text-center">
+        <h1>Checkout Successful!</h1>
     </div>
+    <div class="col-12 text-center">
+        <p>Thank you for your order, details of which are below:</p>
+    </div>
+    <div class="col-12">
+        <div class="card product-list">
+            <div class="card-title ml-3">
+                <div class="row">
+                    <div class="col-12 col-md-2">
+                        <p>Order Number:</p>
+                    </div>
+                    <div class="col-12 col-md-10">
+                        <p>{{ order.order_number }}</p>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <p>Order Date:</p>
+                    </div>
+                    <div class="col-12 col-md-10">
+                        <p>{{ order.date }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <h4>Billing Adresss</h4>
+                        <hr>
+                        <small>
+                            <p>
+                                {% if request.user.is_authenticated %}
+                                {{ request.user.full_name }}<br>
+                                {% else %}
+                                {{ order.customer_name }}<br>
+                                Phone Number: {{ order.phone_number }}<br>
+                                {{ order.order_address_line1 }}<br>
+                                {{ order.order_address_line2 }}<br>
+                                {{ order.order_town_or_city }}<br>
+                                {{ order.order_county }}<br>
+                                {{ order.order_country.name }}<br>
+                                {{ order.order_post_code }}
+                                {% endif %}
+                            </p>
+                        </small>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <h4>Delivery Address:</h4>
+                        <hr>
+                        <small>
+                            <p>{{ order.customer_name }}<br>
+                                Phone Number: {{ order.phone_number }}<br>
+                                {{ order.order_address_line1 }}<br>
+                                {{ order.order_address_line2 }}<br>
+                                {{ order.order_town_or_city }}<br>
+                                {{ order.order_county }}<br>
+                                {{ order.order_country.name }}<br>
+                                {{ order.order_post_code }}</p>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 mb-5">
+        <div class="card product-list">
+            {% for item in order.order_items.all %}
+            <div class="row p-2">
+                <div class="col-2">
+                    {% if item.product.img_src %}
+                    <img class="basket-img" src="{{ item.product.img_src }}" alt="{{ item.product.name }}">
+                    {% else %}
+                    <img class="basket-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ item.product.name }}">
+                    {% endif %}
+                </div>
+                <div class="col-4">
+                    <p>{{ item.product.title }}</p>
+                </div>
+                <div class="col-2">
+                    <p>Price: €{{ item.product.price }} each</p>
+                </div>
+                <div class="col-2">
+                    <p>Qty: {{ item.quantity }}</p>
+                </div>
+                <div class="col-2 text-right">
+                    <p>Line Total: €{{ item.product.price |calc_line_total:item.quantity}}</p>
+                </div>
+            </div>
+            <hr class="hidden">
+            {% endfor %}
+            <div class="row p-2">
+                <div class="col-11 text-right">
+                    <p>Sub Total</p>
+                </div>
+                <div class="col-1 text-right">
+                    <p>€{{ order.order_subtotal }}</p>
+                </div>
+                <div class="col-11 text-right">
+                    <p>Total VAT:</p>
+                </div>
+                <div class="col-1 text-right">
+                    <p>€{{ order.order_VAT }}</p>
+                </div>
+                {% if order.delivery_cost == 0 %}
+                <div class="col-12 text-right">
+                    <p class="text-danger">FREE DELIVERY!</p>
+                </div>
+                {% else %}
+                <div class="col-11 text-right">
+                    <p>Delivery:</p>
+                </div>
+                <div class="col-1 text-right">
+                    <p>€{{ order.delivery_cost |floatformat:2}}</p>
+                </div>
+                {% endif %}
+                <hr>
+                <div class="col-11 text-right border-top">
+                    <p class="pt-2"><strong>Order total:</strong></p>
+                </div>
+                <div class="col-1 text-right border-top">
+                    <p class="pt-2"><strong>€{{ order.grand_total }}</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 
 {% endblock %}
