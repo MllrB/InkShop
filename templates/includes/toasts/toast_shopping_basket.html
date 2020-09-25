@@ -12,8 +12,8 @@
             {% for item in basket_items %}
             <div class="row pb-3">
                 <div class="col-3">
-                    {% if item.product.img %}
-                    <img class="basket-preview-img" src="{{ item.product.img }}" alt="{{ item.product.name }}">
+                    {% if item.product.img_src %}
+                    <img class="basket-preview-img" src="{{ item.product.img_src }}" alt="{{ item.product.name }}">
                     {% else %}
                     <img class="basket-preview-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ item.product.name }}">
                     {% endif %}

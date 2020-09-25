@@ -44,8 +44,8 @@
                     {% for item in basket_items %}
                     <tr>
                         <td>
-                            {% if item.product.img %}
-                            <img class="basket-img" src="{{ item.product.img }}" alt="{{ item.product.name }}">
+                            {% if item.product.img_src %}
+                            <img class="basket-img" src="{{ item.product.img_src }}" alt="{{ item.product.name }}">
                             {% else %}
                             <img class="basket-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ item.product.name }}">
                             {% endif %}

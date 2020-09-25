@@ -41,7 +41,11 @@
                 {{ item.product.title }}
             </div>
             <div class="col-12">
-                <img src="{{ item.product.img }}" alt="{{ item.product.name }}" class="w-100">
+                {% if item.product.img_src %}
+                <img src="{{ item.product.img_src }}" alt="{{ item.product.name }}" class="w-100">
+                {% else %}
+                <img src="{{ MEDIA_URL }}noimage.png" alt="{{ item.product.name }}" class="w-100">
+                {% endif %}
             </div>
             <div class="col-6 mt-2 text-right">Price per Unit:</div>
             <div class="col-6 mt-2 text-left">€{{ item.product.price }}</div>
