@@ -74,6 +74,8 @@ class Product(models.Model):
     blurb = models.TextField(null=True)
     features = JSONField(null=True)
     published = models.BooleanField(default=True)
+    related_printers = JSONField(null=True)
+    brochure = models.CharField(max_length=254, null=True, blank=True)
     product_group = models.ForeignKey(
         'ProductGroup', null=True, blank=True, default=1, on_delete=models.SET_NULL)
     vat_rate = models.ForeignKey(
