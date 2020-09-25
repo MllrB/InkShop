@@ -113,8 +113,10 @@ def checkout(request):
                 order = order_form.save(commit=False)
                 order.user_profile = user_profile
                 order.payment_processor = 'Stripe'
-                order.payment_id = intent['client_secret'].split('_secret')[0]
-                order.original_basket = current_basket
+                client_secret = request.POST.get(
+                    'client_secret').split('_secret')[0]
+                order.payment_id = client_secret
+                order.original_basket = json.dumps(basket)
                 order.save()
 
                 for item_id, item_qty in basket.items():
@@ -158,8 +160,10 @@ def checkout(request):
             if order_form.is_valid():
                 order = order_form.save(commit=False)
                 order.payment_processor = 'Stripe'
-                order.payment_id = intent['client_secret'].split('_secret')[0]
-                order.original_basket = current_basket
+                client_secret = request.POST.get(
+                    'client_secret').split('_secret')[0]
+                order.payment_id = client_secret
+                order.original_basket = json.dumps(basket)
                 order.save()
 
                 for item_id, item_qty in basket.items():
