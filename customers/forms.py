@@ -8,8 +8,19 @@ from .models import UserProfile, DeliveryAddress
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        exclude = ('user', 'profile_pic_url', 'profile_pic',
-                   'email', 'favourites',)
+        widgets = {
+            'email': forms.HiddenInput(),
+        }
+        fields = [
+            'full_name',
+            'default_phone_number',
+            'billing_address_line1',
+            'billing_address_line2',
+            'billing_town_or_city',
+            'billing_county',
+            'billing_post_code',
+            'billing_country'
+        ]
 
     def __init__(self, *args, **kwargs):
         """

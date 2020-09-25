@@ -29,13 +29,17 @@ def show_profile(request, template_target):
 
     try:
         user_profile = get_object_or_404(UserProfile, user=this_user)
+        print('got it in the try')
     except:
         user_profile = UserProfile(user=this_user)
 
     if template_target == 'billing':
         if request.method == 'POST':
+            user_profile.email = request.user.email
+            user_profile.save()
             form = UserProfileForm(request.POST, instance=user_profile)
             if form.is_valid():
+                form.save(commit=False)
                 form.save()
                 messages.success(request, 'Profile successfully updated')
             else:

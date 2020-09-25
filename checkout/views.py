@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.shortcuts import render, redirect, reverse, get_object_or_404, HttpResponse
 from django.contrib import messages
 from django.conf import settings
+from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User
 from django.forms import formset_factory, modelformset_factory
 
@@ -12,6 +13,27 @@ from basket.contexts import basket_contents
 from products.models import Product
 
 import stripe
+import json
+
+
+@require_POST
+def cache_checkout_data(request):
+    try:
+        pid = request.POST.get('client_secret').split('_secret')[0]
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        stripe.PaymentIntent.modify(pid, metadata={
+            'basket': json.dumps(request.session.get('basket', {})),
+            'username': request.user,
+            'address_ref': request.POST.get('address_ref')
+        })
+
+        request.session['delivery_address_ref'] = request.POST.get(
+            'address_ref')
+        return HttpResponse(status=200)
+    except Exception as e:
+        messages.error(request, f'Sorry, your payment cannot be \
+            processed right now. Please try again later.error: {e}')
+        return HttpResponse(content=e, status=400)
 
 
 def checkout(request):
@@ -67,7 +89,54 @@ def checkout(request):
                     request, 'One of your forms is invalid, please check and try again')
                 print(my_formset.errors)
 
-            print(request.POST)
+            if 'delivery_address_ref' in request.session:
+                address_ref = request.session.get(
+                    'delivery_address_ref', 'None')
+
+            order_delivery_address = get_object_or_404(
+                DeliveryAddress, user=user_profile, address_ref=address_ref)
+
+            form_data = {
+                'customer_name': order_delivery_address.contact_name,
+                'email': user_profile.email,
+                'phone_number': order_delivery_address.contact_phone_number,
+                'order_address_line1': order_delivery_address.address_line1,
+                'order_address_line2': order_delivery_address.address_line2,
+                'order_town_or_city': order_delivery_address.town_or_city,
+                'order_county': order_delivery_address.county,
+                'order_country': order_delivery_address.country,
+                'order_post_code': order_delivery_address.post_code,
+            }
+            order_form = OrderForm(form_data)
+
+            if order_form.is_valid():
+                order = order_form.save(commit=False)
+                order.user = user_profile
+                order.payment_processor = 'Stripe'
+                order.payment_id = intent['client_secret'].split('_secret')[0]
+                order.original_basket = current_basket
+                order.save()
+
+                for item_id, item_qty in basket.items():
+                    try:
+                        product = Product.objects.get(pk=item_id)
+                        order_line = OrderItem(
+                            order=order,
+                            product=product,
+                            quantity=item_qty,
+                        )
+                        order_line.save()
+                    except Product.DoesNotExist:
+                        messages.error(
+                            request, 'One of the products in your basket no longer exists in our catalogue. \
+                                please empty your basket and try again')
+                        order.delete()
+                        return redirect(reverse('show_basket'))
+
+                return redirect(reverse('checkout_success', args=[order.order_number]))
+            else:
+                messages.error(
+                    request, 'There was an error in your form. Please check and try again')
 
         delivery_addresses = DeliveryAddress.objects.filter(user=user_profile)
         delivery_address_forms = DeliveryFormSet(

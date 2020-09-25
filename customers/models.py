@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import UniqueConstraint
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -46,9 +47,12 @@ def create_user_from_social_account(sender, instance, created, **kwargs):
             email = instance.extra_data['email']
             full_name = instance.extra_data['name']
             profile_pic_url = instance.extra_data['picture']
-
-            UserProfile.objects.create(user=instance.user,
-                                       full_name=full_name, profile_pic_url=profile_pic_url, email=email)
+            user = get_object_or_404(User, email=email)
+            user_profile = get_object_or_404(UserProfile, user=user)
+            user_profile.email = email
+            user_profile.full_name = full_name
+            user_profile.profile_pic_url = profile_pic_url
+            user_profile.save()
 
 
 @receiver(post_save, sender=User)

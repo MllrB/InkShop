@@ -23,6 +23,20 @@ class StripeWH_Handler:
         """
         Handle a payment_intent.succeeded webhook from stripe
         """
+        intent = event.data.object
+        print(intent)
+        pid = intent.id
+        basket = intent.metadata.basket
+        delivery_address_ref = intent.metadata.address_ref
+
+        billing_details = intent.charges.data[0].billing_details
+        shipping_details = intent.shipping
+
+        grand_total = round(intent.charges.daat[0].amount/100, 2)
+
+        for field, value in shipping_details.address.items():
+            if value == '':
+                shipping_details.address[field] = None
 
         return HttpResponse(
             content=f'Webhook received: {event["type"]}',
