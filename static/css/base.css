@@ -61,6 +61,7 @@ h6 {
 .std-container {
     width: 80%;
     margin: 0 10%;
+    margin-bottom: 5%;
 }
 
 .id_col {
@@ -343,11 +344,6 @@ h6 {
 
 /********** CHECKOUT **********/
 
-.checkout-container {
-    width: 80%;
-    margin: 0 10%;
-}
-
 #billing-details:hover {
     cursor: pointer;
     background-color: rgba(252, 252, 252, 0.42);
@@ -449,6 +445,7 @@ h6 {
     .std-container {
         width: 90%;
         margin: 0 5%;
+        margin-bottom: 5%;
     }
 }
 
@@ -456,6 +453,7 @@ h6 {
     .std-container {
         width: 94%;
         margin: 0 3%;
+        margin-bottom: 5%;
     }
 }
 
@@ -463,6 +461,7 @@ h6 {
     .std-container {
         width: 96%;
         margin: 0 2%;
+        margin-bottom: 5%;
     }
     .nav-main {
         width: 100vw;
@@ -510,12 +509,21 @@ h6 {
         width: 90%;
         margin: 0 5%;
     }
+    /* Checkout */
+    .payment-card {
+        padding-top: 1.05rem;
+    }
+    #delivery-details-form,
+    #billing-details-form {
+        padding-top: 1.2rem;
+    }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 769px) {
     .std-container {
         width: 96%;
         margin: 0 2%;
+        margin-bottom: 5%;
     }
     /* Products */
     .card-img {
@@ -561,6 +569,31 @@ h6 {
     .btn-mobile-container {
         max-width: 90%;
         padding-left: 4.3rem;
+    }
+    /* Checkout */
+    .payment-card {
+        padding-top: 1.05rem;
+    }
+    .checkout-title {
+        background: #28a745;
+        padding-bottom: 1.05rem;
+        color: white;
+        margin-bottom: 0;
+    }
+    .checkout-rule {
+        margin-top: 0 !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .checkout-select {
+        margin-bottom: 1.05rem;
+    }
+    .basket-img {
+        max-height: 200px;
+    }
+    .order-preview-img {
+        justify-content: center;
     }
 }
 

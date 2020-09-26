@@ -8,80 +8,88 @@
 {% endblock %}
 
 {% block content %}
-<div class="row checkout-container">
-    <div class="col-6 order-lg-last">
-        <h4 class="card-title text-center">Order Details</h4>
-        <hr>
-        {% for item in basket_items %}
+<div class="row std-container">
+    <div class="col-12 col-lg-6 order-lg-last">
         <div class="row">
-            <div class="col-2">
-                {% if item.product.img_src %}
-                <img class="basket-img" src="{{ item.product.img_src }}" alt="{{ item.product.name }}">
-                {% else %}
-                <img class="basket-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ item.product.name }}">
-                {% endif %}
-            </div>
-            <div class="col-8">
+            <div class="col-12">
+                <h4 class="card-title text-center checkout-title">Order Details</h4>
+                <hr class="checkout-rule">
+                {% for item in basket_items %}
                 <div class="row">
-                    <div class="col-12">
-                        <p>{{ item.product.title }}</p>
+                    <div class="col-12 d-sm-none text-center">
+                        <h5>{{ item.product.title }}</5>
                     </div>
-                    <div class="col-6">
-                        <p class="small">Price: €{{ item.product.price }} each</p>
+                    <div class="col-6 col-sm-2 order-preview-img">
+                        {% if item.product.img_src %}
+                        <img class="basket-img" src="{{ item.product.img_src }}" alt="{{ item.product.name }}">
+                        {% else %}
+                        <img class="basket-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ item.product.name }}">
+                        {% endif %}
                     </div>
-                    <div class="col-6">
-                        <p class="small">Qty: {{ item.quantity }}</p>
+                    <div class="col-6 col-sm-8">
+                        <div class="row">
+                            <div class="col-12 d-none d-sm-flex">
+                                <h5>{{ item.product.title }}</h5>
+                            </div>
+                            <div class="col-12 col-sm-6 pt-2">
+                                <p class="small">Price: €{{ item.product.price }} each</p>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <p class="small">Qty: {{ item.quantity }}</p>
+                            </div>
+                            <div class="col-12 d-sm-none">
+                                <p class="small">Total Price: €{{ item.product.price |calc_line_total:item.quantity}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 d-none d-sm-flex">
+                        <p>€{{ item.product.price |calc_line_total:item.quantity}}</p>
                     </div>
                 </div>
-
-
-            </div>
-            <div class="col-2">
-                <p>€{{ item.product.price |calc_line_total:item.quantity}}</p>
-            </div>
-        </div>
-        <hr>
-        {% endfor %}
-        <div class="row mt-4">
-            <div class="col-11 text-right">
-                <p>Sub Total</p>
-            </div>
-            <div class="col-1 text-right">
-                <p>€{{ sub_total }}</p>
-            </div>
-            <div class="col-11 text-right">
-                <p>Total VAT:</p>
-            </div>
-            <div class="col-1 text-right">
-                <p>€{{ total_vat }}</p>
-            </div>
-            {% if delivery == 0 %}
-            <div class="col-12 text-right">
-                <p class="text-danger">FREE DELIVERY!</p>
-            </div>
-            {% else %}
-            <div class="col-11 text-right">
-                <p>Delivery:</p>
-            </div>
-            <div class="col-1 text-right">
-                <p>€{{ delivery |floatformat:2}}</p>
-            </div>
-            {% endif %}
-            <hr>
-            <div class="col-11 text-right border-top">
-                <p class="pt-2"><strong>Basket total:</strong></p>
-            </div>
-            <div class="col-1 text-right border-top">
-                <p class="pt-2"><strong>€{{ basket_total }}</strong></p>
+                <hr>
+                {% endfor %}
+                <div class="row mt-4">
+                    <div class="col-9 col-sm-10 text-right">
+                        <p>Sub Total</p>
+                    </div>
+                    <div class="col-3 col-sm-2 text-right">
+                        <p>€{{ sub_total }}</p>
+                    </div>
+                    <div class="col-9 col-sm-10 text-right">
+                        <p>Total VAT:</p>
+                    </div>
+                    <div class="col-3 col-sm-2 text-right">
+                        <p>€{{ total_vat }}</p>
+                    </div>
+                    {% if delivery == 0 %}
+                    <div class="col-12 text-right">
+                        <p class="text-danger">FREE DELIVERY!</p>
+                    </div>
+                    {% else %}
+                    <div class="col-9 col-sm-10 text-right">
+                        <p>Delivery:</p>
+                    </div>
+                    <div class="col-3 col-sm-2 text-right">
+                        <p>€{{ delivery |floatformat:2}}</p>
+                    </div>
+                    {% endif %}
+                    <hr>
+                    <div class="col-9 col-sm-10 text-right border-top">
+                        <p class="pt-2"><strong>Order total:</strong></p>
+                    </div>
+                    <div class="col-3 col-sm-2 text-right border-top">
+                        <p class="pt-2"><strong>€{{ basket_total }}</strong></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-    <div class="col-6">
+    <div class="col-12 col-lg-6">
         <form id="payment-form" action="{% url 'checkout' %}" method="POST">
             {% csrf_token %}
-            <h4 class="card-title text-center">Your Details</h4>
-            <hr>
+            <h4 class="card-title text-center checkout-title">Your Details</h4>
+            <hr class="checkout-rule">
             {% if request.user.is_authenticated %}
             <div id="accordion">
                 <div class="card product-list ml-0 pl-0">
@@ -114,11 +122,11 @@
                         data-parent="#accordion">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-8">
+                                <div class="col-12 col-sm-8">
                                     <p>Choose a saved delivery address or enter a new one:</p>
                                 </div>
-                                <div class="col-4 text-right">
-                                    <select class="w-100" name="delivery" id="delivery-addresses">
+                                <div class="col-12 col-sm-4 text-right">
+                                    <select class="w-100 checkout-select" name="delivery" id="delivery-addresses">
                                         <option name="new_address" value="None" selected>Enter New</option>
                                         {% for address in delivery_addresses %}
                                         <option name="{{ address.address_ref }}" value="{{ address.address_ref }}">
@@ -152,15 +160,16 @@
             {% endif %}
             <div class="col-12 p-0">
                 <div class="card product-list ml-0 pl-0 w-100">
-                    <div class="card-body">
+                    <div class="card-body payment-card">
                         <div class="mb-3" id="card-element"></div>
                         <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
                     </div>
                 </div>
                 <input type="hidden" value={{ client_secret }} name="client_secret">
             </div>
-            <div class="col-12 w-100 text-right">
-                <button type="submit" class="btn btn-success" id="checkout-submit-btn">Confirm Payment</button>
+            <div class="col-12 w-100 text-right p-0">
+                <button type="submit" class="btn btn-success w-100" id="checkout-submit-btn">Confirm
+                    Payment</button>
             </div>
         </form>
     </div>
