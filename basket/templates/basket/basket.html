@@ -108,10 +108,8 @@
 
     <div class="row mt-4 mb-4">
         <div class="col-12 text-right">
-            <a href="" class="btn btn-secondary">Checkout with paypal</a>
-        </div>
-        <div class="col-12 text-right">
-            <a href="{% url 'checkout' %}" class="btn btn-success rounded-1">Checkout with Card</a>
+            <a href="{% url 'empty_basket' %}" class="btn btn-secondary rounded-1 mr-2 checkout-btn">Empty Basket</a>
+            <a href="{% url 'checkout' %}" class="btn btn-success rounded-1 checkout-btn">Checkout</a>
         </div>
     </div>
 </div>

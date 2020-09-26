@@ -77,3 +77,13 @@ def remove_from_basket(request, product_id):
         messages.error(
             request, "Something went wrong, could not remove that product from your basket")
         return HttpResponse(status=500)
+
+
+def empty_basket(request):
+    """
+    A view to empty the current basket and return to the home page
+    """
+    request.session['basket'] = {}
+    messages.info(request, 'Your basket has been emptied.')
+
+    return redirect(reverse('home'))

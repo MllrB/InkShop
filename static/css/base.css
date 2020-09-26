@@ -353,6 +353,10 @@ h6 {
     background-color: rgba(252, 252, 252, 0.42);
 }
 
+.checkout-btn {
+    width: 15%;
+}
+
 
 /********** USER PROFILE **********/
 
@@ -366,16 +370,18 @@ h6 {
 }
 
 .profile-btn {
-    /* background-color: rgba(183, 243, 226, 0.726); */
-    /* box-shadow: inset 350px 0px 2px 17px rgba(23, 111, 86, .16); */
     margin-top: 3px;
-    background-color: rgb(217, 0, 243, .12);
-    box-shadow: inset 350px 0px 2px 17px rgb(241, 196, 233, .32);
+    background: rgba(99, 18, 120, .85);
+    box-shadow: inset 0px 20px 20px 13px rgba(255, 255, 255, .21);
+    color: white;
 }
 
 .profile-btn:hover,
+.profile-btn:focus,
 .profile-btn-selected {
-    box-shadow: inset 300px 0px 10px 15px rgba(252, 19, 213, 0.16);
+    background: rgba(240, 207, 248, 0.85);
+    box-shadow: inset 0px 20px 20px 15px rgba(99, 18, 120, .85);
+    color: white;
 }
 
 .delivery_btn {
