@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load basket_tools %}
 
 {% block content %}
 <div class="row profile-container">
@@ -104,18 +105,109 @@
                 {% elif target == "favourites"%}
                 {% include 'customers/includes/favourite_products.html' %}
                 {% else %}
-                <p>order history here</p>
-                {% for order in user.orders.all %}
-                {{order.order_number}}
-                {% endfor %}
-                {% endif %}
+                <h5 class="pt-3"><strong>Your Previous Orders</strong></h5>
+                <div class="row">
+                    <div class="col-12">
+                        <div id="accordion">
+                            {% for order in user.orders.all reversed %}
+                            <div class="card product-list ml-0 pl-0">
+                                <div class="card-header rounded-0" id="billing-details">
+                                    <button type="button" class="btn w-100 h-100 px-0" data-toggle="collapse"
+                                        data-target="#{{ order.order_number }}" aria-expanded="false"
+                                        aria-controls="{{ order.order_number }}">
+                                        <div class="row m-0 p-0">
+                                            <div class="col-12 col-md-6 m-0 p-0">
+                                                <span class="text-left">Order #:
+                                                    {{ order.order_number |truncatechars:20 }}</span>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <span class="text-right">Date: {{ order.date }}</span>
+                                            </div>
+                                        </div>
+                                    </button>
+                                </div>
+                                <div id="{{ order.order_number }}" class="collapse"
+                                    aria-labelledby="{{ order.order_number }}" data-parent="#accordion">
+                                    <div class="card-body">
+                                        {% for order_line in ordered_products %}
+                                        {% if order_line.order_num == order.order_number %}
+                                        <div class="row">
+                                            <div class="col-12 col-md-2">
+                                                {% if order_line.product.img_src %}
+                                                <img class="card-img" src="{{ order_line.product.img_src }}"
+                                                    alt="{{ order_line.product.id }}">
+                                                {% else %}
+                                                <img class="card-img" src="{{ MEDIA_URL }}noimage.png"
+                                                    alt="{{ order_line.product.id }}">
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-12 col-md-6 pt-3">
+                                                {{ order_line.product.title }}
+                                            </div>
+                                            <div class="col-12 col-md-4 pt-3">
+                                                <p>Current Price<small> (ex VAT)</small>
+                                                    €{{order_line.product.price}}
+                                                </p>
+                                                <p>Qty Ordered: {{ order_line.qty }}</p>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        {% endfor %}
+                                        <hr>
+                                        <div class="row p-2">
+                                            <div class="col-10 text-right">
+                                                <p>Sub Total</p>
+                                            </div>
+                                            <div class="col-2 text-right">
+                                                <p>€{{ order.order_subtotal }}</p>
+                                            </div>
+                                            <div class="col-10 text-right">
+                                                <p>Total VAT:</p>
+                                            </div>
+                                            <div class="col-2 text-right">
+                                                <p>€{{ order.order_VAT }}</p>
+                                            </div>
+                                            {% if order.delivery_cost == 0 %}
+                                            <div class="col-12 text-right">
+                                                <p class="text-danger">FREE DELIVERY!</p>
+                                            </div>
+                                            {% else %}
+                                            <div class="col-10 text-right">
+                                                <p>Delivery:</p>
+                                            </div>
+                                            <div class="col-2 text-right">
+                                                <p>€{{ order.delivery_cost |floatformat:2}}</p>
+                                            </div>
+                                            {% endif %}
+                                            <hr>
+                                            <div class="col-10 text-right border-top">
+                                                <p class="pt-2"><strong>Order total:</strong></p>
+                                            </div>
+                                            <div class="col-2 text-right border-top">
+                                                <p class="pt-2"><strong>€{{ order.grand_total }}</strong></p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 text-center">
+                                                <a href="{% url 'repeat_order' order.order_number %}"
+                                                    class="btn btn-success rounded-1 w-50"> Re-order these
+                                                    products</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
-</div>
-{% endblock %}
+    {% endblock %}
 
-{% block postloadjs %}
-{{ block.super }}
-{% include 'customers/includes/profile_btn_selected_js.html' %}
-{% endblock %}
+    {% block postloadjs %}
+    {{ block.super }}
+    {% include 'customers/includes/profile_btn_selected_js.html' %}
+    {% endblock %}

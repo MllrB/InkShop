@@ -65,7 +65,6 @@ def create_user_from_signup(sender, instance, created, **kwargs):
         instance.username = email[0]
         instance.save()
         UserProfile.objects.create(user=instance)
-    instance.save()
 
 
 class DeliveryAddress(models.Model):

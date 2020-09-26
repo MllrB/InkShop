@@ -119,6 +119,7 @@ def checkout(request):
                 order.original_basket = json.dumps(basket)
                 order.save()
 
+                favourites = []
                 for item_id, item_qty in basket.items():
                     try:
                         product = get_object_or_404(Product, pk=item_id)
@@ -128,6 +129,19 @@ def checkout(request):
                             quantity=item_qty,
                         )
                         order_line.save()
+                        # add purchased products to user favourites
+                        if not user_profile.favourites:
+                            favourites.append(int(product.id))
+                            favourites = json.dumps(favourites)
+                            user_profile.favourites = favourites
+                            user_profile.save()
+                        else:
+                            favourites = json.loads(user_profile.favourites)
+                            favourites.append(int(product.id))
+                            favourites = list(dict.fromkeys(favourites))
+                            favourites = json.dumps(favourites)
+                            user_profile.favourites = favourites
+                            user_profile.save()
                     except Product.DoesNotExist:
                         messages.error(
                             request, 'One of the products in your basket no longer exists in our catalogue. \

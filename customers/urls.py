@@ -15,4 +15,5 @@ urlpatterns = [
          name='delete_delivery_address'),
     path('delete_favourited_product/<product_id>/', views.delete_favourited_product,
          name='delete_favourited_product'),
+    path('repeat_order/<order_id>/', views.repeat_order, name='repeat_order'),
 ]

@@ -19,36 +19,51 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Order',
             fields=[
-                ('order_number', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
+                ('order_number', models.UUIDField(default=uuid.uuid4,
+                                                  editable=False, primary_key=True, serialize=False)),
                 ('date', models.DateTimeField(auto_now_add=True)),
                 ('customer_name', models.CharField(max_length=60)),
                 ('email', models.EmailField(max_length=254)),
                 ('phone_number', models.CharField(max_length=15)),
                 ('order_address_line1', models.CharField(max_length=180)),
-                ('order_address_line2', models.CharField(blank=True, max_length=180, null=True)),
-                ('order_town_or_city', models.CharField(blank=True, max_length=180, null=True)),
-                ('order_county', models.CharField(blank=True, max_length=180, null=True)),
+                ('order_address_line2', models.CharField(
+                    blank=True, max_length=180, null=True)),
+                ('order_town_or_city', models.CharField(
+                    blank=True, max_length=180, null=True)),
+                ('order_county', models.CharField(
+                    blank=True, max_length=180, null=True)),
                 ('order_country', django_countries.fields.CountryField(max_length=2)),
-                ('order_post_code', models.CharField(blank=True, max_length=8, null=True)),
-                ('order_subtotal', models.DecimalField(decimal_places=2, default=0, max_digits=6)),
-                ('order_VAT', models.DecimalField(decimal_places=2, default=0, max_digits=6)),
-                ('delivery_cost', models.DecimalField(decimal_places=2, default=0, max_digits=6)),
-                ('grand_total', models.DecimalField(decimal_places=2, default=0, max_digits=6)),
+                ('order_post_code', models.CharField(
+                    blank=True, max_length=8, null=True)),
+                ('order_subtotal', models.DecimalField(
+                    decimal_places=2, default=0, max_digits=6)),
+                ('order_VAT', models.DecimalField(
+                    decimal_places=2, default=0, max_digits=6)),
+                ('delivery_cost', models.DecimalField(
+                    decimal_places=2, default=0, max_digits=6)),
+                ('grand_total', models.DecimalField(
+                    decimal_places=2, default=0, max_digits=6)),
                 ('payment_processor', models.CharField(default='', max_length=60)),
                 ('payment_id', models.CharField(default='', max_length=254)),
                 ('original_basket', models.TextField(default='')),
-                ('user_profile', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='orders', to='customers.UserProfile')),
+                ('user_profile', models.ForeignKey(blank=True, null=True,
+                                                   on_delete=django.db.models.deletion.SET_NULL, related_name='orders', to='customers.UserProfile')),
             ],
         ),
         migrations.CreateModel(
             name='OrderItem',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('quantity', models.IntegerField(default=0)),
-                ('total_VAT', models.DecimalField(decimal_places=2, default=0, max_digits=6)),
-                ('total_price', models.DecimalField(decimal_places=2, default=0, editable=False, max_digits=3)),
-                ('order', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='order_items', to='checkout.Order')),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='products.Product')),
+                ('total_VAT', models.DecimalField(
+                    decimal_places=2, default=0, max_digits=6)),
+                ('total_price', models.DecimalField(
+                    decimal_places=2, default=0, editable=False, max_digits=8)),
+                ('order', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                                            related_name='order_items', to='checkout.Order')),
+                ('product', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='products.Product')),
             ],
         ),
     ]

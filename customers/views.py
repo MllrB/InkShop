@@ -2,7 +2,7 @@
 Customer Profile views
 """
 import json
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from allauth.socialaccount.models import SocialAccount
@@ -10,6 +10,8 @@ from django.dispatch import receiver
 
 from .models import UserProfile, DeliveryAddress
 from .forms import UserProfileForm, UserDeliveryAddressForm
+from checkout.models import Order, OrderItem
+from products.models import Product
 
 
 @login_required
@@ -26,6 +28,7 @@ def show_profile(request, template_target):
     delivery_addresses = None
     form = None
     products = None
+    ordered_products = []
 
     try:
         user_profile = get_object_or_404(UserProfile, user=this_user)
@@ -77,6 +80,17 @@ def show_profile(request, template_target):
         delivery_addresses = DeliveryAddress.objects.all().filter(user=user_profile)
         if not delivery_addresses:
             form = UserDeliveryAddressForm()
+    else:
+        orders = user_profile.orders.all()
+        for order in orders:
+            order_line = order.order_items.all()
+            for line in order_line:
+                product = get_object_or_404(Product, pk=line.product.id)
+                ordered_products.append({
+                    'order_num': order.order_number,
+                    'product': product,
+                    'qty': line.quantity,
+                })
 
     email = request.user.email
 
@@ -86,6 +100,7 @@ def show_profile(request, template_target):
         'user': user_profile,
         'delivery_addresses': delivery_addresses,
         'target': template_target,
+        'ordered_products': ordered_products,
     }
 
     return render(request, 'customers/profile.html', context)
@@ -185,3 +200,27 @@ def delete_favourited_product(request, product_id):
         messages.error(
             request, 'We were unable to delete that product from your favourites, please refresh the page and try again')
         return show_profile(request, template_target)
+
+
+def repeat_order(request, order_id):
+    """
+    Adds products from a previous order to a users basket and redirects to the basket page
+    """
+
+    order = get_object_or_404(Order, order_number=order_id)
+    order_items = order.order_items.all()
+
+    basket = request.session.get('basket', {})
+
+    for item in order_items:
+        product_id = str(item.product.id)
+        if product_id in list(basket.keys()):
+            basket[product_id] += item.quantity
+        else:
+            basket[product_id] = item.quantity
+
+    messages.success(
+        request, 'Products from your previous order have been added to your basket')
+    request.session['basket'] = basket
+
+    return redirect(reverse('show_basket'))
