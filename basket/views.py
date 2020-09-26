@@ -31,7 +31,6 @@ def add_to_basket(request, product_id):
         messages.success(request, f'Added {product.title} to your basket')
 
     request.session['basket'] = basket
-    print(basket)
 
     if 'q' in request.POST:
         request.GET = request.GET.copy()

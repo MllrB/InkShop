@@ -1,17 +1,17 @@
-<div class="d-none d-lg-block col-lg-12">
+<div class="col-12">
     {% if favourite_products %}
     {% for product in favourite_products %}
     <div class="card product-list rounded-1 border-0" id="{{ product.id }}">
         <div class="row no-gutters">
-            <div class="col-3">
+            <div class="col-12 col-lg-3">
                 {% if product.img_src %}
-                <img class="card-img" src="{{ product.img_src }}" alt="{{ product.name }}">
+                <img class="card-img w-100" src="{{ product.img_src }}" alt="{{ product.name }}">
                 {% else %}
-                <img class="card-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
+                <img class="card-img w-100" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
                 {% endif %}
             </div>
-            <div class="col-6">
-                <div class="card-body">
+            <div class="col-12 col-lg-6">
+                <div class="card-body card-body-mobile">
                     <h5 class="card-title">
                         <strong>
                             <a href="{% url 'product_detail' product.id %}"> {{ product.title }} </a>
@@ -29,22 +29,41 @@
                     </p>
                 </div>
             </div>
-            <div class="col-3">
-                <div class="col-12 pricing">
-                    <strong>€{{ product.calculate_inc_vat_price }} <span class="text-muted">inc VAT<span></strong>
+            <div class="col-12 col-lg-3">
+                <div class="row d-none d-lg-block">
+                    <div class="col-12 pricing">
+                        <strong>€{{ product.calculate_inc_vat_price }} <span class="text-muted">inc VAT<span></strong>
+                    </div>
+                    <div class="col-12 pricing">
+                        <small class="text-muted">€{{ product.price }} ex VAT</small>
+                    </div>
                 </div>
-                <div class="col-12 pricing">
-                    <small class="text-muted">€{{ product.price }} ex VAT</small>
+                <div class="row d-flex d-lg-none pl-4 pr-2 my-2">
+                    <div class="col-6 pricing">
+                        <strong>€{{ product.calculate_inc_vat_price }} <span class="text-muted">inc VAT<span></strong>
+                    </div>
+                    <div class="col-6 pricing">
+                        <small class="text-muted">€{{ product.price }} ex VAT</small>
+                    </div>
                 </div>
-
                 <form class="form" action="{% url 'add_to_basket' product.id %}" method="POST">
                     {% csrf_token %}
-                    <div class="form-row">
+                    <div class="form-row d-none d-lg-block">
                         <div class="col-12 pricing">
                             {% include 'products/includes/quantity_selector.html' %}
                         </div>
-                        <div class="col-12 pricing add-to-basket-btn mb-2 pb-2 ">
-                            <input type="submit" class="btn btn-success w-100 rounded-0 border-0" value="Add to Basket">
+                        <div class="col-12 pricing add-to-basket-btn mb-2 pt-2">
+                            <input type="submit" class="btn btn-success w-100 rounded-1 border-0 btn-mobile"
+                                value="Add to Basket">
+                        </div>
+                    </div>
+                    <div class="row d-block d-lg-none px-0">
+                        <div class="col-12 pricing">
+                            {% include 'products/includes/quantity_selector.html' %}
+                        </div>
+                        <div class="col-12 pricing mb-2 pb-2 btn-mobile-container">
+                            <input type="submit" class="btn btn-success w-100 rounded-1 border-0 btn-mobile"
+                                value="Add to Basket">
                         </div>
                     </div>
                 </form>

@@ -357,8 +357,6 @@ h6 {
 /********** USER PROFILE **********/
 
 .profile-container {
-    width: 80%;
-    margin: 0 10%;
     margin-bottom: 10%;
 }
 
@@ -407,12 +405,6 @@ h6 {
 }
 
 
-/* 
-.order-history-img {
-    max-width: 70%;
-} */
-
-
 /********** ACCOUNTS **********/
 
 .login-card {
@@ -447,7 +439,25 @@ h6 {
 
 /********** MEDIA QUERIES **********/
 
+@media (max-width: 1220px) {
+    .std-container {
+        width: 90%;
+        margin: 0 5%;
+    }
+}
+
+@media (max-width: 1100px) {
+    .std-container {
+        width: 94%;
+        margin: 0 3%;
+    }
+}
+
 @media (max-width: 992px) {
+    .std-container {
+        width: 96%;
+        margin: 0 2%;
+    }
     .nav-main {
         width: 100vw;
         padding-bottom: 20px;
@@ -497,6 +507,10 @@ h6 {
 }
 
 @media (max-width: 768px) {
+    .std-container {
+        width: 96%;
+        margin: 0 2%;
+    }
     /* Products */
     .card-img {
         width: 80%;
@@ -535,11 +549,24 @@ h6 {
     .allauth-forms-container {
         margin: 0 8.5%;
     }
+    .card-body-mobile {
+        text-align: center;
+    }
+    .btn-mobile-container {
+        max-width: 90%;
+        padding-left: 4.3rem;
+    }
 }
 
 @media (max-width: 462px) {
+    .btn-mobile {
+        width: 100%;
+    }
     .account-btn {
         width: 90%;
+    }
+    .btn-mobile-container {
+        padding-left: 2.3rem;
     }
 }
 
@@ -576,5 +603,17 @@ h6 {
     /* Account */
     .allauth-forms-container {
         margin: 0 6%;
+    }
+}
+
+@media (max-width: 378px) {
+    .btn-mobile-container {
+        padding-left: 2rem;
+    }
+}
+
+@media (max-width: 321px) {
+    .btn-mobile-container {
+        padding-left: 1.7rem;
     }
 }
