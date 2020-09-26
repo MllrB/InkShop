@@ -217,6 +217,10 @@ def checkout_success(request, order_no):
     """
     Succesful Checkout
     """
+    try:
+        user_profile = get_object_or_404(UserProfile, user=request.user)
+    except:
+        user_profile = request.user
 
     order = get_object_or_404(Order, order_number=order_no)
     messages.success(request, f'Thank you for your order. \
@@ -228,5 +232,6 @@ def checkout_success(request, order_no):
 
     context = {
         'order': order,
+        'user_profile': user_profile,
     }
     return render(request, 'checkout/checkout_success.html', context)

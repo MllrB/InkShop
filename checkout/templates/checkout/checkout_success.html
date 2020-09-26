@@ -13,45 +13,74 @@
     <div class="col-12">
         <div class="card product-list">
             <div class="card-title ml-3">
-                <div class="row">
-                    <div class="col-12 col-md-2">
-                        <p>Order Number:</p>
+                <div class="row order-details pt-3">
+                    <div class="col-12 col-md-4">
+                        <p class="mb-0">Order Number:</p>
                     </div>
-                    <div class="col-12 col-md-10">
-                        <p>{{ order.order_number }}</p>
+                    <div class="col-12 col-md-8">
+                        <p class="mb-0">{{ order.order_number }}</p>
                     </div>
-                    <div class="col-12 col-md-2">
-                        <p>Order Date:</p>
+                    <div class="col-12">
+                        <hr>
                     </div>
-                    <div class="col-12 col-md-10">
-                        <p>{{ order.date }}</p>
+                    <div class="col-12 col-md-4">
+                        <p class="mb-0">Order Date:</p>
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <p class="mb-0">{{ order.date }}</p>
+                    </div>
+                    <div class="col-12">
+                        <hr class="mb-0">
                     </div>
                 </div>
             </div>
-            <div class="card-body">
+            <div class="card-body pt-2">
                 <div class="row">
                     <div class="col-12 col-md-6">
-                        <h4>Billing Adresss</h4>
+                        <h5>Billing Adresss</h5>
                         <hr>
                         <small>
                             <p>
                                 {% if request.user.is_authenticated %}
-                                {{ request.user.full_name }}<br>
+                                {{ user_profile.full_name }}<br>
+                                Phone Number: {{ user_profile.default_phone_number }}<br>
+                                {{ user_profile.billing_address_line1 }}<br>
+                                {% if user_profile.billing_address_line2 %}
+                                {{ user_profile.billing_address_line2 }}<br>
+                                {% endif %}
+                                {% if user_profile.billing_town_or_city %}
+                                {{ user_profile.billing_town_or_city }}<br>
+                                {% endif %}
+                                {% if user_profile.billing_county %}
+                                {{ user_profile.billing_county }}<br>
+                                {% endif %}
+                                {{ user_profile.billing_country.name }}<br>
+                                {% if user_profile.billing_address_line2 %}
+                                {{ user_profile.billing_post_code }}
+                                {% endif %}
                                 {% else %}
                                 {{ order.customer_name }}<br>
                                 Phone Number: {{ order.phone_number }}<br>
                                 {{ order.order_address_line1 }}<br>
+                                {% if order.order_address_line2 %}
                                 {{ order.order_address_line2 }}<br>
+                                {% endif %}
+                                {% if order.order_town_or_city %}
                                 {{ order.order_town_or_city }}<br>
+                                {% endif %}
+                                {% if order.order_county %}
                                 {{ order.order_county }}<br>
+                                {% endif %}
                                 {{ order.order_country.name }}<br>
-                                {{ order.order_post_code }}
+                                {% if order.order_post_code %}
+                                {{ order.order_post_code }}<br>
+                                {% endif %}
                                 {% endif %}
                             </p>
                         </small>
                     </div>
                     <div class="col-12 col-md-6">
-                        <h4>Delivery Address:</h4>
+                        <h5>Delivery Address:</h5>
                         <hr>
                         <small>
                             <p>{{ order.customer_name }}<br>
@@ -73,39 +102,50 @@
         <div class="card product-list">
             {% for item in order.order_items.all %}
             <div class="row p-2">
-                <div class="col-2">
+                <div class="col-12 d-sm-none text-center">
+                    <h5>{{ item.product.title }}</5>
+                </div>
+                <div class="col-6 col-sm-2 order-preview-img">
                     {% if item.product.img_src %}
                     <img class="basket-img" src="{{ item.product.img_src }}" alt="{{ item.product.name }}">
                     {% else %}
                     <img class="basket-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ item.product.name }}">
                     {% endif %}
                 </div>
-                <div class="col-4">
-                    <p>{{ item.product.title }}</p>
+                <div class="col-6 col-sm-8">
+                    <div class="row">
+                        <div class="col-6 d-none d-sm-flex">
+                            <h5>{{ item.product.title }}</h5>
+                        </div>
+                        <div class="col-12 col-sm-3">
+                            <p class="small">Price: €{{ item.product.price }} each</p>
+                        </div>
+                        <div class="col-12 col-sm-3">
+                            <p class="small">Qty: {{ item.quantity }}</p>
+                        </div>
+                        <div class="col-12 d-sm-none">
+                            <p class="small">Total Price: €{{ item.product.price |calc_line_total:item.quantity}}
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-2">
-                    <p>Price: €{{ item.product.price }} each</p>
-                </div>
-                <div class="col-2">
-                    <p>Qty: {{ item.quantity }}</p>
-                </div>
-                <div class="col-2 text-right">
-                    <p>Line Total: €{{ item.product.price |calc_line_total:item.quantity}}</p>
+                <div class="col-2 d-none d-sm-flex">
+                    <p>€{{ item.product.price |calc_line_total:item.quantity}}</p>
                 </div>
             </div>
             <hr class="hidden">
             {% endfor %}
             <div class="row p-2">
-                <div class="col-11 text-right">
+                <div class="col-7 col-sm-10 text-right">
                     <p>Sub Total</p>
                 </div>
-                <div class="col-1 text-right">
+                <div class="col-5 col-sm-2 text-right">
                     <p>€{{ order.order_subtotal }}</p>
                 </div>
-                <div class="col-11 text-right">
+                <div class="col-7 col-sm-10 text-right">
                     <p>Total VAT:</p>
                 </div>
-                <div class="col-1 text-right">
+                <div class="col-5 col-sm-2 text-right">
                     <p>€{{ order.order_VAT }}</p>
                 </div>
                 {% if order.delivery_cost == 0 %}
@@ -113,18 +153,20 @@
                     <p class="text-danger">FREE DELIVERY!</p>
                 </div>
                 {% else %}
-                <div class="col-11 text-right">
+                <div class="col-7 col-sm-10 text-right">
                     <p>Delivery:</p>
                 </div>
-                <div class="col-1 text-right">
+                <div class="col-5 col-sm-2 text-right">
                     <p>€{{ order.delivery_cost |floatformat:2}}</p>
                 </div>
                 {% endif %}
-                <hr>
-                <div class="col-11 text-right border-top">
+                <div class="col-12 px-2">
+                    <hr>
+                </div>
+                <div class="col-7 col-sm-10 text-right">
                     <p class="pt-2"><strong>Order total:</strong></p>
                 </div>
-                <div class="col-1 text-right border-top">
+                <div class="col-5 col-sm-2 text-right">
                     <p class="pt-2"><strong>€{{ order.grand_total }}</strong></p>
                 </div>
             </div>
