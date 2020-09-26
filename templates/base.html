@@ -212,6 +212,10 @@
 
         $('#shopping-basket-nav').hover(function () {
             $('#basket-preview').show();
+            $('.toast-error').hide();
+            $('.toast-info').hide();
+            $('.toast-success').hide();
+            $('.toast-warning').hide();
         }, function () {
             $('#basket-preview').hide();
         });
@@ -221,6 +225,13 @@
         }, function () {
             $(this).hide();
         });
+
+        $('#account-dropdown').click(function () {
+            $('.toast-error').hide();
+            $('.toast-info').hide();
+            $('.toast-success').hide();
+            $('.toast-warning').hide();
+        })
     </script>
     {% endblock %}
 </body>
