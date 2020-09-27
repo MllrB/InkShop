@@ -43,6 +43,24 @@ def all_products(request):
     return render(request, 'products/products.html', context)
 
 
+def show_products_in_category(request, category_id):
+    """
+    A view to return products associated with selected category
+    """
+    user_search = None
+    products = Product.objects.filter(category=category_id)
+    info_and_filters = get_product_features_info(products)
+
+    context = {
+        'products': products,
+        'search': user_search,
+        'product_info': info_and_filters['products_info'],
+        'filters': info_and_filters['product_filters'],
+    }
+
+    return render(request, 'products/products.html', context)
+
+
 def product_detail(request, product_id):
     """ A view to display individual products and their related products"""
 
@@ -64,20 +82,6 @@ def product_detail(request, product_id):
     }
 
     return render(request, 'products/product_detail.html', context)
-
-
-def show_products_in_category(request, category_id):
-    """
-    A view to return products associated with selected category
-    """
-
-    products = Product.objects.filter(category=category_id)
-
-    context = {
-        'products': products,
-    }
-
-    return render(request, 'products/by_category.html', context)
 
 
 @login_required
