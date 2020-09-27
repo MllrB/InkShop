@@ -4,7 +4,7 @@ Functions for building product info and finding related products
 
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
-from .models import Product
+from .models import Product, Category
 
 
 def get_product_features_info(products):
@@ -14,16 +14,38 @@ def get_product_features_info(products):
     for product in products:
         info = {}
         info['id'] = product.id
-        for feature in product.features:
-            if 'yield' in feature['feature_name'].lower():
-                if 'footnote' not in feature['feature_name'].lower():
-                    info['pages'] = feature['feature_value'].lower()
-            if 'colours' in feature['feature_name'].lower():
-                info['colour'] = feature['feature_value'].lower()
-                product_filters.append(
-                    feature['feature_value'].lower())
-            if 'volume' in feature['feature_name'].lower():
-                info['volume'] = feature['feature_value'].lower()
+        category = get_object_or_404(Category, pk=product.category.id)
+        if category.relevant_model == 'supplies':
+            for feature in product.features:
+                if 'yield' in feature['feature_name'].lower():
+                    if 'footnote' not in feature['feature_name'].lower():
+                        info['pages'] = feature['feature_value'].lower()
+                if 'print technology' in feature['feature_name'].lower():
+                    info['colour'] = feature['feature_value'].lower()
+                    product_filters.append(
+                        feature['feature_value'].lower())
+                if 'volume' in feature['feature_name'].lower():
+                    info['volume'] = feature['feature_value'].lower()
+        elif category.relevant_model == 'printers':
+            for feature in product.features:
+                if 'print technology' in feature['feature_name'].lower():
+                    info['print_tech'] = feature['feature_value'].lower()
+                    product_filters.append(
+                        feature['feature_value'].lower())
+                if 'print speed' in feature['feature_name'].lower():
+                    info['print_speed'] = feature['feature_value'].lower()
+                if 'colours' in feature['feature_name'].lower():
+                    info['print_colour'] = feature['feature_value'].lower()
+        elif category.relevant_model == 'accessories':
+            for feature in product.features:
+                if 'print technology' in feature['feature_name'].lower():
+                    info['print_tech'] = feature['feature_value'].lower()
+                    product_filters.append(
+                        feature['feature_value'].lower())
+                if 'print speed' in feature['feature_name'].lower():
+                    info['print_speed'] = feature['feature_value'].lower()
+                if 'colours' in feature['feature_name'].lower():
+                    info['print_colour'] = feature['feature_value'].lower()
 
         products_info.append(info)
 

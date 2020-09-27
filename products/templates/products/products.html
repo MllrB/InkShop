@@ -56,9 +56,22 @@
                         </h5>
                         <p class="card-text">
                             <div class="row">
-                                <div class="col-8 pt-2">{{ product.description }}</div>
-                                <div class="col-4">
-                                    {% if user.is_authenticated %}
+                                {% if user.is_authenticated %}
+                                <div class="col-10 pt-2">
+                                    {% if product.description %}
+                                    {% if product.description|wordcount > 30 %}
+                                    {{ product.description |truncatewords:30|safe }}
+                                    <a href="#description_{{product.id}}" data-toggle="collapse"
+                                        data-target="#description_{{product.id}}" data-item_id="{{ product.id }}"
+                                        class="collapse-link">
+                                        <small>see full description</small>
+                                    </a>
+                                    {% else %}
+                                    {{ product.description |safe }}
+                                    {% endif %}
+                                    {% endif %}
+                                </div>
+                                <div class="col-2">
                                     {% if product.id in favourites %}
                                     <form action="{% url 'remove_from_favourites' product.id %}" method="POST">
                                         {% csrf_token %}
@@ -84,8 +97,12 @@
                                         <input type="hidden" name="q" value="{{ search }}">
                                     </form>
                                     {% endif %}
-                                    {% endif %}
                                 </div>
+                                {% else %}
+                                <div class="col-12 pt-2">
+                                    {% if product.description %}{{ product.description |safe }}{% endif %}&nbsp;
+                                </div>
+                                {% endif %}
                             </div>
                         </p>
                         <hr>
@@ -98,20 +115,22 @@
                             {% if info.colour %}Colour:
                             <span data-prod-id="{{ info.id }}">{{ info.colour |capfirst }}</span><br>
                             {% endif %}
+                            {% if info.print_colour %}Printing Colours: {{ info.print_colour |capfirst }}<br>{% endif %}
+                            {% if info.print_tech %}Printer Type: {{ info.print_tech |capfirst }}<br>{% endif %}
+                            {% if info.print_speed %}Print Speed: {{ info.print_speed |capfirst }}</span><br>
+                            {% endif %}
                         </p>
                         {% endif %}
                         {% endfor %}
                         {% if product.blurb %}
-                        <a href="#blurb_{{product.id}}" data-toggle="collapse"><small>more
-                                info</small></a>&nbsp;&nbsp;&nbsp;
+                        <a href="#blurb_{{product.id}}" data-toggle="collapse" data-target="#blurb_{{product.id}}"
+                            data-item_id="{{ product.id }}" class="collapse-link">
+                            <small>moreinfo</small>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;
                         {% endif %}
-                        <a href="#compat_{{product.id}}" data-toggle="collapse"><small>printer compatibility</small></a>
-                        <div class="collapse" data-item_id="{{ product.id }}" id="blurb_{{ product.id }}">
-                            <p><small>{{ product.blurb |safe }}</small></p>
-                        </div>
-                        <div class="collapse" data-item_id="{{ product.id }}" id="compat_{{ product.id }}">
-                            <p><small>{{ product.features |safe }}</small></p>
-                        </div>
+                        <a href="#features_{{product.id}}" data-toggle="collapse" data-target="#features_{{product.id}}"
+                            class="collapse-link" data-item_id={{ product.id}}><small>product features</small></a>
                     </div>
                 </div>
                 <div class="col-3">
@@ -136,6 +155,21 @@
                         </div>
                     </form>
                 </div>
+                <div class="col-12 px-3">
+                    <div class="collapse" id="description_{{ product.id }}">
+                        <p><small>{{ product.description |safe }}</small></p>
+                    </div>
+                    <div class="collapse" id="blurb_{{ product.id }}">
+                        <p><small>{{ product.blurb |safe }}</small></p>
+                    </div>
+                    <div class="collapse" id="features_{{ product.id }}">
+                        <p>
+                            {% for feature in product.features %}
+                            <small>{{ feature.feature_name |safe }}: {{ feature.feature_value |safe }}</small><br>
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
         {% endfor %}
@@ -154,5 +188,28 @@
 {% include 'products/includes/quantity_input_script.html' %}
 {% include 'products/includes/filter_behaviour_script.html' %}
 {% include 'products/includes/favourites_popover_script.html' %}
+<script type="text/javascript">
+    $('.collapse-link').click(function () {
+        var productId = $(this).data('item_id');
+        var target = $(this).data('target');
 
+        $(target).toggle('collapse');
+
+        if ($(`#blurb_${productId}`).is(':visible')) {
+            if (target != `#blurb_${productId}`) {
+                $(`#blurb_${productId}`).toggle('collapse');
+            }
+        }
+        if ($(`#description_${productId}`).is(':visible')) {
+            if (target != `#description_${productId}`) {
+                $(`#description_${productId}`).toggle('collapse');
+            }
+        }
+        if ($(`#features_${productId}`).is(':visible')) {
+            if (target != `#features_${productId}`) {
+                $(`#features_${productId}`).toggle('collapse');
+            }
+        }
+    })
+</script>
 {% endblock %}

@@ -16,9 +16,12 @@
         </div>
         <div class="col-12">
             <div class="row">
-                <div class="col-12 col-sm-7">
-                    <div class="card-body">
-                        <h6><strong>{{ product.description }}</strong></h6>
+                <div class="col-12">
+                    <div class="card-body text-center">
+                        {% if product.description %}
+                        <h6><strong>{{ product.description |safe }}</strong>
+                        </h6>
+                        {% endif %}
                         <hr class="small-rule">
                         {% for info in product_info %}
                         {% if product.id == info.id %}
@@ -28,12 +31,15 @@
                             {% if info.colour %}Colour:
                             <span data-prod-id="{{ info.id }}">{{ info.colour |capfirst }}</span>
                             {% endif %}
+                            {% if info.print_colour %}Printing Colours: {{ info.print_colour |capfirst }}<br>{% endif %}
+                            {% if info.print_tech %}Printer Type: {{ info.print_tech |capfirst }}<br>{% endif %}
+                            {% if info.print_speed %}Print Speed: {{ info.print_speed |capfirst }}</span><br>{% endif %}
                         </p>
                         {% endif %}
                         {% endfor %}
                     </div>
                 </div>
-                <div class="col-12 col-sm-5">
+                <div class="col-12">
                     <hr class="small-rule d-sm-none">
                     <div class="col-12 text-right pricing">
                         <strong>€{{ product.calculate_inc_vat_price }} <span class="text-muted">inc
