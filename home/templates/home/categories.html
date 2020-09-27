@@ -11,7 +11,7 @@
     <div class="row">
         {% for category in categories %}
         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <a href="{% url 'products_by_category' category.id %}">
+            <a href="{% url 'products_by_category' category.id %}" class="category-link">
                 <div class="card product-list category-card">
                     <div class="card-title pt-4 text-center category-title  border-bottom">
                         <h5 class="pb-3"><strong>{{ category.friendly_name }}</strong></h5>

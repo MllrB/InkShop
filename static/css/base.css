@@ -224,6 +224,16 @@ h6 {
 
 /********** CATEGORIES **********/
 
+.category-link {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 1);
+}
+
+.category-link:hover {
+    text-decoration: none;
+    color: rgba(0, 0, 0, .70);
+}
+
 .category-card {
     height: 60vh;
 }
@@ -354,6 +364,15 @@ h6 {
 
 .favourite-btn:hover {
     font-size: 1.1rem;
+}
+
+.collapse-link {
+    text-decoration: none;
+    color: rgba(99, 18, 120, .85);
+}
+
+.collapse-link:hover {
+    color: rgba(99, 18, 120, .65);
 }
 
 
