@@ -2,12 +2,195 @@
 {% load static %}
 
 {% block content %}
-<div class="header-buffer">
-    <div class="row container">
-        <div class="col-12">
-            {% if request.user.is_authenticated %}
-            <p>{{ request.user }}</p>
-            {% endif %}
+<div class="home-banner-carousel-background">
+    <div class="row">
+        <div class="col"></div>
+    </div>
+</div>
+<div class="std-container">
+    <div class="carousel-container">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+            </ol>
+            <div class="carousel-inner welcome-carousel">
+                <div class="carousel-item active">
+                    <div class="row">
+                        <div class="col-5">
+                            <img class="d-block carousel-img" src="{{ MEDIA_URL }}banner-supplies.png" alt="Supplies">
+                        </div>
+                        <div class="col-7">
+                            <div class="row text-center">
+                                <div class="col-12">
+                                    <h1 class="carousel-header">
+                                        <strong>Printer Supplies</strong>
+                                    </h1>
+                                </div>
+                                <div class="col-12">
+                                    <h3 class="carousel-sub-heading px-5 mx-5">
+                                        Choose from our wide range of inks, toners and other printer consumables
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-5">
+                            <img class="d-block carousel-img" src="{{ MEDIA_URL }}banner-printers.png" alt="Printers">
+                        </div>
+                        <div class="col-7">
+                            <div class="row text-center">
+                                <div class="col-12">
+                                    <h1 class="carousel-header">
+                                        <strong>Printers &amp; Multi-Function Machines </strong>
+                                    </h1>
+                                </div>
+                                <div class="col-12">
+                                    <h3 class="carousel-sub-heading px-5 mx-5">
+                                        With plenty to choose from, find the perfect option for you in our catalogue
+                                        of printers
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-5">
+                            <img class="d-block carousel-img" src="{{ MEDIA_URL }}banner-paper.png" alt="Paper">
+                        </div>
+                        <div class="col-7">
+                            <div class="row text-center">
+                                <div class="col-12">
+                                    <h1 class="carousel-header">
+                                        <strong>Printing Paper </strong>
+                                    </h1>
+                                </div>
+                                <div class="col-12">
+                                    <h3 class="carousel-sub-heading px-5 mx-5">
+                                        Find the perfect paper to suit your printer
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-5">
+                            <img class="d-block carousel-img" src="{{ MEDIA_URL }}banner-accessories.png"
+                                alt="accessories">
+                        </div>
+                        <div class="col-7">
+                            <div class="row text-center">
+                                <div class="col-12">
+                                    <h1 class="carousel-header">
+                                        <strong>USB Flash Memory</strong>
+                                    </h1>
+                                </div>
+                                <div class="col-12">
+                                    <p class="carousel-sub-heading px-5 mx-5">
+                                        Always useful to have around, make sure you have a digital storage solution for
+                                        transferring and backing up your files
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+    <div class="row my-5 py-4">
+        <div class="col-12 text-center pb-5">
+            <h3>Recommended by Us</h3>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card product-list p-2">
+                <div class="card-title text-center">Staff Pick 1</div>
+                <div class="card-body">
+                    {% if product.img_src %}
+                    <img src="" alt="">
+                    {% else %}
+                    <img class="card-img" src="{{ MEDIA_URL }}noimage.png" alt="">
+                    {% endif %}
+                    <p>Product 1</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card product-list p-2">
+                <div class="card-title text-center">Staff Pick 2</div>
+                <div class="card-body">
+                    {% if product.img_src %}
+                    <img src="" alt="">
+                    {% else %}
+                    <img class="card-img" src="{{ MEDIA_URL }}noimage.png" alt="">
+                    {% endif %}
+                    <p>Product 2</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card product-list p-2">
+                <div class="card-title text-center">Staff Pick 3</div>
+                <div class="card-body">
+                    {% if product.img_src %}
+                    <img src="" alt="">
+                    {% else %}
+                    <img class="card-img" src="{{ MEDIA_URL }}noimage.png" alt="">
+                    {% endif %}
+                    <p>Product 3</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row container-fluid rtb-container py-5">
+    <div class="col-12">
+        <div class="row pt-5 text-center reasons-to-buy">
+            <div class="col-12 pb-5">
+                <h3><strong>Reasons to Buy from the Inkshop</strong></h3>
+            </div>
+            <div class="col-6 p-5">
+                <span class="icon">
+                    <i class="fas fa-shipping-fast fa-3x"></i>
+                </span>
+                <p class="pt-3">Same day shipping for in stock items ordered before 4pm</p>
+            </div>
+            <div class="col-6 p-5">
+                <span class="icon">
+                    <i class="fas fa-truck fa-3x"></i>
+                </span>
+                <p class="pt-3">Free delivery on any order over €{{ free_delivery_threshold |floatformat:2 }} ex VAT
+                </p>
+            </div>
+            <div class="col-6 p-5">
+                <span class="icon">
+                    <i class="fas fa-concierge-bell fa-3x"></i>
+                </span>
+                <p class="pt-3">Customer service that's second to none </p>
+            </div>
+            <div class="col-6 p-5">
+                <span class="icon">
+                    <i class="fas fa-euro-sign fa-3x"></i>
+                </span>
+                <p class="pt-3">Superb value for money pricing monitored daily</p>
+            </div>
         </div>
     </div>
 </div>

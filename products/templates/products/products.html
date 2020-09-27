@@ -54,10 +54,11 @@
                                 <a href="{% url 'product_detail' product.id %}"> {{ product.title }} </a>
                             </strong>
                         </h5>
-                        <p class="card-text">
-                            <div class="row">
-                                {% if user.is_authenticated %}
-                                <div class="col-10 pt-2">
+
+                        <div class="row no-gutters">
+                            {% if user.is_authenticated %}
+                            <div class="col-9 pt-2">
+                                <p class="card-text">
                                     {% if product.description %}
                                     {% if product.description|wordcount > 30 %}
                                     {{ product.description |truncatewords:30|safe }}
@@ -70,41 +71,41 @@
                                     {{ product.description |safe }}
                                     {% endif %}
                                     {% endif %}
-                                </div>
-                                <div class="col-2">
-                                    {% if product.id in favourites %}
-                                    <form action="{% url 'remove_from_favourites' product.id %}" method="POST">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn favourite-btn float-right"
-                                            data-toggle="popover" data-content="Remove from favourites"
-                                            data-placement="bottom">
-                                            <span class="icon text-danger">
-                                                <i class="fas fa-heart"></i>
-                                            </span>
-                                        </button>
-                                        <input type="hidden" name="q" value="{{ search }}">
-                                    </form>
-                                    {% else %}
-                                    <form action="{% url 'add_to_favourites' product.id %}" method="POST">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn favourite-btn float-right"
-                                            data-toggle="popover" data-content="Add to favourites"
-                                            data-placement="bottom">
-                                            <span class="icon text-danger">
-                                                <i class="far fa-heart"></i>
-                                            </span>
-                                        </button>
-                                        <input type="hidden" name="q" value="{{ search }}">
-                                    </form>
-                                    {% endif %}
-                                </div>
+                                </p>
+                            </div>
+                            <div class="col-3">
+                                {% if product.id in favourites %}
+                                <form action="{% url 'remove_from_favourites' product.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn favourite-btn float-right" data-toggle="popover"
+                                        data-content="Remove from favourites" data-placement="bottom">
+                                        <span class="icon text-danger">
+                                            <i class="fas fa-heart"></i>
+                                        </span>
+                                    </button>
+                                    <input type="hidden" name="q" value="{{ search }}">
+                                </form>
                                 {% else %}
-                                <div class="col-12 pt-2">
-                                    {% if product.description %}{{ product.description |safe }}{% endif %}&nbsp;
-                                </div>
+                                <form action="{% url 'add_to_favourites' product.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn favourite-btn float-right" data-toggle="popover"
+                                        data-content="Add to favourites" data-placement="bottom">
+                                        <span class="icon text-danger">
+                                            <i class="far fa-heart"></i>
+                                        </span>
+                                    </button>
+                                    <input type="hidden" name="q" value="{{ search }}">
+                                </form>
                                 {% endif %}
                             </div>
-                        </p>
+                            {% else %}
+                            <div class="col-12 pt-2">
+                                {% if product.description %}{{ product.description |safe }}{% endif %}&nbsp;
+                            </div>
+                            {% endif %}
+
+                        </div>
+
                         <hr>
 
                         {% for info in product_info %}
@@ -134,26 +135,29 @@
                     </div>
                 </div>
                 <div class="col-3">
-                    <div class="col-12 pricing">
-                        <strong>€{{ product.calculate_inc_vat_price }} <span class="text-muted">inc VAT<span></strong>
-                    </div>
-                    <div class="col-12 pricing">
-                        <small class="text-muted">€{{ product.price }} ex VAT</small>
-                    </div>
-
-                    <form class="form" action="{% url 'add_to_basket' product.id %}" method="POST">
-                        {% csrf_token %}
-                        <div class="form-row">
-                            <div class="col-12 pricing">
-                                {% include 'products/includes/quantity_selector.html' %}
-                            </div>
-                            <div class="col-12 pricing add-to-basket-btn">
-                                <input type="submit" class="btn btn-success w-100 rounded-0 border-0"
-                                    value="Add to Basket">
-                            </div>
-                            <input type="hidden" name="q" value="{{ search }}">
+                    <div class="row">
+                        <div class="col-12 pricing">
+                            <strong>€{{ product.calculate_inc_vat_price }} <span class="text-muted">inc
+                                    VAT<span></strong>
                         </div>
-                    </form>
+                        <div class="col-12 pricing">
+                            <small class="text-muted">€{{ product.price }} ex VAT</small>
+                        </div>
+
+                        <form class="form" action="{% url 'add_to_basket' product.id %}" method="POST">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="col-12 pricing">
+                                    {% include 'products/includes/quantity_selector.html' %}
+                                </div>
+                                <div class="col-12 pricing add-to-basket-btn">
+                                    <input type="submit" class="btn btn-success w-100 rounded-0 border-0"
+                                        value="Add to Basket">
+                                </div>
+                                <input type="hidden" name="q" value="{{ search }}">
+                            </div>
+                        </form>
+                    </div>
                 </div>
                 <div class="col-12 px-3">
                     <div class="collapse" id="description_{{ product.id }}">

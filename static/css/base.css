@@ -222,6 +222,64 @@ h6 {
 }
 
 
+/********** HOMEPAGE **********/
+
+.home-banner-carousel-background {
+    background: linear-gradient(0deg, rgba(99, 18, 120, 1) 0%, rgba(99, 18, 120, 0) 100%);
+    position: absolute;
+    top: calc(15% + 170px);
+    left: 0;
+    height: 80%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.carousel {
+    height: 90vh;
+}
+
+.welcome-carousel {
+    height: 100%;
+}
+
+.carousel-item {
+    max-height: 200px;
+}
+
+.carousel-img {
+    max-height: 80%;
+}
+
+.carousel-header {
+    margin-top: 20vh;
+    font-size: 4rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 1);
+    text-shadow: 1px 1px 10px rgba(99, 18, 120, 1);
+}
+
+.carousel-sub-heading {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 1);
+}
+
+.carousel-container {
+    max-height: 110vh;
+}
+
+.rtb-container {
+    background: rgba(99, 18, 120, 1);
+}
+
+.reasons-to-buy {
+    width: 70%;
+    margin: 0 15%;
+    color: rgba(255, 255, 255);
+}
+
+
 /********** CATEGORIES **********/
 
 .category-link {
