@@ -8,6 +8,8 @@ urlpatterns = [
     path('', views.all_products, name='products'),
     path('product_detail/<product_id>/',
          views.product_detail, name='product_detail'),
+    path('by_category/<category_id>/',
+         views.show_products_in_category, name='products_by_category'),
     path('add_to_favourites/<product_id>/',
          views.add_to_favourites, name='add_to_favourites'),
     path('remove_from_favourites/<product_id>/',

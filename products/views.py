@@ -66,6 +66,20 @@ def product_detail(request, product_id):
     return render(request, 'products/product_detail.html', context)
 
 
+def show_products_in_category(request, category_id):
+    """
+    A view to return products associated with selected category
+    """
+
+    products = Product.objects.filter(category=category_id)
+
+    context = {
+        'products': products,
+    }
+
+    return render(request, 'products/by_category.html', context)
+
+
 @login_required
 def add_to_favourites(request, product_id):
     """
@@ -149,6 +163,10 @@ def remove_from_favourites(request, product_id):
             return product_detail(request, product_id)
     else:
         return product_detail(request, product_id)
+
+###############################
+# PRODUCT MAINTENANCE SECTION #
+###############################
 
 
 @login_required

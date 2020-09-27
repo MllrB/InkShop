@@ -59,7 +59,8 @@
                 </a>
                 <div class="dropdown-menu border-0" aria-labelledby="supplies-link">
                     {% for supply_type in supplies %}
-                    <a class="dropdown-item" href="#">{{ supply_type.friendly_name}}</a>
+                    <a class="dropdown-item"
+                        href="{% url 'products_by_category' supply_type.id %}">{{ supply_type.friendly_name}}</a>
                     {% endfor %}
                 </div>
             </li>
@@ -70,7 +71,8 @@
                 </a>
                 <div class="dropdown-menu border-0" aria-labelledby="printers-link">
                     {% for printer_type in printers %}
-                    <a class="dropdown-item" href="#">{{ printer_type.friendly_name}}</a>
+                    <a class="dropdown-item"
+                        href="{% url 'products_by_category' printer_type.id %}">{{ printer_type.friendly_name}}</a>
                     {% endfor %}
                 </div>
             </li>
@@ -82,7 +84,8 @@
                 </a>
                 <div class="dropdown-menu border-0" aria-labelledby="accessories-link">
                     {% for accessory_type in accessories %}
-                    <a class="dropdown-item" href="#">{{ accessory_type.friendly_name}}</a>
+                    <a class="dropdown-item"
+                        href="{% url 'products_by_category' accessory_type.id %}">{{ accessory_type.friendly_name}}</a>
                     {% endfor %}
                 </div>
             </li>
