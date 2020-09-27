@@ -56,9 +56,12 @@
                                     <p class="drop-text">Browse</p>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                    <a class="dropdown-item" type="button" href="#">Printers</a>
-                                    <a class="dropdown-item" type="button" href=""> Supplies</a>
-                                    <a class="dropdown-item" type="button" href="#">Accessories</a>
+                                    <a class="dropdown-item" type="button"
+                                        href="{% url 'categories' category='supplies' %}"> Supplies</a>
+                                    <a class="dropdown-item" type="button"
+                                        href="{% url 'categories' category='printers' %}">Printers</a>
+                                    <a class="dropdown-item" type="button"
+                                        href="{% url 'categories' category='accessories' %}">Accessories</a>
                                 </div>
                             </div>
                         </div>

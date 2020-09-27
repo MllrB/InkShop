@@ -8,4 +8,5 @@ from . import views
 urlpatterns = [
     path('', views.index, name='home'),
     path('account/', views.login, name='account'),
+    path('category/<category>', views.get_categories, name='categories'),
 ]

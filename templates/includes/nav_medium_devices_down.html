@@ -53,23 +53,25 @@
                 <a class="nav-link" href=" {% url 'home' %}">Home</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link" href="#" id="printers-link" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    Printers
-                </a>
-                <div class="dropdown-menu border-0" aria-labelledby="printers-link">
-                    <a class="dropdown-item" href="#">Brand 1</a>
-                    <a class="dropdown-item" href="#">Brand 2</a>
-                    <a class="dropdown-item" href="#">Brand 3</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
                 <a class="nav-link" href="#" id="supplies-link" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     Supplies
                 </a>
                 <div class="dropdown-menu border-0" aria-labelledby="supplies-link">
-                    <a class="dropdown-item" href="">Categories</a>
+                    {% for supply_type in supplies %}
+                    <a class="dropdown-item" href="#">{{ supply_type.friendly_name}}</a>
+                    {% endfor %}
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="#" id="printers-link" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Printers
+                </a>
+                <div class="dropdown-menu border-0" aria-labelledby="printers-link">
+                    {% for printer_type in printers %}
+                    <a class="dropdown-item" href="#">{{ printer_type.friendly_name}}</a>
+                    {% endfor %}
                 </div>
             </li>
 
@@ -79,7 +81,9 @@
                     Accessories
                 </a>
                 <div class="dropdown-menu border-0" aria-labelledby="accessories-link">
-                    <a class="dropdown-item" href="">Categories</a>
+                    {% for accessory_type in accessories %}
+                    <a class="dropdown-item" href="#">{{ accessory_type.friendly_name}}</a>
+                    {% endfor %}
                 </div>
             </li>
         </ul>

@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from allauth.account.forms import LoginForm, SignupForm
 
+from products.models import Product, Category
+
 
 def index(request):
     """ 
@@ -22,3 +24,17 @@ def login(request):
     }
 
     return render(request, 'login.html', context)
+
+
+def get_categories(request, category):
+    """
+    A view to return categories that contain printers
+    """
+    categories = Category.objects.filter(relevant_model=category.lower())
+
+    context = {
+        'categories': categories,
+        'title': category,
+    }
+
+    return render(request, 'home/categories.html', context)

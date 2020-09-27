@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="std-container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h2>{{ title |capfirst}}</h2>
+        </div>
+    </div>
+    <div class="row">
+        {% for category in categories %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="card product-list category-card">
+                <div class="card-title pt-4 text-center category-title  border-bottom">
+                    <h5 class="pb-3"><strong>{{ category.friendly_name }}</strong></h5>
+                </div>
+                <div class="card-body category-body">
+                    <div class="row">
+                        <div class="col-12 text-center category-img-container">
+                            {% if category.img %}
+                            <img class="category-img" src="{{ category.img }}" alt="{{ category.name }}">
+                            {% else %}
+                            <img class="category-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ category.name }}">
+                            {% endif %}
+                        </div>
+                        <div class="col-12 category-description">
+                            <p class="small text-muted">{{ category.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -90,6 +90,7 @@ TEMPLATES = [
                 'django.template.context_processors.media',
                 'basket.contexts.basket_contents',
                 'customers.contexts.user_favourited_products',
+                'products.contexts.categories',
             ],
         },
     },

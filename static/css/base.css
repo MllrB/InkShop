@@ -222,6 +222,37 @@ h6 {
 }
 
 
+/********** CATEGORIES **********/
+
+.category-card {
+    height: 60vh;
+}
+
+.category-title {
+    height: 10vh;
+    background: rgba(241, 242, 241, 1)
+}
+
+.category-body {
+    height: 50vh;
+}
+
+.category-img-container {
+    height: 30vh;
+}
+
+.category-description {
+    height: 10vh;
+    overflow-y: auto;
+}
+
+.category-img {
+    width: 90%;
+    max-height: 100%;
+    padding: 2rem;
+}
+
+
 /********** PRODUCTS **********/
 
 .card {
