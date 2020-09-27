@@ -228,6 +228,26 @@ def update_product_group(request, group_id):
 
 
 @login_required
+def add_product_group(request):
+    """
+    Adds a new product group
+    """
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'You are not authorised to access this area of the site')
+        return redirect(reverse('home'))
+
+    if request.method == 'POST':
+        if 'new_p_group' in request.POST and 'new_profit_margin' in request.POST:
+            ProductGroup.objects.create(
+                name=request.POST['new_p_group'],
+                profit_margin=request.POST['new_profit_margin']
+            )
+
+    return redirect(reverse('product_maintenance'))
+
+
+@login_required
 def update_vat_group(request, group_id):
     """
     Updates existing vat groups
@@ -248,6 +268,26 @@ def update_vat_group(request, group_id):
             messages.success(request, 'Product group updated')
     except:
         messages.error(request, 'Unable to update product group')
+
+    return redirect(reverse('product_maintenance'))
+
+
+@login_required
+def add_vat_group(request):
+    """
+    Adds a new vat group
+    """
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'You are not authorised to access this area of the site')
+        return redirect(reverse('home'))
+
+    if request.method == 'POST':
+        if 'new_v_group' in request.POST and 'new_vat_rate' in request.POST:
+            VatGroup.objects.create(
+                name=request.POST['new_v_group'],
+                vat_rate=request.POST['new_vat_rate']
+            )
 
     return redirect(reverse('product_maintenance'))
 
