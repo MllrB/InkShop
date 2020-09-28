@@ -279,6 +279,31 @@ h6 {
     color: rgba(255, 255, 255);
 }
 
+.recommended {
+    margin-bottom: 18vh;
+}
+
+.card-body-tile {
+    height: 80vh;
+}
+
+.card-img-tile {
+    position: relative;
+    height: 50vh;
+}
+
+.product-title-tile {
+    position: relative;
+    height: 10vh;
+}
+
+.product-description-tile {
+    position: relative;
+    height: 10vh;
+    margin-top: 10%;
+    overflow-y: auto;
+}
+
 
 /********** CATEGORIES **********/
 

@@ -12,7 +12,12 @@ def index(request):
     """ 
     A view to render the index page template
     """
-    return render(request, 'home/index.html')
+    content_template = ContentManagement.objects.get(active=True)
+
+    context = {
+        'content_template': content_template,
+    }
+    return render(request, 'home/index.html', context)
 
 
 def login(request):
@@ -126,6 +131,7 @@ def content_management(request):
     return render(request, 'home/content_management.html', context)
 
 
+@login_required
 def save_content_changes(request):
     """
     Saves user changes to content pages
@@ -174,27 +180,28 @@ def save_content_changes(request):
             messages.success(
                 request, "Your changes were saved to a template called 'custom'.")
 
-        print(request.POST)
         content_templates = ContentManagement.objects.all()
         if 'make-active-custom' in request.POST:
-            print(True)
             for template in content_templates:
                 if template.name == 'custom':
                     template.active = True
+                    template.save()
                 else:
                     template.active = False
-                template.save()
+                    template.save()
         else:
             for template in content_templates:
                 if template.name == 'custom':
                     template.active = False
+                    template.save()
                 else:
                     template.active = True
-                template.save()
+                    template.save()
 
     return redirect(reverse('content_management'))
 
 
+@login_required
 def recommended_products(request):
     """
     A view to allow staff to select the recommended products on the homepage
@@ -213,6 +220,7 @@ def recommended_products(request):
     return render(request, 'home/recommended_products.html', context)
 
 
+@login_required
 def find_products_to_recommend(request):
     """
     Finds products from a user search and returns a page that allows the user to select
@@ -240,6 +248,7 @@ def find_products_to_recommend(request):
     return render(request, 'home/products_to_recommend.html', context)
 
 
+@login_required
 def save_recommended_product(request, product_id):
     """
     Save the changes a user has made to recommended products
