@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.contrib import messages
 from allauth.account.forms import LoginForm, SignupForm
+from django.contrib.auth.decorators import login_required
 
 from .models import ContentManagement
 from products.models import Product, Category
@@ -94,3 +96,99 @@ def show_privacy_policy(request):
         'page_content': privacy_content.privacy,
     }
     return render(request, 'home/privacy_policy.html', context)
+
+
+######################
+# CONTENT MANAGEMENT #
+######################
+
+@login_required
+def content_management(request):
+    """
+    Returns a template for superusers to perform content management
+    """
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'You are not authorised to access this area of the site')
+        return redirect(reverse('home'))
+
+    contents = ContentManagement.objects.all()
+    content_names = []
+    for content in contents:
+        content_names.append(content.name)
+
+    context = {
+        'saved_content': contents,
+        'content_names': content_names,
+    }
+
+    return render(request, 'home/content_management.html', context)
+
+
+def save_content_changes(request):
+    """
+    Saves user changes to content pages
+    """
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'You are not authorised to access this area of the site')
+        return redirect(reverse('home'))
+
+    if request.method == 'POST':
+        content_id = int(request.POST['content_id'])
+
+        if content_id != 1:
+            try:
+                content = get_object_or_404(ContentManagement, name='custom')
+                content.about = request.POST['about-us-custom']
+                content.delivery = request.POST['delivery-info-custom']
+                content.questions = request.POST['faqs-custom']
+                content.terms = request.POST['terms-conditions-custom']
+                content.privacy = request.POST['privacy-policy-custom']
+                content.save()
+                messages.success(
+                    request, "Your changes were saved to 'custom'.")
+
+            except:
+                messages.error(
+                    request, "Sorry, something wnet wrong and your changes weren't saved. Please try again")
+        else:
+            try:
+                content = get_object_or_404(ContentManagement, name='custom')
+                content.about = request.POST['about-us-primary']
+                content.delivery = request.POST['delivery-info-primary']
+                content.questions = request.POST['faqs-primary']
+                content.terms = request.POST['terms-conditions-primary']
+                content.privacy = request.POST['privacy-policy-primary']
+                content.save()
+            except:
+                ContentManagement.objects.create(
+                    name='custom',
+                    about=request.POST['about-us-primary'],
+                    delivery=request.POST['delivery-info-primary'],
+                    questions=request.POST['faqs-primary'],
+                    terms=request.POST['terms-conditions-primary'],
+                    privacy=request.POST['privacy-policy-primary']
+                )
+            messages.success(
+                request, "Your changes were saved to a template called 'custom'.")
+
+        print(request.POST)
+        content_templates = ContentManagement.objects.all()
+        if 'make-active-custom' in request.POST:
+            print(True)
+            for template in content_templates:
+                if template.name == 'custom':
+                    template.active = True
+                else:
+                    template.active = False
+                template.save()
+        else:
+            for template in content_templates:
+                if template.name == 'custom':
+                    template.active = False
+                else:
+                    template.active = True
+                template.save()
+
+    return redirect(reverse('content_management'))

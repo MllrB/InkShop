@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="std-container">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="text-center">Content Management</h1>
+            <select class="form-control" name="content-select" id="id-content-select">
+                {% for name in content_names %}
+                {% if name == 'primary' %}
+                <option name="{{ name }}" value="{{ name }}" selected>{{ name }}</option>
+                {% else %}
+                <option name="{{ name }}" value="{{ name }}">{{ name }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+            {% for contents in saved_content %}
+            <form id="{{ contents.id }}" action="{% url 'save_content_changes' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="content_id" value="{{ contents.id }}">
+                <div id="accordion">
+                    <div class="card product-list ml-0 pl-0">
+                        <div class="card-header rounded-1" id="about_us">
+                            <button type="button" class="btn w-100 h-100 card-title" data-toggle="collapse"
+                                data-target="#about_us_content" aria-expanded="false" aria-controls="about_us_content">
+                                About Us
+                            </button>
+                        </div>
+
+                        <div id="about_us_content" class="collapse" aria-labelledby="about_us" data-parent="#accordion">
+                            <div class="card-body">
+                                <textarea class="form-control content-area" name="about-us-{{ contents.name }}"
+                                    id="about-us-{{contents.id}}" rows="20">{{contents.about}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card product-list ml-0 pl-0">
+                        <div class="card-header rounded-1" id="delivery-info">
+                            <button type="button" class="btn w-100 h-100 card-title" data-toggle="collapse"
+                                data-target="#delivery_info_content" aria-expanded="false"
+                                aria-controls="delivery_info_content">
+                                Delivery Info
+                            </button>
+                        </div>
+
+                        <div id="delivery_info_content" class="collapse" aria-labelledby="delivery_info"
+                            data-parent="#accordion">
+                            <div class="card-body">
+                                <textarea class="form-control content-area" name="delivery-info-{{ contents.name }}"
+                                    id="delivery-info-{{contents.id}}" rows="20">{{contents.delivery}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card product-list ml-0 pl-0">
+                        <div class="card-header rounded-1" id="faqs">
+                            <button type="button" class="btn w-100 h-100 card-title" data-toggle="collapse"
+                                data-target="#faqs_content" aria-expanded="false" aria-controls="faqs_content">
+                                FAQS
+                            </button>
+                        </div>
+
+                        <div id="faqs_content" class="collapse" aria-labelledby="faqs" data-parent="#accordion">
+                            <div class="card-body">
+                                <textarea class="form-control content-area" name="faqs-{{ contents.name }}"
+                                    id="faqs-{{contents.id}}" rows="20">{{contents.questions}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card product-list ml-0 pl-0">
+                        <div class="card-header rounded-1" id="terms_conditions">
+                            <button type="button" class="btn w-100 h-100 card-title" data-toggle="collapse"
+                                data-target="#terms_conditions_content" aria-expanded="false"
+                                aria-controls="terms_conditions_content">
+                                Terms and Conditions
+                            </button>
+                        </div>
+
+                        <div id="terms_conditions_content" class="collapse" aria-labelledby="terms_conditions"
+                            data-parent="#accordion">
+                            <div class="card-body">
+                                <textarea class="form-control content-area" name="terms-conditions-{{ contents.name }}"
+                                    id="terms-conditions-{{contents.id}}" rows="20">{{contents.terms}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card product-list ml-0 pl-0">
+                        <div class="card-header rounded-1" id="privacy_policy">
+                            <button type="button" class="btn w-100 h-100 card-title" data-toggle="collapse"
+                                data-target="#privacy_policy_content" aria-expanded="false"
+                                aria-controls="privacy_policy_content">
+                                Privacy Policy
+                            </button>
+                        </div>
+
+                        <div id="privacy_policy_content" class="collapse" aria-labelledby="privacy_policy"
+                            data-parent="#accordion">
+                            <div class="card-body">
+                                <textarea class="form-control content-area" name="privacy-policy-{{ contents.name }}"
+                                    id="privacy-policy-{{contents.id}}" rows="20">{{contents.privacy}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="form-check-label" for="checkbox_{{ contents.id }}">Do you want to make this
+                                information active?</label>
+                        </div>
+                        <div class="col-2">
+                            <input type="checkbox" class="form-check-input" name="make-active-{{ contents.name }}"
+                                id="checkbox_{{ contents.id }}">
+                        </div>
+                        <div class="col-6 text-center">
+                            <button type="submit" class="btn btn-success rounded-1 w-50">Save Changes</button>
+                        </div>
+                    </div>
+            </form>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
