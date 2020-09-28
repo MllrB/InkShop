@@ -211,7 +211,7 @@ def edit_products(request):
         user_search = request.GET['q']
         print(user_search)
         queries = Q(skus__icontains=user_search) | Q(
-            name__icontains=user_search) | Q(keywords__icontains=user_search) | Q(title__icontains=user_search)
+            title__icontains=user_search) | Q(description__icontains=user_search)
         products = Product.objects.filter(queries)
         print(products.count())
         if products.count() < 1:

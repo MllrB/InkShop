@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
+from django.db.models import Q
 from allauth.account.forms import LoginForm, SignupForm
 from django.contrib.auth.decorators import login_required
 
@@ -192,3 +193,71 @@ def save_content_changes(request):
                 template.save()
 
     return redirect(reverse('content_management'))
+
+
+def recommended_products(request):
+    """
+    A view to allow staff to select the recommended products on the homepage
+    """
+
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'You are not authorised to access this area of the site')
+        return redirect(reverse('home'))
+
+    content_templates = ContentManagement.objects.all()
+    context = {
+        'content_templates': content_templates,
+    }
+
+    return render(request, 'home/recommended_products.html', context)
+
+
+def find_products_to_recommend(request):
+    """
+    Finds products from a user search and returns a page that allows the user to select
+    which products to add to which ContentManagement record
+    """
+
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'You are not authorised to access this area of the site')
+        return redirect(reverse('home'))
+
+    products = None
+    if request.method == 'GET':
+        user_search = request.GET['q']
+        queries = Q(skus__icontains=user_search) | Q(
+            title__icontains=user_search) | Q(description__icontains=user_search)
+        products = Product.objects.filter(queries)
+        if products.count() < 1:
+            print("none found")
+
+    context = {
+        'products': products,
+    }
+
+    return render(request, 'home/products_to_recommend.html', context)
+
+
+def save_recommended_product(request, product_id):
+    """
+    Save the changes a user has made to recommended products
+    """
+    if request.method == 'POST':
+        product = get_object_or_404(Product, pk=product_id)
+        content_to_update = request.POST['template']
+        position = int(request.POST['position'])
+
+        content_template = ContentManagement.objects.get(
+            name=content_to_update)
+        if position == 1:
+            content_template.staff_pick1 = product
+        elif position == 2:
+            content_template.staff_pick2 = product
+        else:
+            content_template.staff_pick3 = product
+
+        content_template.save()
+
+    return redirect(reverse('recommended_products'))

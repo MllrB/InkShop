@@ -19,4 +19,10 @@ urlpatterns = [
          name='content_management'),
     path('content_management/save_changes/', views.save_content_changes,
          name='save_content_changes'),
+    path('content_management/recommended_products/', views.recommended_products,
+         name='recommended_products'),
+    path('content_management/products_to_recommend/', views.find_products_to_recommend,
+         name='find_products_to_recommend'),
+    path('content_management/save_recommended_product/<product_id>', views.save_recommended_product,
+         name='save_recommended_product'),
 ]

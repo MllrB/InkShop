@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="row std-container">
+    <div class="col-12 text-center">
+        <h1>Content Management: Select Recommended Products</h1>
+        <p class="small">
+            Search for products to add to recommended list or return to the
+            <a href="{% url 'content_management' %}">main content management</a> page
+        </p>
+        <hr>
+    </div>
+    <div class="col-12">
+        <div class="card product-list">
+            <div class="card-body">
+                <form method="GET" action="{% url 'find_products_to_recommend' %}">
+                    <div class="input-group w-100">
+                        <input class="form-control w-100 border-0 rounded-1" type="text" name="q"
+                            placeholder="Search for a product to edit">
+                        <div class="input-group-append">
+                            <button class="form-control btn border-0 rounded-1 bg-white text-success" type="submit">
+                                <span class="icon search-field">
+                                    <i class="fas fa-search "></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr>
+    </div>
+
+    {% for template in content_templates %}
+    <div class="row">
+        <div class="col-12 text-center">
+            <h3>{{ template.name |capfirst}} content template</h3>
+            <hr>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card product-list p-3">
+                <div class="row card-body">
+                    <div class="col-12">
+                        {% if template.staff_pick1.img_src %}
+                        <img class="card-img" src="{{ template.staff_pick1.img_src }}"
+                            alt="{{ template.staff_pick1.title }}">
+                        {% else %}
+                        <img class="card-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ template.staff_pick1.title }}">
+                        {% endif %}
+                    </div>
+                    <div class="col-12">
+                        <h4>{{ template.staff_pick1.title }}</h4>
+                    </div>
+                    <div class="col-12">
+                        <p class="small">{{ template.staff_pick1.description |truncatewords:20|safe }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card product-list p-3">
+                <div class="row card-body">
+                    <div class="col-12">
+                        {% if template.staff_pick2.img_src %}
+                        <img class="card-img" src="{{ template.staff_pick2.img_src }}"
+                            alt="{{ template.staff_pick2.title }}">
+                        {% else %}
+                        <img class="card-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ template.staff_pick2.title }}">
+                        {% endif %}
+                    </div>
+                    <div class="col-12">
+                        <h4>{{ template.staff_pick2.title }}</h4>
+                    </div>
+                    <div class="col-12">
+                        <p class="small">{{ template.staff_pick2.description |truncatewords:20|safe }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card product-list p-3">
+                <div class="row card-body">
+                    <div class="col-12">
+                        {% if template.staff_pick3.img_src %}
+                        <img class="card-img" src="{{ template.staff_pick3.img_src }}"
+                            alt="{{ template.staff_pick3.title }}">
+                        {% else %}
+                        <img class="card-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ template.staff_pick3.title }}">
+                        {% endif %}
+                    </div>
+                    <div class="col-12">
+                        <h4>{{ template.staff_pick3.title }}</h4>
+                    </div>
+                    <div class="col-12">
+                        <p class="small">{{ template.staff_pick3.description |truncatewords:20|safe }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

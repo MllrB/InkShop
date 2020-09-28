@@ -5,7 +5,11 @@
 <div class="std-container">
     <div class="row">
         <div class="col-12">
-            <h1 class="text-center">Content Management</h1>
+            <h1 class="text-center pb-5">Content Management</h1>
+            <p class="small">Here you can make changes to the text content pages.
+                <a href="{% url 'recommended_products' %}">Click here to select the recommended products for the
+                    homepage.</a>
+            </p>
             <select class="form-control" name="content-select" id="id-content-select">
                 {% for name in content_names %}
                 {% if name == 'primary' %}
@@ -15,8 +19,14 @@
                 {% endif %}
                 {% endfor %}
             </select>
+            <p class="small text-danger mb-3 ml-3">The primary form is your backup, any changes you make to it will be
+                saved
+                to
+                the custom template instead</p>
+
             {% for contents in saved_content %}
             <form id="{{ contents.id }}" action="{% url 'save_content_changes' %}" method="POST">
+                <p>{{ contents.name |capfirst}} template selected</p>
                 {% csrf_token %}
                 <input type="hidden" name="content_id" value="{{ contents.id }}">
                 <div id="accordion">
@@ -101,7 +111,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row my-4">
                         <div class="col-4">
                             <label class="form-check-label" for="checkbox_{{ contents.id }}">Do you want to make this
                                 information active?</label>
@@ -114,10 +124,34 @@
                             <button type="submit" class="btn btn-success rounded-1 w-50">Save Changes</button>
                         </div>
                     </div>
+                </div>
             </form>
             {% endfor %}
         </div>
     </div>
 </div>
 </div>
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+
+<script type="text/javascript">
+    // initialise page so that only the primary form is visible
+    if ($('#1').is(':visible')) {
+        $('#2').hide()
+    }
+    // Switch between forms on change from select box
+    $('#id-content-select').change(function () {
+        var formToShow = $(this).val();
+        console.log(formToShow)
+        if (formToShow == 'custom') {
+            $('#1').hide();
+            $('#2').show();
+        } else {
+            $('#1').show();
+            $('#2').hide();
+        }
+    })
+</script>
 {% endblock %}

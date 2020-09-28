@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="row std-container">
+    <div class="col-12 text-center">
+        <h1>Content Management: Select Recommended Products</h1>
+        <p class="small">
+            Choose your products, search for others or return to the <a href="{% url 'content_management' %}">main
+                content management</a> page
+        </p>
+        <hr>
+    </div>
+    <div class="col-12">
+        <div class="card product-list">
+            <div class="card-body">
+                <form method="GET" action="{% url 'find_products_to_recommend' %}">
+                    <div class="input-group w-100">
+                        <input class="form-control w-100 border-0 rounded-1" type="text" name="q"
+                            placeholder="Search for a product to edit">
+                        <div class="input-group-append">
+                            <button class="form-control btn border-0 rounded-1 bg-white text-success" type="submit">
+                                <span class="icon search-field">
+                                    <i class="fas fa-search "></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% for product in products %}
+    <div class="col-12 col-md-4">
+        <div class="card product-list">
+            <div class="row card-body">
+                <div class="col-12">
+                    {% if product.img_src %}
+                    <img class="card-img" src="{{ product.img_src }}" alt="{{ product.title }}">
+                    {% else %}
+                    <img class="card-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.title }}">
+                    {% endif %}
+                </div>
+                <div class="col-12 text-center">
+                    <h3>{{ product.title }}</h3>
+                    <p class="small">{{ product.description |truncatewords:20|safe }}</p>
+                </div>
+                <div class="col-12 text-center">
+                    <form id="{{ product.id }}" action="{% url 'save_recommended_product' product_id=product.id %}"
+                        method="POST">
+                        {% csrf_token %}
+                        <div class="col-12 w-100">
+                            <label class="small" for="template-{{ product.id }}">Choose your template:</label>
+                            <select class="form-control" name="template" id="template-{{ product.id }}">
+                                <option value="primary" selected>Primary</option>
+                                <option value="custom">Custom</option>
+                            </select>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <label class="small" for="position-{{ product.id }}">Choose the product's position:</label>
+                            <select class="form-control" name="position" id="position-{{ product.id }}">
+                                <option value="1" selected>1st</option>
+                                <option value="2">2nd</option>
+                                <option value="3">3rd</option>
+                            </select>
+                        </div>
+                        <div class="col-12 mt-4">
+                            <button type="submit" class="btn btn-success rounded-1 w-100">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
