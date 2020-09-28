@@ -6,6 +6,7 @@ from django.db.models import Q
 from .models import Product, ProductGroup, VatGroup, Category
 from customers.models import UserProfile
 from .product_functions import get_product_features_info, get_related_products
+from .forms import ProductForm
 
 # Create your views here.
 
@@ -197,7 +198,7 @@ def product_maintenance(request):
 
 
 @login_required
-def edit_products(request):
+def find_products_to_edit(request):
     """
     Returns a list of products to edit
     """
@@ -222,6 +223,26 @@ def edit_products(request):
     }
 
     return render(request, 'products/edit_products.html', context)
+
+
+@login_required
+def edit_product(request, product_id):
+    """
+    Returns a form for the user to edit a product
+    """
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'You are not authorised to access this area of the site')
+        return redirect(reverse('home'))
+
+    product = get_object_or_404(Product, pk=product_id)
+    product_form = ProductForm(instance=product)
+
+    context = {
+        'form': product_form,
+    }
+
+    return render(request, 'products/product_to_edit.html', context)
 
 
 @login_required

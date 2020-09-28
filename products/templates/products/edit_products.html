@@ -11,7 +11,7 @@
     <div class="col-12">
         <div class="card product-list">
             <div class="card-body">
-                <form method="GET" action="{% url 'edit_products' %}">
+                <form method="GET" action="{% url 'find_products_to_edit' %}">
                     <div class="input-group w-100">
                         <input class="form-control w-100 border-0 rounded-1" type="text" name="q"
                             placeholder="Search for a product to edit">
@@ -28,16 +28,70 @@
         </div>
     </div>
     <div class="col-12">
-        <div class="card product-list">
+        <div class="row">
             {% for product in products %}
-            <div class="row">
-                <div class="col-1">{{ product.id }}</div>
-                <div class="col-2">{{ product.skus }}</div>
-                <div class="col-2">{{ product.name }}</div>
-                <div class="col-2">{{ product.title }}</div>
-                <div class="col-2">{{ product.description }}</div>
-                <div class="col-1">{{ product.category }}</div>
-                <div class="col-2">{{ product.cost_price }}</div>
+            <div class="col-12 col-md-4">
+                <div class="card product-list">
+                    <div class="row card-body card-body-select-recommended">
+                        <div class="col-12 card-img-tile-recommend">
+                            {% if product.img_src %}
+                            <img class="recommend-img" src="{{ product.img_src }}" alt="{{ product.title }}">
+                            {% else %}
+                            <img class="recommend-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.title }}">
+                            {% endif %}
+                        </div>
+                        <div class="col-12 text-center card-title-tile">
+                            <h3 class="tile-title">{{ product.title }}</h3>
+                            <hr>
+                        </div>
+                        <div class="col-12">
+                            <p>Cost Price: €{{ product.cost_price }}</p>
+                            <p>Product Group: {{ product.product_group.profit_margin}}%</p>
+                            <p>Vat Rate: {{ product.vat_rate.vat_rate}}%</p>
+                        </div>
+                        <div class="col-12 product-description-tile">
+                            <h6>Description</h6>
+                            {% if product.description %}
+                            <p class="small">{{ product.description |safe }}</p>
+                            {% else %}
+                            <p class="small text-danger">This product has no description</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-12 product-description-tile">
+                            <h6>Blurb/Summary</h6>
+                            {% if product.blurb %}
+                            <p class="small">{{ product.blurb |safe }}</p>
+                            {% else %}
+                            <p class="small text-danger">This product has no blurb/summary</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-12 product-description-tile">
+                            <h6>Features</h6>
+                            {% if product.features %}
+                            {% for feature in product.features %}
+                            <p class="small">{{ feature.feature_name |safe }} &nbsp;|&nbsp;
+                                {{ feature.feature_value |safe }}
+                            </p>
+                            {% endfor %}
+                            {% else %}
+                            <p class="small text-danger">This product has no features</p>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-12 text-center">
+                            <form id="{{ product.id }}" action="{% url 'edit_product' product_id=product.id %}"
+                                method="POST">
+                                {% csrf_token %}
+
+                                <div class="col-12 mt-4">
+                                    <button type="submit"
+                                        class="btn btn-success rounded-1 w-100 mobile-form-control">Edit
+                                        Product</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
             {% endfor %}
         </div>

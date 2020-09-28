@@ -30,7 +30,7 @@ class Category(models.Model):
     relevant_model = models.CharField(max_length=60, default='supplies')
 
     def __str__(self):
-        return self.name
+        return self.friendly_name
 
 
 class ProductGroup(models.Model):

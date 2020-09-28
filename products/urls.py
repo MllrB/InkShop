@@ -28,6 +28,8 @@ urlpatterns = [
          views.update_vat_group, name='update_v_group'),
     path('product_maintenance/update_category/<category_id>/',
          views.update_category, name='update_category'),
-    path('product_maintenance/edit_products/',
-         views.edit_products, name='edit_products'),
+    path('product_maintenance/products_to_edit/',
+         views.find_products_to_edit, name='find_products_to_edit'),
+    path('product_maintenance/edit_product/<product_id>',
+         views.edit_product, name='edit_product'),
 ]
