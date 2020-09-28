@@ -174,11 +174,12 @@
             <div class="col-4 footer-links-container footer-links-left">
                 <h4 class="footer-heading">Products</h4>
                 <ul class="list-inline list-unstyled">
-                    <li><a href="" class="footer-link">Inks/Toners</a></li>
-                    <li><a href="" class="footer-link">Printers</a></li>
-                    <li><a href="" class="footer-link">Photo Paper</a></li>
-                    <li><a href="" class="footer-link">Blank Media &amp; Storage</a></li>
-                    <li><a href="" class="footer-link">Cleaning Products</a></li>
+                    <li><a href="{% url 'categories' category='supplies' %}" class="footer-link">Inks/Toners</a></li>
+                    <li><a href="{% url 'categories' category='printers' %}" class="footer-link">Printers</a></li>
+                    <li><a href="{% url 'products_by_category' category_id='714' %}" class="footer-link">Printing
+                            Paper</a></li>
+                    <li><a href="{% url 'products_by_category' category_id='1554' %}" class="footer-link">Blank Media
+                            &amp; Storage</a></li>
                 </ul>
             </div>
             <div class="col-4 footer-links-container footer-links-middle">
@@ -194,9 +195,8 @@
             <div class="col-4 footer-links-container footer-links-right">
                 <h4 class="footer-heading">Contact Us</h4>
                 <ul class="list-inline list-unstyled">
-                    <li><a href="" class="footer-link">Tel: 021 4966850</a></li>
-                    <li><a href="" class="footer-link">Email: info@theinkshop.ie</a></li>
-                    <li><a href="" class="footer-link">Social Media</a></li>
+                    <li class="footer-link">Tel: +353 1 1234567</li>
+                    <li><a href="mailto:info@mllrb.com" class="footer-link">Email: info@mllrb.com </a></li>
                 </ul>
             </div>
             <div class="col-12 footer-logos"></div>
