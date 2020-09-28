@@ -34,39 +34,43 @@
     {% for product in products %}
     <div class="col-12 col-md-4">
         <div class="card product-list">
-            <div class="row card-body">
-                <div class="col-12">
+            <div class="row card-body card-body-select-recommended">
+                <div class="col-12 card-img-tile-recommend">
                     {% if product.img_src %}
-                    <img class="card-img" src="{{ product.img_src }}" alt="{{ product.title }}">
+                    <img class="recommend-img" src="{{ product.img_src }}" alt="{{ product.title }}">
                     {% else %}
-                    <img class="card-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.title }}">
+                    <img class="recommend-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.title }}">
                     {% endif %}
                 </div>
-                <div class="col-12 text-center">
-                    <h3>{{ product.title }}</h3>
-                    <p class="small">{{ product.description |truncatewords:20|safe }}</p>
+                <div class="col-12 text-center card-title-tile">
+                    <h3 class="tile-title">{{ product.title }}</h3>
+                    <hr>
                 </div>
-                <div class="col-12 text-center">
+                <div class="col-12 text-center recommended-form">
                     <form id="{{ product.id }}" action="{% url 'save_recommended_product' product_id=product.id %}"
                         method="POST">
                         {% csrf_token %}
                         <div class="col-12 w-100">
-                            <label class="small" for="template-{{ product.id }}">Choose your template:</label>
-                            <select class="form-control" name="template" id="template-{{ product.id }}">
+                            <label class="small" for="template-{{ product.id }}">Choose your
+                                template:</label>
+                            <select class="form-control mobile-form-control" name="template"
+                                id="template-{{ product.id }}">
                                 <option value="primary" selected>Primary</option>
                                 <option value="custom">Custom</option>
                             </select>
                         </div>
                         <div class="col-12 mt-3">
                             <label class="small" for="position-{{ product.id }}">Choose the product's position:</label>
-                            <select class="form-control" name="position" id="position-{{ product.id }}">
+                            <select class="form-control mobile-form-control" name="position"
+                                id="position-{{ product.id }}">
                                 <option value="1" selected>1st</option>
                                 <option value="2">2nd</option>
                                 <option value="3">3rd</option>
                             </select>
                         </div>
                         <div class="col-12 mt-4">
-                            <button type="submit" class="btn btn-success rounded-1 w-100">Save</button>
+                            <button type="submit"
+                                class="btn btn-success rounded-1 w-100 mobile-form-control">Save</button>
                         </div>
                     </form>
                 </div>

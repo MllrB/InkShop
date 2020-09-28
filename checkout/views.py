@@ -87,7 +87,6 @@ def checkout(request):
             else:
                 messages.error(
                     request, 'One of your forms is invalid, please check and try again')
-                print(my_formset.errors)
 
             if 'delivery_address_ref' in request.session:
                 address_ref = request.session.get(

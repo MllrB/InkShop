@@ -115,20 +115,22 @@
     <div class="col-12 col-md-4">
         <div class="card product-list p-3">
             <div class="row card-body card-body-tile">
-                <div class="col-12 card-img-tile">
+                <div class="col-12 card-img-container-tile">
                     {% if content_template.staff_pick1.img_src %}
-                    <img class="card-img" src="{{ content_template.staff_pick1.img_src }}"
+                    <img class="card-img-tile" src="{{ content_template.staff_pick1.img_src }}"
                         alt="{{ content_template.staff_pick1.title }}">
                     {% else %}
-                    <img class="card-img" src="{{ MEDIA_URL }}noimage.png"
+                    <img class="card-img-tile" src="{{ MEDIA_URL }}noimage.png"
                         alt="{{ content_template.staff_pick1.title }}">
                     {% endif %}
                 </div>
                 <div class="col-12 product-title-tile">
-                    <h4>{{ content_template.staff_pick1.title }}</h4>
+                    <h4 class="tile-title">{{ content_template.staff_pick1.title }}</h4>
                 </div>
                 <div class="col-12 product-description-tile">
+                    {% if content_template.staff_pick1.description %}
                     <p class="small">{{ content_template.staff_pick1.description |safe }}</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -136,20 +138,22 @@
     <div class="col-12 col-md-4">
         <div class="card product-list p-3">
             <div class="row card-body card-body-tile">
-                <div class="col-12 card-img-tile">
+                <div class="col-12 card-img-container-tile">
                     {% if content_template.staff_pick2.img_src %}
-                    <img class="card-img" src="{{ content_template.staff_pick2.img_src }}"
+                    <img class="card-img-tile" src="{{ content_template.staff_pick2.img_src }}"
                         alt="{{ content_template.staff_pick2.title }}">
                     {% else %}
-                    <img class="card-img" src="{{ MEDIA_URL }}noimage.png"
+                    <img class="card-img-tile" src="{{ MEDIA_URL }}noimage.png"
                         alt="{{ content_template.staff_pick2.title }}">
                     {% endif %}
                 </div>
                 <div class="col-12 product-title-tile">
-                    <h4>{{ content_template.staff_pick2.title }}</h4>
+                    <h4 class="tile-title">{{ content_template.staff_pick2.title }}</h4>
                 </div>
                 <div class="col-12 product-description-tile">
+                    {% if content_template.staff_pick2.description %}
                     <p class="small">{{ content_template.staff_pick2.description |safe }}</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -157,20 +161,22 @@
     <div class="col-12 col-md-4">
         <div class="card product-list p-3">
             <div class="row card-body card-body-tile">
-                <div class="col-12 card-img-tile">
+                <div class="col-12 card-img-container-tile">
                     {% if content_template.staff_pick3.img_src %}
-                    <img class="card-img" src="{{ content_template.staff_pick3.img_src }}"
+                    <img class="card-img-tile" src="{{ content_template.staff_pick3.img_src }}"
                         alt="{{ content_template.staff_pick3.title }}">
                     {% else %}
-                    <img class="card-img" src="{{ MEDIA_URL }}noimage.png"
+                    <img class="card-img-tile" src="{{ MEDIA_URL }}noimage.png"
                         alt="{{ content_template.staff_pick3.title }}">
                     {% endif %}
                 </div>
                 <div class="col-12 product-title-tile">
-                    <h4>{{ content_template.staff_pick3.title }}</h4>
+                    <h4 class="tile-title">{{ content_template.staff_pick3.title }}</h4>
                 </div>
                 <div class="col-12 product-description-tile">
+                    {% if content_template.staff_pick3.description %}
                     <p class="small">{{ content_template.staff_pick3.description |safe }}</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
