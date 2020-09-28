@@ -236,16 +236,27 @@ def edit_product(request, product_id):
         return redirect(reverse('home'))
 
     product = get_object_or_404(Product, pk=product_id)
+
+    if request.method == 'POST':
+        print(request.POST)
+        product_form = ProductForm(
+            request.POST, request.FILES, instance=product)
+        if product_form.is_valid():
+            product_form.save()
+            messages.success(request, f'{product.title} successfully updated')
+            return redirect(reverse('product_detail', kwargs={'product_id': product.id}))
+
     product_form = ProductForm(instance=product)
 
     context = {
         'form': product_form,
+        'product': product,
     }
 
     return render(request, 'products/product_to_edit.html', context)
 
 
-@login_required
+@ login_required
 def update_product_group(request, group_id):
     """
     Updates existing product groups
@@ -270,7 +281,7 @@ def update_product_group(request, group_id):
     return redirect(reverse('product_maintenance'))
 
 
-@login_required
+@ login_required
 def add_product_group(request):
     """
     Adds a new product group
@@ -290,7 +301,7 @@ def add_product_group(request):
     return redirect(reverse('product_maintenance'))
 
 
-@login_required
+@ login_required
 def update_vat_group(request, group_id):
     """
     Updates existing vat groups
@@ -315,7 +326,7 @@ def update_vat_group(request, group_id):
     return redirect(reverse('product_maintenance'))
 
 
-@login_required
+@ login_required
 def add_vat_group(request):
     """
     Adds a new vat group
@@ -335,7 +346,7 @@ def add_vat_group(request):
     return redirect(reverse('product_maintenance'))
 
 
-@login_required
+@ login_required
 def update_category(request, category_id):
     """
     Updates existing vat groups
@@ -364,7 +375,7 @@ def update_category(request, category_id):
     return redirect(reverse('product_maintenance'))
 
 
-@login_required
+@ login_required
 def update_prices(request):
     """
     Updates all product prices

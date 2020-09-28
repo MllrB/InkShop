@@ -35,9 +35,13 @@
                     <div class="row card-body card-body-select-recommended">
                         <div class="col-12 card-img-tile-recommend">
                             {% if product.img_src %}
-                            <img class="recommend-img" src="{{ product.img_src }}" alt="{{ product.title }}">
+                            <a href="{% url 'edit_product' product.id %}">
+                                <img class="recommend-img" src="{{ product.img_src }}" alt="{{ product.title }}">
+                            </a>
                             {% else %}
-                            <img class="recommend-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.title }}">
+                            <a href="{% url 'edit_product' product.id %}">
+                                <img class="recommend-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.title }}">
+                            </a>
                             {% endif %}
                         </div>
                         <div class="col-12 text-center card-title-tile">
@@ -79,16 +83,10 @@
                         </div>
 
                         <div class="col-12 text-center">
-                            <form id="{{ product.id }}" action="{% url 'edit_product' product_id=product.id %}"
-                                method="POST">
-                                {% csrf_token %}
-
-                                <div class="col-12 mt-4">
-                                    <button type="submit"
-                                        class="btn btn-success rounded-1 w-100 mobile-form-control">Edit
-                                        Product</button>
-                                </div>
-                            </form>
+                            <div class="col-12 mt-4">
+                                <a href="{% url 'edit_product' product.id %}"
+                                    class="btn btn-success rounded-1 w-100 mobile-form-control">Edit Product</a>
+                            </div>
                         </div>
                     </div>
                 </div>

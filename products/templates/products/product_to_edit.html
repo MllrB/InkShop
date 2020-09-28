@@ -4,6 +4,20 @@
 
 {% block content %}
 <div class="std-container">
-    {{form|crispy}}
+    <form action="{% url 'edit_product' product.id %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-12">
+                {{form|crispy}}
+            </div>
+            <div class=".col-12 col-md-6 text-right">
+                <a href="{% url 'product_maintenance' %}" class="btn btn-danger rounded-1 w-25">Cancel</a>
+            </div>
+            <div class=".col-12 col-md-6 text-left">
+                <button type="submit" class="btn btn-success rounded-1 w-25">Save Changes</a>
+            </div>
+        </div>
+    </form>
+
 </div>
 {% endblock %}

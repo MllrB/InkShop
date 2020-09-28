@@ -70,11 +70,12 @@ class Product(models.Model):
     category = models.ForeignKey(
         'Category', null=True, blank=True, on_delete=models.SET_NULL)
     img_src = models.CharField(max_length=254, blank=True, null=True)
-    description = models.TextField(null=True)
-    blurb = models.TextField(null=True)
-    features = JSONField(null=True)
+    image = models.ImageField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    blurb = models.TextField(null=True, blank=True)
+    features = JSONField(null=True, blank=True)
     published = models.BooleanField(default=True)
-    related_printers = JSONField(null=True)
+    related_printers = JSONField(null=True, blank=True)
     brochure = models.CharField(max_length=254, null=True, blank=True)
     product_group = models.ForeignKey(
         'ProductGroup', null=True, blank=True, default=1, on_delete=models.SET_NULL)
