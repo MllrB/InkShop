@@ -54,14 +54,13 @@
                                 <a href="{% url 'product_detail' product.id %}"> {{ product.title }} </a>
                             </strong>
                         </h5>
-
                         <div class="row no-gutters">
                             {% if user.is_authenticated %}
                             <div class="col-9 pt-2">
                                 <p class="card-text">
                                     {% if product.description %}
                                     {% if product.description|wordcount > 30 %}
-                                    {{ product.description |truncatewords:30|safe }}
+                                    {{ product.description |truncatewords_html:30|safe }}
                                     <a href="#description_{{product.id}}" data-toggle="collapse"
                                         data-target="#description_{{product.id}}" data-item_id="{{ product.id }}"
                                         class="collapse-link">
@@ -100,14 +99,24 @@
                             </div>
                             {% else %}
                             <div class="col-12 pt-2">
-                                {% if product.description %}{{ product.description |safe }}{% endif %}&nbsp;
+                                <p class="card-text">
+                                    {% if product.description %}
+                                    {% if product.description|wordcount > 30 %}
+                                    {{ product.description |truncatewords_html:30|safe }}
+                                    <a href="#description_{{product.id}}" data-toggle="collapse"
+                                        data-target="#description_{{product.id}}" data-item_id="{{ product.id }}"
+                                        class="collapse-link">
+                                        <small>see full description</small>
+                                    </a>
+                                    {% else %}
+                                    {{ product.description |safe }}
+                                    {% endif %}
+                                    {% endif %}
+                                </p>
                             </div>
                             {% endif %}
-
                         </div>
-
                         <hr>
-
                         {% for info in product_info %}
                         {% if product.id == info.id %}
                         <p>
