@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from allauth.account.forms import LoginForm, SignupForm
 
+from .models import ContentManagement
 from products.models import Product, Category
 
 
@@ -44,32 +45,52 @@ def show_about_us(request):
     """
     A view to render the 'about us' page
     """
-    return render(request, 'home/about.html')
+    about_content = ContentManagement.objects.get(active=True)
+    context = {
+        'page_content': about_content.about,
+    }
+    return render(request, 'home/about.html', context)
 
 
 def show_delivery_info(request):
     """
     A view to render the 'delivery info' page
     """
-    return render(request, 'home/delivery_info.html')
+    delivery_content = ContentManagement.objects.get(active=True)
+    context = {
+        'page_content': delivery_content.delivery,
+    }
+    return render(request, 'home/delivery_info.html', context)
 
 
 def show_faqs(request):
     """
     A view to render the 'FAQs' page
     """
-    return render(request, 'home/faqs.html')
+    faqs_content = ContentManagement.objects.get(active=True)
+    context = {
+        'page_content': faqs_content.questions,
+    }
+    return render(request, 'home/faqs.html', context)
 
 
 def show_terms(request):
     """
     A view to render the 'Ts & Cs' page
     """
-    return render(request, 'home/terms_and_conditions.html')
+    terms_content = ContentManagement.objects.get(active=True)
+    context = {
+        'page_content': terms_content.terms,
+    }
+    return render(request, 'home/terms_and_conditions.html', context)
 
 
 def show_privacy_policy(request):
     """
     A view to render the 'privacy policy' page
     """
-    return render(request, 'home/privacy_policy.html')
+    privacy_content = ContentManagement.objects.get(active=True)
+    context = {
+        'page_content': privacy_content.privacy,
+    }
+    return render(request, 'home/privacy_policy.html', context)
