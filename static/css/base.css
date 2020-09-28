@@ -128,7 +128,7 @@ h6 {
     margin: 0;
     width: 100%;
     min-height: 260px;
-    background-color: rgba(54, 75, 69, 0.9);
+    background-color: rgb(40, 167, 69);
 }
 
 .footer-links-container {
@@ -149,21 +149,21 @@ h6 {
 }
 
 .footer-link {
-    color: rgba(202, 209, 207, 0.726)
+    color: rgba(255, 255, 255, .82);
 }
 
 .footer-link:hover {
     text-decoration: none;
-    color: rgba(183, 243, 226, 0.726);
+    color: rgba(221, 255, 245);
 }
 
 .footer-logos {
-    background-color: rgba(0, 14, 10, 0.7);
+    background-color: rgba(0, 70, 16);
     min-height: 100px;
 }
 
 .footer-heading {
-    color: rgb(218, 255, 245);
+    color: rgb(255, 255, 255);
 }
 
 
@@ -637,6 +637,27 @@ h6 {
         margin: 0 2%;
         margin-bottom: 5%;
     }
+    /* Homepage */
+    .reasons-to-buy {
+        width: 90%;
+        margin: 0 5%;
+    }
+    .carousel-img {
+        width: 100%;
+        align-self: center;
+    }
+    .carousel-img-container {
+        height: 50vh;
+    }
+    .carousel-header {
+        font-size: 1.9rem;
+        margin: 0;
+        padding: 0;
+        padding-top: 40px;
+    }
+    .carousel-sub-heading {
+        font-size: 1.1rem;
+    }
     /* Products */
     .card-img {
         width: 80%;
@@ -698,6 +719,21 @@ h6 {
 }
 
 @media (max-width: 575px) {
+    /* homepage */
+    .carousel-img {
+        width: 100%;
+        max-height: 100%;
+    }
+    .carousel-header {
+        font-size: 1.9rem;
+        margin: 0;
+        padding: 0;
+        padding-top: 40px;
+    }
+    .carousel-sub-heading {
+        font-size: 1.1rem;
+    }
+    /* checkout */
     .checkout-select {
         margin-bottom: 1.05rem;
     }

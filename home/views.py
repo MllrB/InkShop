@@ -38,3 +38,38 @@ def get_categories(request, category):
     }
 
     return render(request, 'home/categories.html', context)
+
+
+def show_about_us(request):
+    """
+    A view to render the 'about us' page
+    """
+    return render(request, 'home/about.html')
+
+
+def show_delivery_info(request):
+    """
+    A view to render the 'delivery info' page
+    """
+    return render(request, 'home/delivery_info.html')
+
+
+def show_faqs(request):
+    """
+    A view to render the 'FAQs' page
+    """
+    return render(request, 'home/faqs.html')
+
+
+def show_terms(request):
+    """
+    A view to render the 'Ts & Cs' page
+    """
+    return render(request, 'home/terms_and_conditions.html')
+
+
+def show_privacy_policy(request):
+    """
+    A view to render the 'privacy policy' page
+    """
+    return render(request, 'home/privacy_policy.html')
