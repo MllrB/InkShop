@@ -22,7 +22,8 @@
                 </small>
             </p>
             <div class="row">
-                <div class="col-9 pt-1">{{ product.description |safe }}</div>
+                <div class="col-9 pt-1">
+                    {% if product.description %}{{ product.description |safe }}{% endif %}</div>
                 <div class="col-3">
                     {% if user.is_authenticated %}
                     {% if product.id in favourites %}
@@ -58,6 +59,9 @@
                 {% if info.colour %}Colour: {{ info.colour |capfirst}}<br>
                 {% endif %}
             </p>
+            {% if product.brochure %}
+            <p><a href="{{ product.brochure }}" target="_blank" class="collapse-link">brochure</a></p>
+            {% endif %}
             {% endif %}
             {% endfor %}
             <div class="col-12 pricing">

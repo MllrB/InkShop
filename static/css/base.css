@@ -421,6 +421,7 @@ h6 {
 
 .pricing {
     padding-top: 20px;
+    padding-left: 0;
 }
 
 .form-row {
@@ -486,11 +487,11 @@ h6 {
 
 .collapse-link {
     text-decoration: none;
-    color: rgba(99, 18, 120, .85);
+    color: rgb(175, 23, 239);
 }
 
 .collapse-link:hover {
-    color: rgba(99, 18, 120, .65);
+    color: rgb(152, 35, 183);
 }
 
 

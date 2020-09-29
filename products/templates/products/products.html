@@ -135,12 +135,17 @@
                         {% if product.blurb %}
                         <a href="#blurb_{{product.id}}" data-toggle="collapse" data-target="#blurb_{{product.id}}"
                             data-item_id="{{ product.id }}" class="collapse-link">
-                            <small>moreinfo</small>
+                            <small>more info</small>
                         </a>
                         &nbsp;&nbsp;&nbsp;
                         {% endif %}
                         <a href="#features_{{product.id}}" data-toggle="collapse" data-target="#features_{{product.id}}"
                             class="collapse-link" data-item_id={{ product.id}}><small>product features</small></a>
+                        {% if product.brochure %}
+                        &nbsp;&nbsp;&nbsp;
+                        <a href="{{ product.brochure }}" target='_blank'
+                            class="collapse-link"><small>brochure</small></a>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-3">
