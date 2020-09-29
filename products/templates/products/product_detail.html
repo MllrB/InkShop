@@ -96,9 +96,11 @@
                 <li class="nav-item">
                     <a class="nav-link active" id="product_blurb_tab">Extra Info</a>
                 </li>
+                {% if product.related_printers %}
                 <li class="nav-item">
                     <a class="nav-link" id="printer_compatibility_tab">Printer Compatibility</a>
                 </li>
+                {% endif %}
             </ul>
         </div>
         <div class="card-body">
