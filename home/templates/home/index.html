@@ -120,6 +120,9 @@
                         {% if content_template.staff_pick1.img_src %}
                         <img class="card-img-tile" src="{{ content_template.staff_pick1.img_src }}"
                             alt="{{ content_template.staff_pick1.title }}">
+                        {% elif content_template.staff_pick1.image %}
+                        <img class="card-img-tile" src="{{ MEDIA_URL}}{{ content_template.staff_pick1.image }}"
+                            alt="{{ content_template.staff_pick1.title }}">
                         {% else %}
                         <img class="card-img-tile" src="{{ MEDIA_URL }}noimage.png"
                             alt="{{ content_template.staff_pick1.title }}">

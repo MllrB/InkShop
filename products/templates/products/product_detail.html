@@ -8,6 +8,8 @@
         <div class="col-5">
             {% if product.img_src %}
             <img class="product-detail-image" src="{{ product.img_src }}" alt="{{ product.name }}">
+            {% elif product.image %}
+            <img class="product-detail-image" src="{{ MEDIA_URL }}{{ product.image }}" alt="{{ product.name }}">
             {% else %}
             <img class="product-detail-image" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
             {% endif %}
