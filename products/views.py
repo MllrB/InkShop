@@ -28,7 +28,7 @@ def all_products(request):
                 return redirect(reverse('products'))
 
             queries = Q(skus__icontains=user_search) | Q(
-                description__icontains=user_search) | Q(title__icontains=user_search)
+                description__icontains=user_search) | Q(title__icontains=user_search) | Q(related_printers__icontains=user_search)
 
             queried_products = queried_products.filter(queries)
 

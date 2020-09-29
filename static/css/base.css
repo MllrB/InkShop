@@ -5,9 +5,6 @@ body {
 }
 
 body {
-    /* font-family: 'Advent Pro', sans-serif; */
-    /* font-family: 'Harmattan', sans-serif; */
-    /* font-family: 'Marvel', sans-serif; */
     font-family: 'Raleway', sans-serif;
     display: flex;
     flex-direction: column;
@@ -20,11 +17,7 @@ h3,
 h4,
 h5,
 h6 {
-    /* font-family: 'Advent Pro', sans-serif; */
-    /* font-family: 'Harmattan', sans-serif; */
     font-family: 'Marvel', sans-serif;
-    /* font-family: 'Wire One', sans-serif; */
-    /* font-family: 'Raleway', sans-serif; */
 }
 
 .container-fluid {
