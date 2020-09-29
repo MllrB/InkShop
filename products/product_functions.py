@@ -20,7 +20,7 @@ def get_product_features_info(products):
                 if 'yield' in feature['feature_name'].lower():
                     if 'footnote' not in feature['feature_name'].lower():
                         info['pages'] = feature['feature_value'].lower()
-                if 'print technology' in feature['feature_name'].lower():
+                if 'colours' in feature['feature_name'].lower():
                     info['colour'] = feature['feature_value'].lower()
                     product_filters.append(
                         feature['feature_value'].lower())
@@ -30,22 +30,34 @@ def get_product_features_info(products):
             for feature in product.features:
                 if 'print technology' in feature['feature_name'].lower():
                     info['print_tech'] = feature['feature_value'].lower()
-                    product_filters.append(
-                        feature['feature_value'].lower())
                 if 'print speed' in feature['feature_name'].lower():
                     info['print_speed'] = feature['feature_value'].lower()
-                if 'colours' in feature['feature_name'].lower():
+                if 'color printing' in feature['feature_value'].lower():
                     info['print_colour'] = feature['feature_value'].lower()
+                    product_filters.append(
+                        feature['feature_value'].lower())
+                if 'mono printing' in feature['feature_value'].lower():
+                    info['print_colour'] = feature['feature_value'].lower()
+                    product_filters.append(
+                        feature['feature_value'].lower())
         elif category.relevant_model == 'accessories':
             for feature in product.features:
-                if 'print technology' in feature['feature_name'].lower():
-                    info['print_tech'] = feature['feature_value'].lower()
+                if 'paper size' in feature['feature_name'].lower():
+                    info['paper_size'] = feature['feature_value'].lower()
                     product_filters.append(
                         feature['feature_value'].lower())
-                if 'print speed' in feature['feature_name'].lower():
-                    info['print_speed'] = feature['feature_value'].lower()
-                if 'colours' in feature['feature_name'].lower():
-                    info['print_colour'] = feature['feature_value'].lower()
+                if 'sheets' in feature['feature_name'].lower():
+                    info['sheets'] = feature['feature_value'].lower()
+                if 'media weight' in feature['feature_name'].lower():
+                    info['media_weight'] = feature['feature_value'].lower()
+                if 'capacity' in feature['feature_name'].lower():
+                    info['capacity'] = feature['feature_value'].lower()
+                    product_filters.append(
+                        feature['feature_value'].lower())
+                if 'interface' in feature['feature_name'].lower():
+                    info['interface'] = feature['feature_value'].lower()
+                if 'usb version' in feature['feature_name'].lower():
+                    info['usb'] = feature['feature_value'].lower()
 
         products_info.append(info)
 

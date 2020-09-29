@@ -9,7 +9,16 @@
     {% for info in product_info %}
         var productObj = {};
         productObj['id'] = "{{ info.id }}";
-        productObj['colour'] = "{{ info.colour }}";
+        {% if info.colour %}
+        var filterType = "{{ info.colour }}";
+        {% elif info.print_colour %}
+        var filterType = "{{ info.print_colour }}";
+        {% elif info.paper_size %}
+        var filterType = "{{ info.paper_size }}";
+        {% elif info.capacity %}
+        var filterType = "{{ info.capacity }}";
+        {% endif %}
+        productObj['filter'] = filterType;
         productInfos.push(productObj); 
     {% endfor %}
 
@@ -20,7 +29,7 @@
             if ($(this).hasClass("filter-btn-checked")) {
                 $(this).removeClass("filter-btn-checked").addClass("filter-btn-unchecked");
                 for (x = 0; x < productInfos.length; x++) {
-                    if (productInfos[x]['colour'] != this.id) {
+                    if (productInfos[x]['filter'] != this.id) {
                         $(`#${productInfos[x]['id']}`).show();
                     }
                 }
@@ -35,7 +44,7 @@
                 if ($(this).hasClass("filter-btn-unchecked")) {
                     $(this).removeClass("filter-btn-unchecked").addClass("filter-btn-checked");
                     for (x = 0; x < productInfos.length; x++) {
-                        if (productInfos[x]['colour'] != this.id) {
+                        if (productInfos[x]['filter'] != this.id) {
                             $(`#${productInfos[x]['id']}`).hide();
                         }
                     } 

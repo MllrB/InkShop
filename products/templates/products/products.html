@@ -103,8 +103,8 @@
                             <div class="col-12 pt-2">
                                 <p class="card-text">
                                     {% if product.description %}
-                                    {% if product.description|wordcount > 30 %}
-                                    {{ product.description |truncatewords_html:30|safe }}
+                                    {% if product.description|wordcount > 20 %}
+                                    {{ product.description |truncatewords_html:20|safe }}
                                     <a href="#description_{{product.id}}" data-toggle="collapse"
                                         data-target="#description_{{product.id}}" data-item_id="{{ product.id }}"
                                         class="collapse-link">
@@ -127,9 +127,17 @@
                             {% if info.colour %}Colour:
                             <span data-prod-id="{{ info.id }}">{{ info.colour |capfirst }}</span><br>
                             {% endif %}
-                            {% if info.print_colour %}Printing Colours: {{ info.print_colour |capfirst }}<br>{% endif %}
+                            {% if info.print_colour %}Colour/Mono: {{ info.print_colour |capfirst }}<br>{% endif %}
                             {% if info.print_tech %}Printer Type: {{ info.print_tech |capfirst }}<br>{% endif %}
                             {% if info.print_speed %}Print Speed: {{ info.print_speed |capfirst }}</span><br>
+                            {% endif %}
+                            {% if info.paper_size %}Paper Size: {{ info.paper_size |capfirst }}<br>{% endif %}
+                            {% if info.sheets %}Sheets per pack: {{ info.sheets |capfirst }}<br>{% endif %}
+                            {% if info.media_weight %}Media Weight: {{ info.media_weight |capfirst }}</span><br>
+                            {% endif %}
+                            {% if info.capacity %}Capacity: {{ info.capacity |capfirst }}<br>{% endif %}
+                            {% if info.interface %}Device Interface: {{ info.interface |capfirst }}<br>{% endif %}
+                            {% if info.usb %}USB Version: {{ info.usb |capfirst }}</span><br>
                             {% endif %}
                         </p>
                         {% endif %}
