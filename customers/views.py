@@ -27,7 +27,6 @@ def show_profile(request, template_target):
     this_user = request.user
     delivery_addresses = None
     form = None
-    products = None
     ordered_products = []
 
     try:
@@ -39,7 +38,8 @@ def show_profile(request, template_target):
         if request.method == 'POST':
             user_profile.email = request.user.email
             user_profile.save()
-            form = UserProfileForm(request.POST, instance=user_profile)
+            form = UserProfileForm(
+                request.POST, request.FILES, instance=user_profile)
             if form.is_valid():
                 form.save(commit=False)
                 form.save()

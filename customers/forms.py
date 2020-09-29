@@ -19,7 +19,8 @@ class UserProfileForm(forms.ModelForm):
             'billing_town_or_city',
             'billing_county',
             'billing_post_code',
-            'billing_country'
+            'billing_country',
+            'profile_pic'
         ]
 
     def __init__(self, *args, **kwargs):
@@ -37,6 +38,7 @@ class UserProfileForm(forms.ModelForm):
             'billing_town_or_city': 'Town/City',
             'billing_county': 'County',
             'billing_post_code': 'Postcode/Eircode',
+            'profile_pic': 'Your Avatar',
         }
 
         # fields reuired by stripe but not immediately on login
@@ -51,8 +53,10 @@ class UserProfileForm(forms.ModelForm):
                 else:
                     placeholder = placeholders[field]
                 self.fields[field].widget.attrs['placeholder'] = placeholder
-            # self.fields[field].widget.attrs['class'] = 'border-black rounded-0 profile-form-input'
-            self.fields[field].label = False
+            if field == 'profile_pic':
+                self.fields[field].label = "upload your avatar"
+            else:
+                self.fields[field].label = False
 
 
 class UserDeliveryAddressForm(forms.ModelForm):
