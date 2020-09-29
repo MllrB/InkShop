@@ -38,6 +38,9 @@
                             <a href="{% url 'edit_product' product.id %}">
                                 <img class="recommend-img" src="{{ product.img_src }}" alt="{{ product.title }}">
                             </a>
+                            {% elif product.image %}
+                            <img class="recommend-img" src="{{ MEDIA_URL}}{{ product.image }}"
+                                alt="{{ product.title }}">
                             {% else %}
                             <a href="{% url 'edit_product' product.id %}">
                                 <img class="recommend-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.title }}">

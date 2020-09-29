@@ -42,11 +42,11 @@
             <div class="row no-gutters">
                 <div class="col-3">
                     {% if product.img_src %}
-                    <img class="card-img" src="{{ product.img_src }}" alt="{{ product.name }}">
+                    <img class="card-img" src="{{ product.img_src }}" alt="{{ product.title }}">
                     {% elif product.image %}
-                    <img class="card-img" src="{{ MEDIA_URL }}{{ product.image }}" alt="{{ product.name }}">
+                    <img class="card-img" src="{{ MEDIA_URL }}{{ product.image }}" alt="{{ product.title }}">
                     {% else %}
-                    <img class="card-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
+                    <img class="card-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.title }}">
                     {% endif %}
                 </div>
                 <div class="col-6">

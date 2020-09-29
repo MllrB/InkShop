@@ -38,6 +38,8 @@
                 <div class="col-12 card-img-tile-recommend">
                     {% if product.img_src %}
                     <img class="recommend-img" src="{{ product.img_src }}" alt="{{ product.title }}">
+                    {% elif product.image %}
+                    <img class="recommend-img" src="{{ MEDIA_URL}}{{ product.image }}" alt="{{ product.title }}">
                     {% else %}
                     <img class="recommend-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.title }}">
                     {% endif %}

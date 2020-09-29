@@ -42,9 +42,11 @@
             </div>
             <div class="col-12">
                 {% if item.product.img_src %}
-                <img src="{{ item.product.img_src }}" alt="{{ item.product.name }}" class="w-100">
+                <img src="{{ item.product.img_src }}" alt="{{ item.product.title }}" class="w-100">
+                {% elif item.product.image %}
+                <img class="w-100" src="{{ MEDIA_URL}}{{ item.product.image }}" alt="{{ item.product.title }}">
                 {% else %}
-                <img src="{{ MEDIA_URL }}noimage.png" alt="{{ item.product.name }}" class="w-100">
+                <img src="{{ MEDIA_URL }}noimage.png" alt="{{ item.product.title }}" class="w-100">
                 {% endif %}
             </div>
             <div class="col-6 mt-2 text-right">Price per Unit:</div>

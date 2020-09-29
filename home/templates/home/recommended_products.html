@@ -46,6 +46,9 @@
                         {% if template.staff_pick1.img_src %}
                         <img class="card-img-tile" src="{{ template.staff_pick1.img_src }}"
                             alt="{{ template.staff_pick1.title }}">
+                        {% elif template.staff_pick1.image %}
+                        <img class="card-img-tile" src="{{ MEDIA_URL}}{{ template.staff_pick1.image }}"
+                            alt="{{ template.staff_pick1.title }}">
                         {% else %}
                         <img class="card-img-tile" src="{{ MEDIA_URL }}noimage.png"
                             alt="{{ template.staff_pick1.title }}">
@@ -69,6 +72,9 @@
                         {% if template.staff_pick2.img_src %}
                         <img class="card-img-tile" src="{{ template.staff_pick2.img_src }}"
                             alt="{{ template.staff_pick2.title }}">
+                        {% elif template.staff_pick2.image %}
+                        <img class="card-img-tile" src="{{ MEDIA_URL}}{{ template.staff_pick2.image }}"
+                            alt="{{ template.staff_pick2.title }}">
                         {% else %}
                         <img class="card-img-tile" src="{{ MEDIA_URL }}noimage.png"
                             alt="{{ template.staff_pick2.title }}">
@@ -91,6 +97,9 @@
                     <div class="col-12 card-img-container-tile">
                         {% if template.staff_pick3.img_src %}
                         <img class="card-img-tile" src="{{ template.staff_pick3.img_src }}"
+                            alt="{{ template.staff_pick3.title }}">
+                        {% elif template.staff_pick3.image %}
+                        <img class="card-img-tile" src="{{ MEDIA_URL}}{{ template.staff_pick3.image }}"
                             alt="{{ template.staff_pick3.title }}">
                         {% else %}
                         <img class="card-img`-tile" src="{{ MEDIA_URL }}noimage.png"

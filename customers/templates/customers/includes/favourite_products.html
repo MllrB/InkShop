@@ -5,9 +5,11 @@
         <div class="row no-gutters">
             <div class="col-12 col-lg-3">
                 {% if product.img_src %}
-                <img class="card-img w-100" src="{{ product.img_src }}" alt="{{ product.name }}">
+                <img class="card-img w-100" src="{{ product.img_src }}" alt="{{ product.title }}">
+                {% elif product.image %}
+                <img class="card-img w-100" src="{{ MEDIA_URL}}{{ product.image }}" alt="{{ product.title }}">
                 {% else %}
-                <img class="card-img w-100" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
+                <img class="card-img w-100" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.title }}">
                 {% endif %}
             </div>
             <div class="col-12 col-lg-6">
@@ -77,8 +79,3 @@
     </h5>
     {% endif %}
 </div>
-{% comment %} <div class="d-block d-lg-none col-12">
-    {% for product in products %}
-    {% include 'products/includes/product_list_mobile.html' %}
-    {% endfor %}
-</div> {% endcomment %}

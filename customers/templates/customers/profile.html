@@ -129,10 +129,14 @@
                                             <div class="col-12 col-lg-2">
                                                 {% if order_line.product.img_src %}
                                                 <img class="card-img w-100" src="{{ order_line.product.img_src }}"
-                                                    alt="{{ order_line.product.id }}">
+                                                    alt="{{ order_line.product.title }}">
+                                                {% elif order_line.product.image %}
+                                                <img class="card-img w-100"
+                                                    src="{{ MEDIA_URL}}{{ order_line.product.image }}"
+                                                    alt="{{ order_line.product.title }}">
                                                 {% else %}
                                                 <img class="card-img w-100" src="{{ MEDIA_URL }}noimage.png"
-                                                    alt="{{ order_line.product.id }}">
+                                                    alt="{{ order_line.product.title }}">
                                                 {% endif %}
                                             </div>
                                             <div class="col-12 col-lg-6 pt-3 card-body-mobile">

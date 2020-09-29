@@ -148,6 +148,9 @@
                         {% if content_template.staff_pick2.img_src %}
                         <img class="card-img-tile" src="{{ content_template.staff_pick2.img_src }}"
                             alt="{{ content_template.staff_pick2.title }}">
+                        {% elif content_template.staff_pick2.image %}
+                        <img class="card-img-tile" src="{{ MEDIA_URL}}{{ content_template.staff_pick2.image }}"
+                            alt="{{ content_template.staff_pick2.title }}">
                         {% else %}
                         <img class="card-img-tile" src="{{ MEDIA_URL }}noimage.png"
                             alt="{{ content_template.staff_pick2.title }}">
@@ -172,6 +175,9 @@
                     <a href="{% url 'product_detail' content_template.staff_pick3.id %}">
                         {% if content_template.staff_pick3.img_src %}
                         <img class="card-img-tile" src="{{ content_template.staff_pick3.img_src }}"
+                            alt="{{ content_template.staff_pick3.title }}">
+                        {% elif content_template.staff_pick3.image %}
+                        <img class="card-img-tile" src="{{ MEDIA_URL}}{{ content_template.staff_pick3.image }}"
                             alt="{{ content_template.staff_pick3.title }}">
                         {% else %}
                         <img class="card-img-tile" src="{{ MEDIA_URL }}noimage.png"

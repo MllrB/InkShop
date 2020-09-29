@@ -9,9 +9,11 @@
                 <div class="row no-gutters">
                     <div class="col-3">
                         {% if related.img_src %}
-                        <img class="card-img" src="{{ related.img_src }}" alt="{{ related.name }}">
+                        <img class="card-img" src="{{ related.img_src }}" alt="{{ related.title }}">
+                        {% elif related.image %}
+                        <img class="card-img" src="{{ MEDIA_URL}}{{ related.image }}" alt="{{ related.title }}">
                         {% else %}
-                        <img class="card-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ related.name }}">
+                        <img class="card-img" src="{{ MEDIA_URL }}noimage.png" alt="{{ related.title }}">
                         {% endif %}
                     </div>
                     <div class="col-6">
