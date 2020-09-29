@@ -3,8 +3,12 @@ import time
 
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.conf import settings
 
 from .models import Order, OrderItem
+from customers.models import UserProfile, DeliveryAddress
 from products.models import Product
 
 
@@ -15,6 +19,24 @@ class StripeWH_Handler:
 
     def __init__(self, request):
         self.request = request
+
+    def _send_confirmation_email(self, order):
+        """ Send the user a confirmation email """
+        customer_email = order.email
+        subject = render_to_string(
+            'checkout/confirmation_emails/confirmation_email_subject.txt',
+            {'order': order})
+
+        body = render_to_string(
+            'checkout/confirmation_emails/confirmation_email_body.txt',
+            {'order': order, 'contact_email': settings.DEFAULT_FROM_EMAIL})
+
+        send_mail(
+            subject,
+            body,
+            settings.DEFAULT_FROM_EMAIL,
+            [customer_email]
+        )
 
     def handle_event(self, event):
         """
@@ -34,7 +56,6 @@ class StripeWH_Handler:
         intent = event.data.object
         pid = intent.id
         basket = intent.metadata.basket
-        delivery_address_ref = intent.metadata.address_ref
 
         billing_details = intent.charges.data[0].billing_details
         shipping_details = intent.shipping
@@ -72,6 +93,7 @@ class StripeWH_Handler:
                 time.sleep(1)
 
         if order_exists:
+            self._send_confirmation_email(order)
             return HttpResponse(
                 content=f'Webhook Recieved: {event["type"]}: Order verified in database',
                 status=200
@@ -79,7 +101,35 @@ class StripeWH_Handler:
         else:
             order = None
             try:
+                user_email = billing_details.email
+                username = intent.metadata.username
+                if username != 'AnonymousUser':
+                    user_profile = UserProfile.objects.get(email=user_email)
+                    delivery_address_ref = intent.metadata.address_ref
+                    user_delivery_addresses = user_profile.delivery_address.all()
+                    match_not_found = True
+                    for address in user_delivery_addresses:
+                        if address.address_ref == delivery_address_ref:
+                            match_not_found = False
+
+                    if match_not_found:
+                        DeliveryAddress.objects.create(
+                            user=user_profile,
+                            address_ref=delivery_address_ref,
+                            contact_name=shipping_details.name,
+                            contact_phone_number=shipping_details.phone,
+                            address_line1=shipping_details.address.line1,
+                            address_line2=shipping_details.address.line2,
+                            town_or_city=shipping_details.address.city,
+                            county=shipping_details.address.state,
+                            post_code=shipping_details.address.postal_code,
+                            country=shipping_details.address.country
+                        )
+                else:
+                    user_profile = None
+
                 order = Order.objects.create(
+                    user_profile=user_profile,
                     customer_name=shipping_details.name,
                     email=billing_details.email,
                     phone_number=shipping_details.phone,
@@ -107,7 +157,7 @@ class StripeWH_Handler:
                     content=f'Webhook received: {event["type"]}: ERROR {error}',
                     status=500
                 )
-
+        self._send_confirmation_email(order)
         return HttpResponse(
             content=f'Webhook received: {event["type"]}: SUCCESS: Order created in webhook',
             status=200

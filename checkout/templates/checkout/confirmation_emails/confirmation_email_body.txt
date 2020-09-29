@@ -1,0 +1,27 @@
+Hello {{ order.customer_name }}
+
+Thank you for your order from the InkShop! 
+
+Your order information:
+
+Order Number: {{ order.order_number }}
+Order Date: {{ order.date }}
+
+Sub Total: €{{ order.order_subtotal }}
+Vat Total: €{{ order.order_VAT }}
+Delivery: €{{ order.delivery_cost }}
+Order Total: €{{ order.grand_total }}
+
+Your order will be shipped to:
+{{ order.order_address_line1 }}
+{{ order.order_address_line2 }}
+{{ order.order_town_or_city }}
+{{ order.order_county }}
+{{ order.order_country }}
+{{ order.order_post_code }}
+
+The phone number we have on file for you is {{ order.phone_number }}.
+If you have any queries or we are missing some information please contact us @ {{ contact_email }}.
+
+Thanks again,
+Boutique Ado
