@@ -47,6 +47,7 @@ def show_profile(request, template_target):
             else:
                 messages.error(
                     request, 'Something went wrong. Please ensure your form is valid')
+            form = UserProfileForm(instance=user_profile)
         else:
             form = UserProfileForm(instance=user_profile)
     elif template_target == 'delivery':
