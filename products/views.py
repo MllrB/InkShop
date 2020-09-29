@@ -6,7 +6,7 @@ from django.db.models import Q
 from .models import Product, ProductGroup, VatGroup, Category
 from customers.models import UserProfile
 from .product_functions import get_product_features_info, get_related_products
-from .forms import ProductForm
+from .forms import ProductForm, NewProductForm
 
 # Create your views here.
 
@@ -198,6 +198,34 @@ def product_maintenance(request):
 
 
 @login_required
+def add_product(request):
+    """
+    Returns a form for a user to add a product or adds a new product
+    to the db bsaed on the filled out form
+    """
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'You are not authorised to access this area of the site')
+        return redirect(reverse('home'))
+
+    if request.method == 'POST':
+        product_form = NewProductForm(
+            request.POST, request.FILES)
+        if product_form.is_valid():
+            product_form.save()
+            messages.success(request, f'Product successfully updated')
+            return redirect(reverse('product_maintenance'))
+    else:
+        product_form = NewProductForm()
+
+    context = {
+        'form': product_form,
+    }
+
+    return render(request, 'products/add_product.html', context)
+
+
+@login_required
 def find_products_to_edit(request):
     """
     Returns a list of products to edit
@@ -210,11 +238,9 @@ def find_products_to_edit(request):
     products = None
     if request.method == 'GET':
         user_search = request.GET['q']
-        print(user_search)
         queries = Q(skus__icontains=user_search) | Q(
             title__icontains=user_search) | Q(description__icontains=user_search)
         products = Product.objects.filter(queries)
-        print(products.count())
         if products.count() < 1:
             print("none found")
 
@@ -238,7 +264,6 @@ def edit_product(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
 
     if request.method == 'POST':
-        print(request.POST)
         product_form = ProductForm(
             request.POST, request.FILES, instance=product)
         if product_form.is_valid():
