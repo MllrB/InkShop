@@ -30,6 +30,7 @@ Files and code can be found in my GitHub repository:
             - [Unfulfilled Site Owner User Stories](#Unfulfilled-Site-Owner-User-Stories)
     - [Design Choices](#Design-Choices)
 - [Wireframes](#Wireframes)
+- [Database Modelling](#Database-Modelling)
 - [Site Data](#Site-Data)
 - [Technologies Used](#Technologies-Used)
     - [Languages](#Languages)
@@ -161,7 +162,7 @@ _[back to contents](#Contents)_
 
 
 ## Wireframes
-[PDF version](/media/wireframes.pdf)
+[Wireframes - PDF](/media/wireframes.pdf)
 
 These wireframes were useful, however, I did make some design decisions on the fly. 
 - I thought that the product management page could be condensed and that the user would be better served without an extra menu layer to navigate. To change this, the edit/add product group, edit/add vat group and edit categories are included on the main product maintenance page. I am happy with this decision as far as the desktop view goes. In terms of the mobile view, the choice I made for the layout of the page does not suit smaller screens. It is my opinion that staff users are more likely to use desktop devices so I decided to come back to this to fix the mobile views if I had time. Unfortunately, I did not. To fix this, I would redesign the page so as not to use tables but instead to use a combination of form groups and select boxes to allow users to choose which groups/categories to amend and save. This would make the mobile view automatically more responsive.
@@ -172,7 +173,14 @@ These wireframes were useful, however, I did make some design decisions on the f
 - I decided against using modals as a layer of protection against deleting user delivery addresses or favourites. I thought it too much given that the information being removed is not of major importance and could be added again by the user quite easily.
 
 
-_[back to contents](#Contents)_
+_[back to contents](#Contents)
+
+## Database Modelling
+I initially created an [entity relationship diagram](/media/DB_ERD.pdf) for how I thought the tables in the database would relate to each other. I used it as a reference in the planning stages of this project but as my understanding of the data I had chosen to use evolved, so did my picture of how the data could be structured. Also, my understanding of how the diagram could or should be translated into my models and what should or shouldn't be included was limited. The final structure should not be too far away from the initial ERD but there are some differences.
+- I excluded the manufacturer completely
+- The product features and related products became part of the Product model itself.
+    - For future versions I would include a separate related products model to link products to each other.
+- The customer favourites became a part of the UserProfile model.
 
 
 ## Site Data

@@ -222,7 +222,7 @@ h6 {
 /********** HOMEPAGE **********/
 
 .home-banner-carousel-background {
-    background: linear-gradient(0deg, rgba(99, 18, 120, 1) 0%, rgba(99, 18, 120, 0) 100%);
+    background: linear-gradient(0deg, rgb(54, 172, 4) 0%, rgba(99, 18, 120, 0) 100%);
     position: absolute;
     top: calc(15% + 170px);
     left: 0;

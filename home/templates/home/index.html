@@ -20,7 +20,10 @@
                 <div class="carousel-item active">
                     <div class="row">
                         <div class="col-12 col-lg-5">
-                            <img class="d-block carousel-img" src="{{ MEDIA_URL }}banner-supplies.png" alt="Supplies">
+                            <a href="{% url 'categories' category='supplies' %}">
+                                <img class="d-block carousel-img" src="{{ MEDIA_URL }}banner-supplies.png"
+                                    alt="Supplies">
+                            </a>
                         </div>
                         <div class="col-12 col-lg-7 text-center">
                             <div>
@@ -39,7 +42,10 @@
                 <div class="carousel-item">
                     <div class="row">
                         <div class="col-12 col-lg-5">
-                            <img class="d-block carousel-img" src="{{ MEDIA_URL }}banner-printers.png" alt="Printers">
+                            <a href="{% url 'categories' category='printers' %}">
+                                <img class="d-block carousel-img" src="{{ MEDIA_URL }}banner-printers.png"
+                                    alt="Printers">
+                            </a>
                         </div>
                         <div class="col-12 col-lg-7 text-center">
                             <div>
@@ -59,7 +65,9 @@
                 <div class="carousel-item">
                     <div class="row">
                         <div class="col-12 col-lg-5 carousel-img-container">
-                            <img class="d-flex carousel-img" src="{{ MEDIA_URL }}banner-paper.png" alt="Paper">
+                            <a href="{% url 'products_by_category' category_id='714' %}">
+                                <img class="d-flex carousel-img" src="{{ MEDIA_URL }}banner-paper.png" alt="Paper">
+                            </a>
                         </div>
                         <div class="col-12 col-lg-7 text-center">
                             <div>
@@ -78,8 +86,10 @@
                 <div class="carousel-item">
                     <div class="row">
                         <div class="col-12 col-lg-5">
-                            <img class="d-block carousel-img" src="{{ MEDIA_URL }}banner-accessories.png"
-                                alt="accessories">
+                            <a href="{% url 'products_by_category' category_id='1554' %}">
+                                <img class="d-block carousel-img" src="{{ MEDIA_URL }}banner-accessories.png"
+                                    alt="accessories">
+                            </a>
                         </div>
                         <div class="col-12 col-lg-7 text-center">
                             <div>
