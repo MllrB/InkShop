@@ -54,11 +54,11 @@
                             </td>
                             <td>
                                 <input type="text" class="form-input text-uppercase" name="{{ group.id }}_name"
-                                    value="{{ group.name }}">
+                                    value="{{ group.name }}" required>
                             </td>
                             <td>
                                 <input type="number" class="form-input" min="1" max="99" name="{{ group.id }}_margin"
-                                    value="{{ group.profit_margin }}">
+                                    value="{{ group.profit_margin }}" required>
                             </td>
                             <td>
                                 <button type="submit" class="btn btn-info rounded-1">Update</button>
@@ -73,11 +73,11 @@
                                 <input class="w-50 text-center" type="number" value="" disabled>
                             </td>
                             <td class="pt-4">
-                                <input type="text" class="form-input text-uppercase" name="new_p_group">
+                                <input type="text" class="form-input text-uppercase" name="new_p_group" required>
                             </td>
                             <td class="pt-4">
                                 <input type="number" class="form-input" min="1" max="99" name="new_profit_margin"
-                                    placeholder="%">
+                                    placeholder="%" required>
                             </td>
                             <td class="pt-4">
                                 <button type="submit" class="btn btn-success rounded-1 w-100">Add</button>
@@ -110,11 +110,11 @@
                             </td>
                             <td>
                                 <input type="text" class="form-input text-uppercase" name="{{ group.id }}_name"
-                                    value="{{ group.name }}">
+                                    value="{{ group.name }}" required>
                             </td>
                             <td>
                                 <input type="number" class="form-input" min="1" max="99" name="{{ group.id }}_rate"
-                                    value="{{ group.vat_rate }}">
+                                    value="{{ group.vat_rate }}" required>
                             </td>
                             <td>
                                 <button type="submit" class="btn btn-info rounded-1">Update</button>
@@ -130,11 +130,11 @@
                                 <input class="w-50 text-center" type="number" value="" disabled>
                             </td>
                             <td class="pt-4">
-                                <input type="text" class="form-input text-uppercase" name="new_v_group">
+                                <input type="text" class="form-input text-uppercase" name="new_v_group" required>
                             </td>
                             <td class="pt-4">
                                 <input type="number" class="form-input" min="1" max="99" name="new_vat_rate"
-                                    placeholder="%">
+                                    placeholder="%" required>
                             </td>
                             <td class="pt-4">
                                 <button type="submit" class="btn btn-success rounded-1 w-100">Add</button>
@@ -167,11 +167,11 @@
                             </td>
                             <td>
                                 <input type="text" class="w-75" name="{{ category.id }}_name"
-                                    value="{{ category.friendly_name }}">
+                                    value="{{ category.friendly_name }}" required>
                             </td>
                             <td>
-                                <textarea class="w-100"
-                                    name="{{ category.id }}_description">{{ category.description }}</textarea>
+                                <textarea class="w-100" name="{{ category.id }}_description"
+                                    required>{{ category.description }}</textarea>
                             </td>
                             <td>
                                 <button type="submit" class="btn btn-success rounded-1">Update</button>

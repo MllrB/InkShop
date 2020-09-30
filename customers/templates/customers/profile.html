@@ -108,9 +108,9 @@
                         <div id="accordion">
                             {% for order in user.orders.all reversed %}
                             <div class="card product-list ml-0 pl-0">
-                                <div class="card-header rounded-0" id="billing-details">
+                                <div class="card-header rounded-0" id="{{ order.order_number}}_button">
                                     <button type="button" class="btn w-100 h-100 px-0" data-toggle="collapse"
-                                        data-target="#{{ order.order_number }}" aria-expanded="false"
+                                        data-target="#{{ order.order_number }}" aria-expanded="true"
                                         aria-controls="{{ order.order_number }}">
                                         <div class="row m-0 p-0">
                                             <div class="col-12 col-lg-6 m-0 p-0">
@@ -124,7 +124,7 @@
                                     </button>
                                 </div>
                                 <div id="{{ order.order_number }}" class="collapse"
-                                    aria-labelledby="{{ order.order_number }}" data-parent="#accordion">
+                                    aria-labelledby="{{ order.order_number }}_button" data-parent="#accordion">
                                     <div class="card-body">
                                         {% for order_line in ordered_products %}
                                         {% if order_line.order_num == order.order_number %}
@@ -135,7 +135,7 @@
                                                     alt="{{ order_line.product.title }}">
                                                 {% elif order_line.product.image %}
                                                 <img class="card-img w-100"
-                                                    src="{{ MEDIA_URL}}{{ order_line.product.image }}"
+                                                    src="{{ MEDIA_URL }}{{ order_line.product.image }}"
                                                     alt="{{ order_line.product.title }}">
                                                 {% else %}
                                                 <img class="card-img w-100" src="{{ MEDIA_URL }}noimage.png"
@@ -201,14 +201,15 @@
                             {% endfor %}
                         </div>
                     </div>
-                    {% endif %}
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>
-    {% endblock %}
+</div>
+{% endblock %}
 
-    {% block postloadjs %}
-    {{ block.super }}
-    {% include 'customers/includes/profile_btn_selected_js.html' %}
-    {% endblock %}
+{% block postloadjs %}
+{{ block.super }}
+{% include 'customers/includes/profile_btn_selected_js.html' %}
+{% endblock %}

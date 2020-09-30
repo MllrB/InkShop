@@ -131,15 +131,13 @@ def checkout(request):
                         # add purchased products to user favourites
                         if not user_profile.favourites:
                             favourites.append(int(product.id))
-                            favourites = json.dumps(favourites)
-                            user_profile.favourites = favourites
+                            user_profile.favourites = json.dumps(favourites)
                             user_profile.save()
                         else:
                             favourites = json.loads(user_profile.favourites)
                             favourites.append(int(product.id))
                             favourites = list(dict.fromkeys(favourites))
-                            favourites = json.dumps(favourites)
-                            user_profile.favourites = favourites
+                            user_profile.favourites = json.dumps(favourites)
                             user_profile.save()
                     except Product.DoesNotExist:
                         messages.error(

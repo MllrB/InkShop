@@ -81,7 +81,7 @@ def show_profile(request, template_target):
         delivery_addresses = DeliveryAddress.objects.all().filter(user=user_profile)
         if not delivery_addresses:
             form = UserDeliveryAddressForm()
-    else:
+    elif template_target == 'orders':
         orders = user_profile.orders.all()
         for order in orders:
             order_line = order.order_items.all()
@@ -92,7 +92,6 @@ def show_profile(request, template_target):
                     'product': product,
                     'qty': line.quantity,
                 })
-
     email = request.user.email
 
     context = {
