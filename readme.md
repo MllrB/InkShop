@@ -18,7 +18,35 @@ Files and code can be found in my GitHub repository:
 - [GitHub Repository](https://github.com/MllrB/InkShop)
 
 ## Contents
-
+- [UX](#UX)
+    - [Project Goals](#Project-Goals)
+    - [User Stories](#User-Stories)
+        - [Customers User Stories](#Customers-User-Stories)
+            - [Regarding Products](#Regarding-Products)
+            - [Regarding Accounts](#Regarding-Accounts)
+            - [Regarding Ordering](#Regarding-Ordering)
+        - [Site Owner User Stories](#Site-Owner-User-Stories)
+            - [Regarding Products](#Products)
+            - [Unfulfilled Site Owner User Stories](#Unfulfilled-Site-Owner-User-Stories)
+    - [Design Choices](#Design-Choices)
+- [Wireframes](#Wireframes)
+- [Site Data](#Site-Data)
+- [Technologies Used](#Technologies-Used)
+    - [Languages](#Languages)
+    - [Libraries/Tools/Packages](#Libraries/Tools/Packages)
+    - [Applications](#Applications)
+- [Testing and Bugs](#Testing-and-Bugs)
+- [Deployment](#Deployment)
+    - [Initial Steps](#Initial-Steps)
+    - [Secondary Steps](#Secondary-Steps)
+        - [Setting Up an AWS bucket](#Setting-up-an-AWS-bucket)
+        - [Setting up Stripe](#Setting-up-Stripe)
+        - [Setting up Login with Gmail](#Setting-up-Login-with-Gmail)
+    - [Final Step](#Final-Step)
+    - [Issues Encountered](#Issues-Encountered)
+    - [CONFIG VARS](#CONFIG-VARS)
+- [Cloning my GitHub Repository](#Cloning-my-GitHub-Repository)
+- [Acknowledgements](#Acknowledgements)
 ## UX
 
 ### Project Goals
@@ -71,9 +99,13 @@ As a customer I would like to...
 5. order with a purchase order reference.
     -  This is another for future versions and depends on the implementation of the site owner user story regarding the creation of credit account customers. Dependant on the background infrastructure being implemented, customers would be given the option of paying for orders by card or by simply entering a purchase order number. Login would be required.
 
+
+_[back to contents](#Contents)_
+
+
 #### Site Owner User Stories
 As a the site owner i would like to...
-##### Regarding Products
+##### Products
 1. be able to add products.
     - This is implemented via the product maintenance section of the website and is accessible via the account icon to the right of the site navigation search bar. Users are required to be logged in and staff/super users. The user is shown a form with all the fields neccessary to create a product. As it stands, this is a basic version of the product form and requires the user to have knowledge of the data structure, for example, product features are stored in a JSONfield so the user would need to be aware of the syntax required to add a product feature. In future versions, I would design a custom form and build the product form on the server side to take this type of requirement away from the user.
 2. be able to amend product descriptions.
@@ -87,7 +119,7 @@ As a the site owner i would like to...
         3. Users can update the margin percentages of existing product groups and update all prices.
     In addition, users can also adjust the product cost price.
 5. be able to add categories.
-    - Unfortunately, I left this too late and ran out of time to include it in 
+    - Unfortunately, I left this too late and ran out of time to include it in this version.
 6. be able to set VAT rates.
     - Similar to product groups, each product is a member of a VAT group which determines the rate of VAT applied. The functionality is there, however, at the moment it is not being fully applied. In future versions, customers would also be members of a VAT group (set to a default) which would allow for VAT exempt customers or customers outside the site owner's VAT jurisdiction. 
 7. be able to manage content on the website.
@@ -112,6 +144,9 @@ As a the site owner I would like to...
 - be able to see newly added products
 - be able to amend product, category, product group and vat groups via csv export and import
 
+_[back to contents](#Contents)_
+
+
 ### Design Choices
 I wanted the site to look clean and uncluttered so I decided to use a combination of greys and white colours for the background and product cards. The logo closely matches the Bootstrap success colour so I used that for most of the site's buttons and navigation icons. 
 
@@ -120,6 +155,10 @@ I wanted to use fonts that complemented this clean look and feel and from a numb
  - Text and links: [Google Fonts - Raleway](https://fonts.google.com/specimen/Raleway)
 
 Logo: A slightly modified version of my employer's logo.
+
+
+_[back to contents](#Contents)_
+
 
 ## Wireframes
 [PDF version](/media/wireframes.pdf)
@@ -132,6 +171,10 @@ These wireframes were useful, however, I did make some design decisions on the f
 - I did not consider the browse categories pages in my initial plans. For the most part they are fine, however, for future versions I would make a small change to accomodate cases where there are less than four categories (desktop views). Specifically in the case of the accessories categories, there are only two categories and these are left aligned when viewed on desktop devices. I  would prefer them to be centered.
 - I decided against using modals as a layer of protection against deleting user delivery addresses or favourites. I thought it too much given that the information being removed is not of major importance and could be added again by the user quite easily.
 
+
+_[back to contents](#Contents)_
+
+
 ## Site Data
 
 All the data on the site was initially provided by [IceCat](https://icecat.biz/) using their open catalogue. For free users they provide xml and csv download and access to their Computers & Peripherals catalogue.
@@ -140,60 +183,8 @@ My initial plan was to import product files for all products within selected cat
 
 I had also intended on including a supplies finder on my homepage, however, this would've have generated tens of thousands of rows in the database, even if I excluded any references irrelevant to my dataset. This became unfeasible since I planned to deploy using Heroku and had learned that the Heroku Postgres Hobby Dev (free!) plan also carries with it some restrictions - 10000 rows in the database and 1gb storage ([Heroku Doc](https://devcenter.heroku.com/articles/heroku-postgres-plans#hobby-tier)). My workaround was to include a related printers field for supplies in my product model and to include this in search queries. The related_printers field data was built up using a combination of the IceCat data and from my employers dataset.
 
-## Deployment
-This project has been deployed using Heroku.
-- [Heroku Deployment](http://ci-ms4-inkshop.herokuapp.com/)
 
-### Initial Steps
-After logging into my Heroku dashboard via [Heroku's login page](https://id.heroku.com/login), I selected "Create new app" from the dropdown menu at the top right of the dashboard. I typed in my project name and selected Europe as my region. The deployment method was set to Heroku Git by default so I left that as is. I then navigated to the Settings tab and clicked "Reveal Config Vars". I added a SECRET_KEY config variable to contain a django secret key which I obtained from django key generator - [miniwebtool](https://miniwebtool.com/django-secret-key-generator/).
-From the command line, I initialised a git repository and established a connection to Heroku using the "heroku git:remote -a " command with my application name. I created a requirements file using the pip freeze command and also created a Procfile. 
-In the deploy tab of my Heroku dashboard, I connected to my GitHub repository so that my git push commands would be automatically pushed to Heroku.
-Under the resources tab of the Heroku dashboard, I added Heroku Postgres as an addon and provisioned Heroku Postgres database under the Hobby Dev plan. This added a DATABASE_URL config variable to my settings which I then copied to my local environment and stored it in an env.py file that would not be pushed to GitHub or Heroku. In my local environment, I added a condition to use the DATABASE_URL if it was present in my environment and to use dj_database_url to parse the database key. I had previously installed dj_database_url during the coursework so it was not necessary for me to install it again.
-At this point, I ran a git push and once the build had completed on Heroku, I ran all the migrations. After the migrations were complete, I used the 'python manage.py loaddata' command to load my fixtures to the database. 
-
-### Secondary steps
-#### Setting Up an AWS bucket
-I set up an Amazon Web Services bucket to store my static and media files. To do this...
-- I logged in to my AWS Management Console
-- Searched for and selected the S3 service
-- Clicked 'Create Bucket' and gave it a name
-- Allowed all public access under the permissions tab and clicked the acknowledgement
-- Under the CORS Configuration tab I copied in a CORS Configuration (from the boutique ado example)
-- Under the Bucket Policy I generated a new policy using my ARN code
-- I next selected services and searched for and selected IAM
-- From there I added a new user and selected programmatic access
-- I then created a new group with AmazonS3FullAccess Policy and added the new user to the group
-- After creating the user, I was given an access key and secret code
-- I then opened the group policy and amended the Resource section to include my bucket's ARN code
-Both the Access Key and Secret Codes needed to be stored in the Config Vars of my Heroku app.
-
-#### Setting up Stripe
-I already have an account with Stipe so I logged my dashboard from where I could get my public and secret keys from the developers>API keys section. I then needed to setup a webhook endpoint from developers>webhooks. I entered my endpoint url, gave it a description and selected all events. With this done, I had access to a webhook secret key.
-The three keys I obtained had to be included in my Config Vars in the settings tab of my Heroku app dashboard.
-
-#### Setting up Login with Gmail
-With my account logged in, I navigated to the [console](https://console.developers.google.com/) from where I clicked Enable APIS & Services. From there I selected the Gmail API. I then needed to create credentials in which I could include my Heroku App as and authorised URI and also create an authorised redirect URI - accounts/google/login/callback/.
-From here I was able to get my Client ID and secret keys. Next I needed to login to the admin section of my deployed site and select Social Account Applications. Then I could select Google as a provider (from including allauth.socialaccount.providers.google as an INSTALLED_APP in my settings.py file) enter my two keys and choose the site name (default is example.com).
-
-### Final Step
-
-
-#### Issues Encountered
-I used vscode on my computer as my development environment rather than Gitpod. An effect of this is that I needed to deploy to Heroku earlier than might have been otherwise necessary in order to set up webhooks from Stripe (they require a genuine url as an endpoint). As a result of this, I found that I needed to run migrations to the deployment database more regularly as my models changed and were added to. To achieve this I was commenting/uncommenting the DATABASE_URL variable in my env.py file as needed. This got a bit confusing and I think it caused me more problems than it ought along the way. For example, I had an error in my fixtures file where a primary key had been repeated and as a result many of my products were missing. This didn't seem to be happening for my development site as I had loaded a previous fixture data to it, however, I thought it was something I was doing wrong with my models and migrations. To try and fix it (before I had found my error) I reverted all migrations to zero for the deployment site and migrated from scratch. I have since learned that there is better way to load fixtures and run migrations to the deployment database, by using the 'heroku run python manage.py ' command. 
-
-### CONFIG VARS
-The Config Vars required for this application are:
-- SECRET_KEY  :  _A Django secret key_
-- DATABASE_URL  :  _A Postgres database URl_
-- STRIPE_PUBLIC_KEY  :  _A Stripe publishable key_
-- STRIPE_SECRET_KEY  :  _A Stripe secret key_
-- STRIPE_WH_SECRET :  _A Stripe Webhook secret key_
-- AWS_ACCESS_KEY_ID  :  _AWS User Access Key_
-- AWS_SECRET_ACCESS_KEY  :  _AWS Sercet Key_
-- USE_AWS: _set to true for deployment environment_
-- EMAIL_HOST_PASS: _A key provided by Google to allow smtp service_
-- EMAIL_HOST_USER: _An email address_
-
+_[back to contents](#Contents)_
 
 
 ## Technologies Used
@@ -228,9 +219,82 @@ The Config Vars required for this application are:
 * Adobe Photoshop
 
 
+_[back to contents](#Contents)_
+
+
+## Deployment
+This project has been deployed using Heroku.
+- [Heroku Deployment](http://ci-ms4-inkshop.herokuapp.com/)
+
+### Initial Steps
+After logging into my Heroku dashboard via [Heroku's login page](https://id.heroku.com/login), I selected "Create new app" from the dropdown menu at the top right of the dashboard. I typed in my project name and selected Europe as my region. The deployment method was set to Heroku Git by default so I left that as is. I then navigated to the Settings tab and clicked "Reveal Config Vars". I added a SECRET_KEY config variable to contain a django secret key which I obtained from django key generator - [miniwebtool](https://miniwebtool.com/django-secret-key-generator/).
+From the command line, I initialised a git repository and established a connection to Heroku using the "heroku git:remote -a " command with my application name. I created a requirements file using the pip freeze command and also created a Procfile. 
+In the deploy tab of my Heroku dashboard, I connected to my GitHub repository so that my git push commands would be automatically pushed to Heroku.
+Under the resources tab of the Heroku dashboard, I added Heroku Postgres as an addon and provisioned Heroku Postgres database under the Hobby Dev plan. This added a DATABASE_URL config variable to my settings which I then copied to my local environment and stored it in an env.py file that would not be pushed to GitHub or Heroku. In my local environment, I added a condition to use the DATABASE_URL if it was present in my environment and to use dj_database_url to parse the database key. I had previously installed dj_database_url during the coursework so it was not necessary for me to install it again.
+At this point, I ran a git push and once the build had completed on Heroku, I ran all the migrations. After the migrations were complete, I used the 'python manage.py loaddata' command to load my fixtures to the database. 
+
+### Secondary steps
+#### Setting up an AWS bucket
+I set up an Amazon Web Services bucket to store my static and media files. To do this...
+- I logged in to my AWS Management Console
+- Searched for and selected the S3 service
+- Clicked 'Create Bucket' and gave it a name
+- Allowed all public access under the permissions tab and clicked the acknowledgement
+- Under the CORS Configuration tab I copied in a CORS Configuration (from the boutique ado example)
+- Under the Bucket Policy I generated a new policy using my ARN code
+- I next selected services and searched for and selected IAM
+- From there I added a new user and selected programmatic access
+- I then created a new group with AmazonS3FullAccess Policy and added the new user to the group
+- After creating the user, I was given an access key and secret code
+- I then opened the group policy and amended the Resource section to include my bucket's ARN code
+Both the Access Key and Secret Codes needed to be stored in the Config Vars of my Heroku app.
+
+#### Setting up Stripe
+I already have an account with Stipe so I logged my dashboard from where I could get my public and secret keys from the developers>API keys section. I then needed to setup a webhook endpoint from developers>webhooks. I entered my endpoint url, gave it a description and selected all events. With this done, I had access to a webhook secret key.
+The three keys I obtained had to be included in my Config Vars in the settings tab of my Heroku app dashboard.
+
+#### Setting up Login with Gmail
+With my account logged in, I navigated to the [console](https://console.developers.google.com/) from where I clicked Enable APIS & Services. From there I selected the Gmail API. I then needed to create credentials in which I could include my Heroku App as and authorised URI and also create an authorised redirect URI - accounts/google/login/callback/.
+From here I was able to get my Client ID and secret keys. Next I needed to login to the admin section of my deployed site and select Social Account Applications. Then I could select Google as a provider (from including allauth.socialaccount.providers.google as an INSTALLED_APP in my settings.py file) enter my two keys and choose the site name (default is example.com).
+
+### Final Step
+The final step in setting up my deployment environment was to configure the site to send emails. To do this I needed to setup my gmail account accordingly and add some Config Vars to the Heroku App.
+1. Setting up my Gmail Account.
+    - With my inbox open, I selected settings and then the 'Accounts and Import' tab.
+    - Under 'Change account settings', I selected 'Other Google Account Settings'.
+    - On the control panel on the left, I chose 'Security'.
+    - In the security section, I looked for 'Signing into Google' and switched on '2-Step Verification'.
+    - Here I was prompted to choose an application, I chose 'Other', and give it a name. I was the provided with a 16 digit key which I copied in order to save within the config vars of my app.
+    - I included two new variables in my config vars.
+        1. EMAIL_HOST_PASS:  This is where I entered the 16 digit code provided by Google
+        2. EMAIL_HOST_USER:  My email address
+
+Once that was complete, my deployment to Heroku was also finished.
+
+### Issues Encountered
+I used vscode on my computer as my development environment rather than Gitpod. An effect of this is that I needed to deploy to Heroku earlier than might have been otherwise necessary in order to set up webhooks from Stripe (they require a genuine url as an endpoint). As a result of this, I found that I needed to run migrations to the deployment database more regularly as my models changed and were added to. To achieve this I was commenting/uncommenting the DATABASE_URL variable in my env.py file as needed. This got a bit confusing and I think it caused me more problems than it ought along the way. For example, I had an error in my fixtures file where a primary key had been repeated and as a result many of my products were missing. This didn't seem to be happening for my development site as I had loaded a previous fixture data to it, however, I thought it was something I was doing wrong with my models and migrations. To try and fix it (before I had found my error) I reverted all migrations to zero for the deployment site and migrated from scratch. I have since learned that there is better way to load fixtures and run migrations to the deployment database, by using the 'heroku run python manage.py ' command. 
+
+### CONFIG VARS
+The Config Vars required for this application are:
+- SECRET_KEY  :  _A Django secret key_
+- DATABASE_URL  :  _A Postgres database URl_
+- STRIPE_PUBLIC_KEY  :  _A Stripe publishable key_
+- STRIPE_SECRET_KEY  :  _A Stripe secret key_
+- STRIPE_WH_SECRET :  _A Stripe Webhook secret key_
+- AWS_ACCESS_KEY_ID  :  _AWS User Access Key_
+- AWS_SECRET_ACCESS_KEY  :  _AWS Sercet Key_
+- USE_AWS: _set to true for deployment environment_
+- EMAIL_HOST_PASS: _A key provided by Google to allow smtp service_
+- EMAIL_HOST_USER: _An email address_
+
+
+_[back to contents](#Contents)_
+
+
+
 ## Cloning my GitHub Repository
 Should you wish to clone this repository you can do so by:
-1. Navigate to my [InkShop](https://github.com/MllrB/InkShop).
+1. Navigate to my [InkShop](https://github.com/MllrB/InkShop) repository.
 2. Click the green "Code" button on the right side of the repository.
 3. Copy the URL displayed `(https://github.com/MllrB/InkShop.git)`.
 4. You will need to have Git installed on your system, if you don't, you can find out how [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
@@ -240,8 +304,12 @@ Should you wish to clone this repository you can do so by:
     - `git clone https://github.com/MllrB/InkShop.git`
 
 
+_[back to contents](#Contents)_
+
+
 ## Acknowledgements
 * All product images and data are provided by [IceCat](https://icecat.biz/)
 * The InkShop logo is owned by [theinkshop.ie](http://www.theinkshop.ie/)
 * The Code Institute Boutique Ado project has been used as a reference and guide
+* I also relied quite heavily on the Django documentaion and stackoverflow during the course of this project.
 * Fonts provided by [Google Fonts](https://fonts.google.com).
