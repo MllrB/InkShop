@@ -26,9 +26,9 @@ def cache_checkout_data(request):
             'username': request.user,
             'address_ref': request.POST.get('address_ref')
         })
-
         request.session['delivery_address_ref'] = request.POST.get(
             'address_ref')
+
         return HttpResponse(status=200)
     except Exception as e:
         messages.error(request, f'Sorry, your payment cannot be \
@@ -59,7 +59,7 @@ def checkout(request):
         currency=settings.STRIPE_CURRENCY,
     )
 
-    this_user = request.user
+    user = request.user
     delivery_form = UserDeliveryAddressForm()
     delivery_addresses = None
     delivery_address_forms = [delivery_form]
@@ -67,12 +67,13 @@ def checkout(request):
     DeliveryFormSet = modelformset_factory(
         DeliveryAddress, UserDeliveryAddressForm)
 
-    if this_user.is_authenticated:
-        user_profile = get_object_or_404(UserProfile, user=this_user)
+    if user.is_authenticated:
+        user_profile = get_object_or_404(UserProfile, user=user)
         order_form = UserProfileForm(instance=user_profile)
 
         if request.method == 'POST':
             # save any changes or new addresses authenticated user has made
+
             my_formset = DeliveryFormSet(
                 request.POST, request.FILES)
             if my_formset.is_valid():
@@ -81,7 +82,8 @@ def checkout(request):
                     if form.address_ref == '':
                         continue
                     else:
-                        form.address_ref = form.address_ref.replace(' ', '-')
+                        form.address_ref = form.address_ref.replace(
+                            ' ', '-')
                         form.user = user_profile
                         form.save()
             else:
@@ -92,19 +94,38 @@ def checkout(request):
                 address_ref = request.session.get(
                     'delivery_address_ref', 'None')
 
-            order_delivery_address = get_object_or_404(
-                DeliveryAddress, user=user_profile, address_ref=address_ref)
+            if not address_ref:
+                customer_name = user_profile.full_name
+                phone_number = user_profile.default_phone_number
+                order_address_line1 = user_profile.billing_address_line1
+                order_address_line2 = user_profile.billing_address_line2
+                order_town_or_city = user_profile.billing_town_or_city
+                order_county = user_profile.billing_county
+                order_country = user_profile.billing_country
+                order_post_code = user_profile.billing_post_code
+
+            else:
+                order_delivery_address = get_object_or_404(
+                    DeliveryAddress, user=user_profile, address_ref=address_ref)
+                customer_name = order_delivery_address.contact_name
+                phone_number = order_delivery_address.contact_phone_number
+                order_address_line1 = order_delivery_address.address_line1
+                order_address_line2 = order_delivery_address.address_line2
+                order_town_or_city = order_delivery_address.town_or_city
+                order_county = order_delivery_address.county
+                order_country = order_delivery_address.country
+                order_post_code = order_delivery_address.post_code
 
             form_data = {
-                'customer_name': order_delivery_address.contact_name,
+                'customer_name': customer_name,
                 'email': user_profile.email,
-                'phone_number': order_delivery_address.contact_phone_number,
-                'order_address_line1': order_delivery_address.address_line1,
-                'order_address_line2': order_delivery_address.address_line2,
-                'order_town_or_city': order_delivery_address.town_or_city,
-                'order_county': order_delivery_address.county,
-                'order_country': order_delivery_address.country,
-                'order_post_code': order_delivery_address.post_code,
+                'phone_number': phone_number,
+                'order_address_line1': order_address_line1,
+                'order_address_line2': order_address_line2,
+                'order_town_or_city': order_town_or_city,
+                'order_county': order_county,
+                'order_country': order_country,
+                'order_post_code': order_post_code,
             }
             order_form = OrderForm(form_data)
 
