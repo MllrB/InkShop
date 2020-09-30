@@ -126,6 +126,15 @@ class StripeWH_Handler:
                                 post_code=shipping_details.address.postal_code,
                                 country=shipping_details.address.country
                             )
+                    else:
+                        shipping_details.name = user_profile.full_name
+                        shipping_details.phone = user_profile.default_phone_number
+                        shipping_details.address.line1 = user_profile.billing_address_line1
+                        shipping_details.address.line2 = user_profile.billing_address_line2
+                        shipping_details.address.city = user_profile.billing_town_or_city
+                        shipping_details.address.state = user_profile.billing_county
+                        shipping_details.address.postal_code = user_profile.billing_post_code
+                        shipping_details.address.country = user_profile.billing_country
                 else:
                     user_profile = None
 
