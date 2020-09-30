@@ -63,8 +63,17 @@ def create_user_from_signup(sender, instance, created, **kwargs):
     if created:
         email = instance.email.split('@')
         instance.username = email[0]
-        instance.save()
-        UserProfile.objects.create(user=instance)
+        try:
+            username_exists = get_object_or_404(
+                User, username=instance.username)
+            email_tail = email[1].split('.')
+            new_username = f'{email[0]}_{email_tail[0]}'
+            instance.username = new_username
+            instance.save()
+            UserProfile.objects.create(user=instance)
+        except:
+            instance.save()
+            UserProfile.objects.create(user=instance)
 
 
 class DeliveryAddress(models.Model):

@@ -2,19 +2,11 @@
 
 {% load i18n %}
 {% load crispy_forms_tags %}
-{% comment %}
-{% block head_title %}{% trans "Signup" %}{% endblock %}
 
-{% block inner_content %}
-<hr>{% endcomment %}
 <div class="card login-card login-title">
     <h2 class="card-title text-center pt-2">{% trans "Sign Up" %}</h2>
 </div>
 <div class="card login-card signup-card">
-
-    {% comment %} <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign
-            in</a>.{% endblocktrans %}
-    </p> {% endcomment %}
     <div class="form-wrapper pt-3">
         <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
             {% csrf_token %}
@@ -22,12 +14,9 @@
             {% if redirect_field_value %}
             <input type="hidden" name="{{ redirect_field_name }}" value="accounts/confirm-email/" />
             {% endif %}
-            {% comment %} <a class="btn btn-outline-black rounded-0" href="{% url 'account_login' %}">Back to Login</a>
-            {% endcomment %}
             <div class="text-center pt-3 pb-1">
                 <button class="btn btn-success account-btn" type="submit">{% trans "Sign Up" %}</button>
             </div>
         </form>
     </div>
 </div>
-{% comment %} {% endblock %} {% endcomment %}

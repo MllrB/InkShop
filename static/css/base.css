@@ -635,6 +635,9 @@ h6 {
     .card-img-tile {
         height: 28vh;
     }
+    .browse-dropdown {
+        left: 26px;
+    }
 }
 
 @media (max-width: 992px) {
