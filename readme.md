@@ -87,7 +87,7 @@ As a the site owner i would like to...
         3. Users can update the margin percentages of existing product groups and update all prices.
     In addition, users can also adjust the product cost price.
 5. be able to add categories.
-    - 
+    - Unfortunately, I left this too late and ran out of time to include it in 
 6. be able to set VAT rates.
     - Similar to product groups, each product is a member of a VAT group which determines the rate of VAT applied. The functionality is there, however, at the moment it is not being fully applied. In future versions, customers would also be members of a VAT group (set to a default) which would allow for VAT exempt customers or customers outside the site owner's VAT jurisdiction. 
 7. be able to manage content on the website.
@@ -121,6 +121,16 @@ I wanted to use fonts that complemented this clean look and feel and from a numb
 
 Logo: A slightly modified version of my employer's logo.
 
+## Wireframes
+[PDF version](/media/wireframes.pdf)
+
+These wireframes were useful, however, I did make some design decisions on the fly. 
+- I thought that the product management page could be condensed and that the user would be better served without an extra menu layer to navigate. To change this, the edit/add product group, edit/add vat group and edit categories are included on the main product maintenance page. I am happy with this decision as far as the desktop view goes. In terms of the mobile view, the choice I made for the layout of the page does not suit smaller screens. It is my opinion that staff users are more likely to use desktop devices so I decided to come back to this to fix the mobile views if I had time. Unfortunately, I did not. To fix this, I would redesign the page so as not to use tables but instead to use a combination of form groups and select boxes to allow users to choose which groups/categories to amend and save. This would make the mobile view automatically more responsive.
+- I had initially planned for the filters functionality on the product list pages to be a collapsible menu that would slide out from the left on desktop views and be contained within a fixed button on mobile views. I decided that this was unneccesary for desktop views and that the filters could be displayed alongside the products. On mobile views, i struggled with finding a space for this button and left this functionality out. This again is due to a time constraint and I would include this feature in future versions.
+- I switched the order of optional extra/related products and the product information tabs on the product detail pages.
+- I decided to include optional extras/related products on the basket pages.
+- I did not consider the browse categories pages in my initial plans. For the most part they are fine, however, for future versions I would make a small change to accomodate cases where there are less than four categories (desktop views). Specifically in the case of the accessories categories, there are only two categories and these are left aligned when viewed on desktop devices. I  would prefer them to be centered.
+- I decided against using modals as a layer of protection against deleting user delivery addresses or favourites. I thought it too much given that the information being removed is not of major importance and could be added again by the user quite easily.
 
 ## Site Data
 
