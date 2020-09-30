@@ -90,10 +90,12 @@ def checkout(request):
                 messages.error(
                     request, 'One of your forms is invalid, please check and try again')
 
+            # get the address reference of the delivery address selected on the checkout page
             if 'delivery_address_ref' in request.session:
                 address_ref = request.session.get(
                     'delivery_address_ref', 'None')
 
+            # default to the billing address
             if not address_ref:
                 customer_name = user_profile.full_name
                 phone_number = user_profile.default_phone_number
@@ -103,8 +105,8 @@ def checkout(request):
                 order_county = user_profile.billing_county
                 order_country = user_profile.billing_country
                 order_post_code = user_profile.billing_post_code
-
             else:
+                # use the shipping address selected by user
                 order_delivery_address = get_object_or_404(
                     DeliveryAddress, user=user_profile, address_ref=address_ref)
                 customer_name = order_delivery_address.contact_name
@@ -233,7 +235,7 @@ def checkout(request):
 
 def checkout_success(request, order_no):
     """
-    Succesful Checkout
+    Render the succesful checkout page
     """
     try:
         user_profile = get_object_or_404(UserProfile, user=request.user)

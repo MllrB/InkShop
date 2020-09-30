@@ -1,3 +1,7 @@
+""" 
+Content Management Model to store information for the site's 
+information pages and recommended products
+"""
 from django.db import models
 
 from products.models import Product

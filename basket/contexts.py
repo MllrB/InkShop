@@ -10,6 +10,11 @@ from products.product_functions import get_product_features_info, get_related_pr
 
 
 def basket_contents(request):
+    """
+    Context processor to maintain basket items and totals.
+    Also includes a list of products related to the products 
+    in the basket to populate optional extras section if applicable. 
+    """
     basket_items = []
     sub_total = 0
     total_vat = 0
