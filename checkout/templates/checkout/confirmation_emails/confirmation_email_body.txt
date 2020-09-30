@@ -24,4 +24,4 @@ The phone number we have on file for you is {{ order.phone_number }}.
 If you have any queries or we are missing some information please contact us @ {{ contact_email }}.
 
 Thanks again,
-Boutique Ado
+The InkShop Team
