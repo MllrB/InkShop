@@ -229,6 +229,8 @@ _[back to contents](#Contents)_
 
 _[back to contents](#Contents)_
 
+## Testing and Bugs
+Testing documentation contained in separate [testing.md](testing.md) file.
 
 ## Deployment
 This project has been deployed using Heroku.
