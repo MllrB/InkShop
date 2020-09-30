@@ -441,8 +441,6 @@ h6 {
 }
 
 .filters-card {
-    /* position: fixed;
-    width: 18%; */
     position: relative;
     width: 100%;
     margin: 4px;

@@ -7,9 +7,11 @@ The InkShop is a basic e-commerce solution which allows...
     - to browse and purchase products
     - to login and create a profile
     - to login with Google using their gmail account
+    - to purchase products and review previous orders
  - Staff
-    - Add and edit products
-    - Select products to be featured on the landing page
+    - Add and edit products.
+    - Adjust product pricing through product grouping.
+    - Select products to be featured on the landing page and edit the information pages on the site.
 
 You can visit the deployed web app via:
 - [Heroku](https://ci-ms4-inkshop.herokuapp.com/)
@@ -51,7 +53,7 @@ Files and code can be found in my GitHub repository:
 ## UX
 
 ### Project Goals
-My goal for this project was to learn more about creating web apps using the Django framework and to create a basic ecommerce solution to service my current work environment, the sale of printers and their consumables. 
+My goal for this project was to learn more about creating web apps using the Django framework and to create a basic ecommerce solution to service my current work environment - the sale of printers and their consumables. In addition, I wanted to design and implement an attractive and user friendly interface to facilitate an easy ordering experience.
 
 ### User Stories
 #### Customers User Stories
