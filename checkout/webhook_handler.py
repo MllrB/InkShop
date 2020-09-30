@@ -106,25 +106,26 @@ class StripeWH_Handler:
                 if username != 'AnonymousUser':
                     user_profile = UserProfile.objects.get(email=user_email)
                     delivery_address_ref = intent.metadata.address_ref
-                    user_delivery_addresses = user_profile.delivery_address.all()
-                    match_not_found = True
-                    for address in user_delivery_addresses:
-                        if address.address_ref == delivery_address_ref:
-                            match_not_found = False
+                    if delivery_address_ref:
+                        user_delivery_addresses = user_profile.delivery_address.all()
+                        match_not_found = True
+                        for address in user_delivery_addresses:
+                            if address.address_ref == delivery_address_ref:
+                                match_not_found = False
 
-                    if match_not_found:
-                        DeliveryAddress.objects.create(
-                            user=user_profile,
-                            address_ref=delivery_address_ref,
-                            contact_name=shipping_details.name,
-                            contact_phone_number=shipping_details.phone,
-                            address_line1=shipping_details.address.line1,
-                            address_line2=shipping_details.address.line2,
-                            town_or_city=shipping_details.address.city,
-                            county=shipping_details.address.state,
-                            post_code=shipping_details.address.postal_code,
-                            country=shipping_details.address.country
-                        )
+                        if match_not_found:
+                            DeliveryAddress.objects.create(
+                                user=user_profile,
+                                address_ref=delivery_address_ref,
+                                contact_name=shipping_details.name,
+                                contact_phone_number=shipping_details.phone,
+                                address_line1=shipping_details.address.line1,
+                                address_line2=shipping_details.address.line2,
+                                town_or_city=shipping_details.address.city,
+                                county=shipping_details.address.state,
+                                post_code=shipping_details.address.postal_code,
+                                country=shipping_details.address.country
+                            )
                 else:
                     user_profile = None
 
