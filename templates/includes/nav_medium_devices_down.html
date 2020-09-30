@@ -24,7 +24,7 @@
                             <i class="fas fa-user fa-lg text-success"></i>
                         </span class="icon">
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="account-dropdown">
+                    <div class="dropdown-menu mobile-account-btn" aria-labelledby="account-dropdown">
                         {% if request.user.is_authenticated %}
                         {% if request.user.is_superuser %}
                         <a class="dropdown-item" type="button" href="{% url 'content_management' %}">Content

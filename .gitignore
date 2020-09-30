@@ -6,3 +6,4 @@ env.py
 settings.json
 htmlcov
 .coverage
+testing.md
